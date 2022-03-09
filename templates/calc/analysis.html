@@ -1,0 +1,1434 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static "calc/css/style.css" %}">
+    <script src="{% static "calc/js/main.js" %}"></script>
+
+    <title>Analysis</title>
+
+    <section class="main-container analysisContainer">
+        <header class="mb-4">
+            <div class="container-xxl">
+                <div class="row">
+                    <div class="col-md-10 col-lg-9 order-1 order-md-0 d-flex align-items-center topHeader">
+                        <h1>Wiley <small>Online Open Pricing Calculator</small></h1>
+                    </div>
+                    <div>
+<!--                        class="col-md-2 col-lg-3 btnContainer d-flex flex-md-column justify-content-between align-items-center py-2">-->
+<!--                        <img class="col-md-12 col-lg-7 mb-2 logo" src="images/logo.png" alt="SKP logo">-->
+<!--                        <button type="button" class="col-md-12 col-lg-6 btn border userGuide">User Guide</button>-->
+                    </div>
+                </div>
+            </div>
+            <div class="bgColor col-12 d-flex">
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+            </div>
+        </header>
+        <div class="container-fluid my-3">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="table-responsive border-start border-end mb-5">
+                        <table class="table" id="bauMax20">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center" colspan="6">Ownership</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center fw-bold" colspan="2">J-Joint Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">N-Society Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">O-Proprietary Owned</th>
+                                    <th>Total Number of journals</th>
+                                    <th>Total Revenue change $</th>
+                                </tr>
+                                <tr>
+                                    <th>APC change %</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,33</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1-2%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3-5%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6-10%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>11-15%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>16-20%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Grand Total</td>
+                                    <td class="text-end">702</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">111</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">520</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive border-start border-end mb-5">
+                        <table class="table" id="bauMaxPerInc">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center" colspan="6">Ownership</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center fw-bold" colspan="2">J-Joint Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">N-Society Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">O-Proprietary Owned</th>
+                                    <th>Total Number of journals</th>
+                                    <th>Total Revenue change $</th>
+                                </tr>
+                                <tr>
+                                    <th>APC change %</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1-2%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3-5%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6-10%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>11-15%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>16-20%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>21-25%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>26-30%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>31-35%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>36-40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>over 40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Grand Total</td>
+                                    <td class="text-end">702</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">111</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">520</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive border-start border-end mb-5 ">
+                        <table class="table" id="bauVolThreshold">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center" colspan="6">Ownership</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center fw-bold" colspan="2">J-Joint Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">N-Society Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">O-Proprietary Owned</th>
+                                    <th>Total Number of journals</th>
+                                    <th>Total Revenue change $</th>
+                                </tr>
+                                <tr>
+                                    <th>APC change %</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1-2%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3-5%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6-10%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>11-15%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>16-20%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>21-25%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>26-30%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>31-35%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>36-40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>over 40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Grand Total</td>
+                                    <td class="text-end">702</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">111</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">520</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive border-start border-end mb-5 mb-md-0">
+                        <table class="table" id="bauImpactThreshold">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center" colspan="6">Ownership</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center fw-bold" colspan="2">J-Joint Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">N-Society Owned</th>
+                                    <th class="text-center fw-bold" colspan="2">O-Proprietary Owned</th>
+                                    <th>Total Number of journals</th>
+                                    <th>Total Revenue change $</th>
+                                </tr>
+                                <tr>
+                                    <th>APC change %</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th>Number of journals</th>
+                                    <th>Revenue change $</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1-2%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3-5%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6-10%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>11-15%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>16-20%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>21-25%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>26-30%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>31-35%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>36-40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>over 40%</td>
+                                    <td class="text-end">239</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">50</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">514</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>750,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Grand Total</td>
+                                    <td class="text-end">702</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">111</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">520</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">255</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>335,343</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="table-responsive border-start border-end">
+                        <table class="table" id="combineAvg">
+                            <thead>                                
+                                <tr>
+                                    {% for header in ownership.headers %}
+                                        <th>{{ header }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {% for value in ownership.rows %}
+
+                                            <td>
+                                                <div class="d-flex justify-content-between">
+                                                    <span>$</span><span>{{ value }}</span>
+                                                </div>
+                                            </td>
+
+
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td>N-Society Owned</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2500</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2550</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4800</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4900</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>O-Proprietary Owned</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2500</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2550</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4800</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4900</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td>Grand Total</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2500</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>2550</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4800</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <span>$</span><span>4900</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

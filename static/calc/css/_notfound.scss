@@ -1,0 +1,99 @@
+/* Not Found CSS Start Here... */
+
+.notFoundContainer {
+    h1, h3, p, .btn, span {
+        font-family: 'Fredoka', sans-serif;
+    }
+
+    h1 {
+        font-weight: 600;
+        font-size: 100px;
+        display: flex;
+
+        span {
+            &:nth-child(1) {
+                animation: bounce 1s ease infinite;
+            }
+            &:nth-child(2) {
+                animation: bounce 1s ease infinite 0.1s;
+            }
+            &:nth-child(3) {
+                animation: bounce 1s ease infinite 0.2s;
+            }
+        }
+    }
+
+    h3 {
+        font-weight: 600;
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 10px;
+
+        a {
+            color: #ed7d31;
+            text-decoration: none;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 2px;
+                width: 0%;
+                background: #ed7d31;
+            }
+
+            &:hover::after {
+                width: 100%;
+                transition: all 0.5s;
+            }
+        }
+    }
+
+    .btn {
+        background: #0070c0;
+        transition: all 0.5s;
+
+        &:hover {
+            background: #065085;
+        }
+    }
+
+    .notfound {
+        height: 100vh;
+        background-image: linear-gradient(to bottom right, #0070c0, #ed7d31);
+        color: #ffffff;
+
+        .notfoundcontent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 400px;
+            margin: 0 auto;
+            height: 100%;
+            padding: 0 15px;
+    
+            .btn {
+                max-width: 200px;
+            }
+        }
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1,1) translateY(0);
+    }
+    50% {
+        transform: scale(1,1) translateY(-25px);
+    }
+    100% {
+        transform: scale(1,1) translateY(0);
+    }
+}

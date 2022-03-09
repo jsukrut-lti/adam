@@ -1,0 +1,201 @@
+<div id="embed_0">
+    <h1> Hello </h1>
+    {{ form }}
+{% for var in form %}
+<div class="col-12 mb-3">
+    <input type="text" class="form-control fst-italic" id="inputAddress"
+        value="{{ var.journal }}">
+</div>
+
+<div class="col-md-7 col-lg-6">
+
+    <div class="row mb-3">
+        <label for="currentPrice" class="col-md-5 col-lg-6 col-form-label">Current Price</label>
+        <div class="col-md-7 col-lg-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white rounded-start rounded-0 border-end-0">$</span>
+                </div>
+                <input type="text" class="form-control text-end border-start-0" id="currentPrice"
+                       value="{{ var.current_price }}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="newPrice" class="col-md-5 col-lg-6 col-form-label">New Price</label>
+        <div class="col-md-7 col-lg-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white rounded-start rounded-0 border-end-0">$</span>
+                </div>
+                <input type="text" class="form-control text-end border-start-0" id="newPrice"
+                       value="{{ var.new_price_usd }}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="eur" class="col-md-5 col-lg-6 col-form-label">EUR</label>
+        <div class="col-md-7 col-lg-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text euro bg-white rounded-start rounded-0 border-end-0">€</span>
+                </div>
+                <input type="text" class="form-control text-end border-start-0" id="eur"
+                       value="{{ var.new_price_eur }}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="gbp" class="col-md-5 col-lg-6 col-form-label">GBP</label>
+        <div class="col-md-7 col-lg-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white rounded-start rounded-0 border-end-0">£</span>
+                </div>
+                <input type="text" class="form-control border-top-0 text-end border-start-0" id="gbp"
+                       value="{{ var.new_price_gbp }}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="priceChange" class="col-md-5 col-lg-6 col-form-label">Price Change</label>
+        <div class="col-md-7 col-lg-6">
+            <div class="d-flex align-items-center customBorder">
+                <svg class="directionIcon up" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                     viewBox="0 0 320.000000 320.000000"
+                    preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                        fill="#000000" stroke="none">
+                        <path
+                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                    </g>
+                </svg>
+                <div class="input-group-prepend">
+                    <span>$</span>
+                </div>
+                <input type="text" class="form-control border-0 text-end" id="priceChange"
+                       value="{{ var.price_change }}"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-5 col-lg-6 d-flex justify-content-md-center flex-column">
+    <div class="row justify-content-md-end">
+        <label for="" class="col-md-4 d-none"></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="">
+        </div>
+    </div>
+    <div class="row justify-content-md-end">
+        <label for="convertedEur" class="col-md-4 col-form-label">EUR</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control border-top-0 text-end" id="convertedEur">
+        </div>
+    </div>
+    <div class="row mb-3 justify-content-md-end">
+        <label for="convertedGbp" class="col-md-4 col-form-label">GBP</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control border-top-0 text-end" id="convertedGbp">
+        </div>
+    </div>
+    <div class="row mb-3 justify-content-md-end">
+        <label for="inflation" class="col-md-4 col-form-label">Inflation</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control text-end" id="inflation">
+        </div>
+    </div>
+    <div class="row justify-content-md-end justify-content-lg-center mb-3">
+        <div class="form-check form-check-inline col-md-10 ps-md-1 ps-lg-3 inflationAdj">
+            <input class="form-check-input" type="checkbox" id="inflationAdjust" value="">
+            <label class="form-check-label" for="inflationAdjust">Adjust for Inflation</label>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="row mb-3">
+        <label for="revenueChange" class="col-md-3 col-form-label">Revenue Change</label>
+        <div class="col-md-4">
+            <div class="d-flex align-items-center customBorder">
+                <svg class="directionIcon down" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                    viewBox="0 0 320.000000 320.000000"
+                    preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                        fill="#000000" stroke="none">
+                        <path
+                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                    </g>
+                </svg>
+                <div class="input-group-prepend">
+                    <span>$</span>
+                </div>
+                <input type="text" class="form-control border-0 text-end" id="revenueChange"
+                       value="{{ var.rev_change }}"/>
+                <div class="input-group-append">
+                    <input type="text"
+                        class="form-control border-0 border-start rounded-0 rounded-end text-end"
+                           value="{{ var.rev_change_perc }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="volumeChange" class="col-md-3 col-form-label">Volume Change</label>
+
+        <div class="col-md-4">
+            <div class="d-flex align-items-center customBorder">
+                <svg class="directionIcon right" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                    viewBox="0 0 320.000000 320.000000"
+                    preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                        fill="#000000" stroke="none">
+                        <path
+                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                    </g>
+                </svg>
+                <div class="input-group-prepend">
+                    <span>$</span>
+                </div>
+                <input type="text" class="form-control border-0 text-end" id="volumeChange"
+                       value="{{ var.vol_change }}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="competitorPricing" class="col-md-3 col-form-label">Competitor Pricing</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="competitorPricing"
+                   value="{{ var.competitor_analysis_adj }}"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="subscriptionRev" class="col-md-3 col-form-label">Subscription Rev.</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="subscriptionRev"
+                   value="{{ var.sub_rev }}"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="corporateRev" class="col-md-3 col-form-label">Corporate Rev.</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="corporateRev"
+                   value="{{ var.corporate_rev }}"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="aggressivePrice" class="col-md-3 col-form-label">Aggressive Price</label>
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="aggressivePrice"
+                   value="{{ var.aggressive_price }}"/>
+        </div>
+    </div>
+</div>
+{% endfor %}
+TATA
+</div>
