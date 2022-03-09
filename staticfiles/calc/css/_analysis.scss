@@ -1,0 +1,58 @@
+/* Analysis CSS Start Here... */
+
+.analysisContainer {
+    font-size: 12px;
+
+    table {
+        &.dataTable {
+            th, td {
+                white-space: nowrap;
+                padding: 10px 18px;
+            }
+
+            tfoot {
+                th, td {
+                    padding: 10px 18px;
+                }
+            }
+        }
+
+        thead {
+            background: #646363;
+            color: #ffffff;
+    
+            tr, th {
+                font-weight: normal;
+            }
+        }
+
+        tbody,
+        tfoot {
+            td {
+                border: 1px solid #646363;
+            }
+        }
+    }
+
+    #combineAvg_wrapper {
+        .dataTables_filter {
+            display: none;
+        }
+        
+        #combineAvg {
+            thead {
+                select {
+                    background: inherit;
+                    border: none;
+                    outline: none;
+                    color: #ffffff;
+    
+                    option {
+                        background: #646363;
+                        color: #ffffff;
+                    }
+                }
+            }
+        }
+    }
+}

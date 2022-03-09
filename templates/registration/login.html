@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Login{% endblock %}
+{% block content %}
+
+	<style>
+		.login{
+			width: 500px;
+			overflow: hidden;
+			margin: auto;
+			margin: 20 20 0 450px !important;
+			padding: 80px;
+			border-radius: 15px;
+			border: 1px solid;
+			border-color:#666;
+    	}
+    	input[type=text] {
+			  width: 100%;
+			  padding: 12px 20px;
+			  margin: 8px 0;
+			  display: inline-block;
+			  border: 1px solid #ccc;
+			  border-radius: 4px;
+			  box-sizing: border-box;
+		}
+		input[type=password]{
+			  width: 100%;
+			  padding: 12px 20px;
+			  margin: 8px 0;
+			  display: inline-block;
+			  border: 1px solid #ccc;
+			  border-radius: 4px;
+			  box-sizing: border-box;
+		}
+	</style>
+
+	
+	 {% if user.is_authenticated %}
+	 	<div class="row mt-3 p-5">
+	 		<div class="col-sm-8">
+	 			<h4 class="welcome"> Hi {{ user.username }} you have already login please <a href="/calculator">click here </a></h4>
+				 <!-- <h4 class="welcome"> Hi {{ user.username }} you have already login please <a href="/landing">click here </a></h4> -->
+			</div>
+	 	</div>
+	 {% else %}
+	 	<form method="post">
+			<div class="row">
+				<div class="col-sm-4">
+				</div>
+				<div class="col-sm-6">
+					<div class="login mt-3">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<input type="submit" value="Login">
+						 
+<!--						<div style="margin: 10px 0 0 0;">-->
+<!--							<span class="psw" align="right" style="margin: 0 100px 0 0px;padding:5px;"> <a href = "/register"> Register</a> </span>-->
+<!--								&lt;!&ndash; <button type="button" class ="btn-info" style="margin: 0 60px 0 0px;padding:5px;"> Register </button> &ndash;&gt;-->
+<!--							</a>-->
+<!--							<span style="margin: 0 10px 0 0px;padding:5px;"></span>-->
+<!--	  						<span class="psw" align="right"> <a href="/password_reset"> Forgot Password?</a></span>-->
+<!--						</div>-->
+<!--						<div style="margin: 20px 0 0 0;">-->
+<!--							<span style="margin-left: 80px;margin-top:20px;padding:0px;"></span>-->
+<!--	  						<span class="psw" align="right"> <a href="/email_username"> Forgot Username?</a></span>-->
+<!--						</div>-->
+					</div>
+				</div>
+				<div class="col-sm-2">
+				</div>
+			</div>
+		</form>
+	 {% endif %}
+
+
+{% endblock %}
+
+

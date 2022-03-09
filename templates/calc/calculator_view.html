@@ -1,0 +1,216 @@
+{% load static %}
+<input type="hidden" id="calculator_view_id" value="{{calculator_id}}" />
+<div class="container-lg col-md-10 col-lg-9 mb-4 contentSec">
+            <div class="row">
+                <div method="post" id="dataForm" data-calc-url="{% url 'ajax_load_data' 'journal_code' %}">
+                    {% csrf_token %}
+                     <div class="col-md-12 p-0">
+                    <div class="row mb-3">
+                        <label for="journal_code" class="col-md-3 col-form-label fw-bold">Select
+                            Journal:</label>
+                        <div class="col-md-8">
+                                <select class="js-example-placeholder-single js-states form-control journal_code" id="journal_code" aria-label="Default select example">
+                                <option selected disabled>Choose Journal</option>
+                                    {% for cvar in code %}
+                                        <option value="{{cvar.code}}">{{cvar.code}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    {% for var in form %}
+                    <div class="col-12 mb-3">
+                    <input type="text" readonly class="form-control fst-italic ipread-only" id="journal"
+                        value="{{ var.journal }}">
+                </div>
+
+                    <div class="col-md-7 col-lg-6">
+
+                    <div class="row mb-3">
+                        <label for="currentPrice" class="col-md-5 col-lg-6 col-form-label">Current Price</label>
+                        <div class="col-md-7 col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white rounded-start rounded-0 border-end-0" id="primary_symbol_id" data-currency-code="{{ primary_currency_data.code | upper }}">$</span>
+                                </div>
+                                <input type="text" class="form-control text-md-end border-start-0 ipread-only new_cur_price m-0" id="current_price"
+                                       value="{{ var.current_price }}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row mb-3">
+                        <label for="newPrice" class="col-md-5 col-lg-6 col-form-label">New Price</label>
+                        <div class="col-md-7 col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-white rounded-start rounded-0 border-end-0" id="primary_symbol_new_price_{{ primary_currency_data.code | upper }}">$</span>
+                                </div>
+                                <input type="text" class="form-control text-md-end border-start-0 ipread-only new_cur_price m-0" id="new_price_usd"
+                                       value="{{ var.new_price_usd }}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for cdata in currency_data %}
+						<div class="row">
+                        <label for="eur" class="col-md-5 col-lg-6 col-form-label">{{ cdata.code }}</label>
+                        <div class="col-md-7 col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text euro bg-white rounded-start rounded-0 border-end-0" id="conversion_symbol_{{ cdata.code | upper }}">€</span>
+                                </div>
+                                <input type="text" class="form-control text-md-end border-start-0 ipread-only ipread-only m-0" id="new_price_{{ cdata.code | lower }}"
+                                       value="0.00" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+					{% endfor %}
+
+                        <div class="row mb-3">
+                        <label for="priceChange" class="col-md-5 col-lg-6 col-form-label">Price Change</label>
+                        <div class="col-md-7 col-lg-6">
+                            <div class="d-flex align-items-center customBorder" id="currency_symbol">
+                                <svg class="directionIcon up" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                                     viewBox="0 0 320.000000 320.000000"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                                        fill="#000000" stroke="none">
+                                        <path
+                                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                                    </g>
+                                </svg>
+                                <div class="input-group-prepend">
+                                    <span class="me-2" id="primary_symbol_price_change_{{ primary_currency_data.code | upper }}">$</span>
+                                </div>
+                                <input type="text" class="form-control border-0 text-end ipread-only m-0" id="price_change"
+                                       value="0.00" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="col-md-5 col-lg-6 d-flex flex-column"> <!-- justify-content-md-center -->
+                    <div class="row justify-content-md-end">
+                        <label for="" class="col-md-5"></label>
+                        <div class="col-md-6">
+                            {% if currency_rate_data %}
+                            <input type="text" class="form-control text-md-end ipread-only m-0" id="" value="1 {{ primary_currency_data.code }} =" readonly>
+                            {% endif %}
+                        </div>
+                    </div>
+                        <br/>
+
+					{% for ccdata in currency_rate_data %}
+                    <div class="row justify-content-md-end">
+                        <label for="convertedEur" class="col-md-4 col-form-label" style="text-align: end;">{{ ccdata.to_currency_code }}</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control border-top-0 text-end ipread-only m-0" id="converted_{{ ccdata.to_currency_code | lower }}" value="{{ ccdata.conversion_rate }}" readonly>
+                        </div>
+                    </div>
+                        <br/>
+					{% endfor %}
+                    {% if currency_rate_data %}
+                    <div class="row mb-3 justify-content-md-end">
+                        <label for="inflation" class="col-md-5 col-form-label d-flex justify-content-lg-end">Inflation</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control text-md-end ipread-only" id="inflation" value={{ var.inflation }}>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center justify-content-lg-center mb-3">
+                        <div class="form-check form-check-inline col-md-12 col-lg-12 inflationAdj justify-content-md-center justify-content-lg-center">
+                            <input class="form-check-input" type="checkbox" id="is_adj_inflation" value="">
+                            <label class="form-check-label" for="is_adj_inflation" id="inflationAdjust">Adjust for Inflation</label>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                    <div class="col-md-12">
+                    <div class="row mb-3">
+                        <label for="revenueChange" class="col-md-3 col-form-label">Revenue Change</label>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center customBorder" id="currency_symbol">
+                                <svg class="directionIcon down" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                                    viewBox="0 0 320.000000 320.000000"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                                        fill="#000000" stroke="none">
+                                        <path
+                                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                                    </g>
+                                </svg>
+                                <div class="input-group-prepend">
+                                    <span class="me-2" id="primary_symbol_rev_change_{{ primary_currency_data.code | upper }}">$</span>
+                                </div>
+                                <input type="text" class="form-control border-0 text-end ipread-only m-0" id="rev_change"
+                                       value="{{ var.rev_change }}" readonly/>
+                                <div class="input-group-append">
+                                    <input type="text"
+                                        class="form-control border-0 border-start rounded-0 rounded-end text-end ipread-only m-0"
+                                           id="rev_change_perc"
+                                           value={{ var.rev_change_perc }} readonly/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row mb-3">
+                        <label for="volumeChange" class="col-md-3 col-form-label">Volume Change</label>
+
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center customBorder" id="currency_symbol">
+                                <svg class="directionIcon right" xmlns="http://www.w3.org/2000/svg" version="1.0"
+                                    viewBox="0 0 320.000000 320.000000"
+                                    preserveAspectRatio="xMidYMid meet">
+                                    <g transform="translate(0.000000,320.000000) scale(0.100000,-0.100000)"
+                                        fill="#000000" stroke="none">
+                                        <path
+                                            d="M1520 3151 c-19 -10 -48 -37 -65 -59 -16 -22 -307 -289 -645 -593 -338 -303 -639 -574 -667 -602 -66 -64 -75 -98 -42 -158 44 -78 113 -94 461 -106 l198 -6 2 -748 c3 -849 -7 -762 94 -819 l51 -30 687 0 687 0 58 31 c99 53 91 -16 91 826 l0 740 200 7 c331 11 408 26 453 90 29 40 30 105 2 136 -11 13 -312 286 -670 607 -357 321 -664 603 -680 625 -37 50 -87 78 -140 78 -22 0 -56 -8 -75 -19z m603 -785 c273 -246 497 -451 497 -457 0 -5 -75 -9 -180 -9 -200 0 -219 -4 -253 -59 l-22 -36 -3 -752 -3 -753 -564 0 -564 0 -3 753 -3 752 -22 36 c-34 55 -53 59 -253 59 -105 0 -180 4 -180 9 0 6 230 217 512 470 449 405 513 460 527 448 9 -8 240 -215 514 -461z" />
+                                    </g>
+                                </svg>
+                                <div class="input-group-prepend">
+                                    <span class="me-2" id="primary_symbol_vol_change_{{ primary_currency_data.code | upper }}">$</span>
+                                </div>
+                                <input type="text" class="form-control border-0 text-md-end ipread-only m-0" id="vol_change"
+                                       value="{{ var.vol_change }}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row mb-3">
+                        <label for="competitorPricing" class="col-md-3 col-form-label">Competitor Pricing</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control ipread-only" id="competitor_analysis_adj"
+                                   value="{{ var.competitor_analysis_adj }}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="subscriptionRev" class="col-md-3 col-form-label">Subscription Rev.</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control ipread-only" id="sub_rev"
+                                   value="{{ var.sub_rev }}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="corporateRev" class="col-md-3 col-form-label">Corporate Rev.</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control ipread-only" id="corporate_rev"
+                                   value="{{ var.corporate_rev }}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="aggressivePrice" class="col-md-3 col-form-label">Aggressive Price</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control ipread-only" id="aggressive_price"
+                                   value="{{ var.aggressive_price }}" readonly/>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+<script src="{% static "calc/js/main.js" %}"></script>

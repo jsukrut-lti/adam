@@ -1,0 +1,27 @@
+/* Financial Analysis CSS */
+
+.financialAnalysis {
+    iframe {
+        body #react-entry-point {
+            font-size: initial;
+        }
+    }
+}
+
+.Select--multi .Select-value-label {
+    color: #212529;
+    background: white;
+}
+
+.Select--multi .Select-value-icon {
+    background: white;
+    border-right: 1px solid lightgray !important;
+
+    &:hover {
+        background: white !important;
+    }
+}
+
+.Select--multi .Select-value {
+    border: 1px solid lightgray !important;
+}

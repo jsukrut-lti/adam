@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+	<div class="profile">
+		<div class="p-5">
+		 	<form method="post">
+				{% csrf_token %}
+
+			 	<div class="row">
+			    	<div class="col-sm-6">
+			    		<label for="id_username">Username</label>
+			    		<input readonly id="id_username" class="form-control" placeholder="Username" value="{{usr_obj.username}}">
+			    	
+			    	</div>
+			    	<div class="col-sm-6">
+			    		<label for="id_email">Email</label>
+			    		<input readonly type="text"  id="id_email" name ='email' class="form-control" placeholder="Email"
+			    		value="{{usr_obj.email}}">
+			    	
+			    	</div>
+			  	</div>
+
+			  	<div class="row">
+			    	<div class="col-sm-6">
+			    		<label for="id_first_name">First Name</label>
+			    		<input readonly id="id_first_name" name= 'first_name' class="form-control" placeholder="First Name" value="{{usr_obj.first_name}}">
+			    	
+			    	</div>
+			    	<div class="col-sm-6">
+			    		<label for="id_last_name">Last Name</label>
+			    		<input readonly required id="id_last_name" name ='last_name' class="form-control" placeholder="Last Name"
+			    		value="{{usr_obj.last_name}}">
+			    	
+			    	</div>
+			  	</div>
+
+			  	<div class="row">
+			    	<div class="col-sm-4"></div>
+			    	<div class="col-sm-4">
+			    		<!-- <input type="submit" value="Save"> -->
+			    	</div>
+			    	<div class="col-sm-4"></div>
+			  	</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

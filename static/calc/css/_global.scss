@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lora', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: #708090;
+    border-radius: 0.5rem;
+}
+  
+::-webkit-scrollbar-track {
+    background: #d2d5d7;
+    border-radius: 0.25rem;
+}
