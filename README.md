@@ -1,2 +1,2 @@
-# Wiley_calculator
+# WileyCalculator
 Wiley Calculator for price calculations
