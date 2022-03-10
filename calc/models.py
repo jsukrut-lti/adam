@@ -161,7 +161,7 @@ class RateAnalysis(models.Model):
     ('pending','Pending for Approval'),
     ('approve','Approved'),
     ('reject','Rejected'),
-    ('cancel','Cancelled'),
+    ('cancel','Cancelled')
     ]
 
     rate_analysis_no = models.CharField(max_length=20, default=increment_rate_analysis_number, editable=False)
@@ -177,6 +177,8 @@ class RateAnalysis(models.Model):
     description = models.TextField(verbose_name=u"Description", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name=u"Created by", related_name='user_created_by', null=True, blank=True)
+    # modified_by = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name=u"Modifield by", related_name='user_modified_by', null=True, blank=True)
     # active = models.BooleanField(verbose_name=u"Active", default=True)
 
     def __str__(self):

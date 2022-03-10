@@ -75,13 +75,13 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=0.00,
+            dcc.Input(id='filter_perc', type='number', value=20.00,
                       style={'height': '36px', 'width': '290px'}),
         ], className='one-third column', id='title4', style={'margin-left':'0'}),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=0.00,
+            dcc.Input(id='society_approval_rate_perc', type='number', value=50.00,
                       style={'height': '36px', 'width': '290px'}),
         ], className='one-third column', id='title4', style={'margin-left':'0'}),
         html.Div([
@@ -286,11 +286,14 @@ def parse_contents(**kwargs): # contents, filename, action = None):
 
 def prepare_pivot(**kwargs):
     dataframe = kwargs.get('dataframe',False)
+    society_approval_rate_perc = kwargs.get('society_approval_rate_perc',False)
+    filter_perc = kwargs.get('filter_perc',False)
     columns = ['Journal Code', 'Journal', 'Percentage Change', 'Ownership Structure',
                '% category', 'Revenue change']
     try:
         dataframe = pd.DataFrame(dataframe, columns=columns)
-        table = pd.pivot_table(data=dataframe,
+        dataframe_filter = dataframe.loc[dataframe['Percentage Change'] <= (filter_perc / 100)]
+        table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
                                index=['% category'],
                                columns=['Ownership Structure'],
@@ -300,6 +303,7 @@ def prepare_pivot(**kwargs):
                                margins=True, margins_name='Total').\
                                reset_index().rename(columns={'Journal Code': 'Number of Journals',
                                                              '% category': 'APC change %'})
+        print(table)
         table.columns = list(map( lambda x: '-'.join([x[1].split('-')[0], x[0]])
                                                 if x[1].find('-') != -1  else '-'.join([x[1], x[0]])
                                                 if x[1] != '' else ''.join([x[0], x[1]]), table.columns))
@@ -312,10 +316,51 @@ def prepare_pivot(**kwargs):
         table.reset_index(inplace=True)
         table = table.drop(['index'], axis=1)
         table.infer_objects().dtypes
+        # print("----1------")
+        # print(table)
+        average_prie_increase = (dataframe_filter['Percentage Change'].mean()) * (1 - society_approval_rate_perc)
+
+        table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
+
+        # print("----3------")
+        # print(data_table)
     except Exception as e:
         print('\n Exception args ... ',e.args)
         return pd.DataFrame()
-    return table
+    return table,average_prie_increase
+
+def prepare_approval_data(**kwargs):
+    dataframe = kwargs.get('dataframe', False)
+    approval_rate = kwargs.get('society_approval_rate_perc', False)
+    # print(dataframe)
+
+    df_zero = {}
+    for col in dataframe.columns:
+        if col.find('-') != -1 and  col.split('-')[0] == "N":
+            dataframe[col] = dataframe[col].apply(lambda x: (x * approval_rate) / 100)
+            if col.split('-')[1] == "Number of Journals":
+                df_zero[col] = dataframe.drop(dataframe.index[-1]).loc[:,col].sum()
+
+
+    if '0%' not in dataframe['APC change %']:
+        dataframe.loc[-1] = [0] * len(dataframe.columns)
+        dataframe.index = dataframe.index + 1
+        dataframe.sort_index(inplace=True)
+        dataframe['APC change %'][0] = "0%"
+        for key, value in df_zero.items():
+            dataframe[key][0] = value
+            dataframe[key] = dataframe.apply(lambda x: dataframe.drop(dataframe.index[-1]).loc[:,key].sum()
+                                            if x['APC change %'] == "Total" else x[key], axis=1)
+
+    for col in dataframe.columns:
+        if col.find('Total') != -1 :
+            dataframe[col] = dataframe[[dif_col for dif_col in dataframe.columns
+                                        if dif_col.find('-') != -1 and dif_col.split('-')[1] == col.split('-')[1]
+                                        and dif_col.find('Total') == -1]].sum(axis=1)
+
+    # print(dataframe)
+    return dataframe
+
 
 def get_calculator_directory(**kwargs):
     print ('get calc dir...........',kwargs)
@@ -426,19 +471,44 @@ def update_output(submit_btn, scenario_id, user_id, calculator_id, society_appro
 #         data_table = prepare_pivot(dataframe=journal_database)
 #         return data_table.to_dict('records') #,'17.00%'
 
+# @app.callback(Output('datatable', 'data'),
+#               #Output('comb_avg_price_increase', 'value'),
+#               [Input('society_approval_rate_perc', 'value'), Input('scenario_id', 'value'),
+#                Input('datatable-upload', 'contents'),Input('datatable-upload', 'filename')])
+# def update_datatable(society_approval_rate_perc, scenario_id, contents, filename):
+#     # print('scenario_id=====',scenario_id)
+#     if contents is None:
+#         return [{}], []
+#     file_data = { 'contents' : contents,
+#                   'filename': filename,
+#                   }
+#     df = parse_contents(file_data = file_data)
+#     data_table = prepare_pivot(dataframe=df,society_approval_rate_perc=society_approval_rate_perc)
+#     if not data_table.empty:
+#         return data_table.to_dict('records') #,'17.00%'
+#     return [{}]
+
+
 @app.callback(Output('datatable', 'data'),
-              #Output('comb_avg_price_increase', 'value'),
-              [Input('society_approval_rate_perc', 'value'), Input('scenario_id', 'value'),
-               Input('datatable-upload', 'contents'),Input('datatable-upload', 'filename')])
-def update_datatable(society_approval_rate_perc, scenario_id, contents, filename):
-    # print('scenario_id=====',scenario_id)
-    if contents is None:
-        return [{}], []
-    file_data = { 'contents' : contents,
-                  'filename': filename,
-                  }
-    df = parse_contents(file_data = file_data)
-    data_table = prepare_pivot(dataframe=df)
-    if not data_table.empty:
-        return data_table.to_dict('records') #,'17.00%'
-    return [{}]
+              Output('avg_price_change_perc','data'),
+              Input('user_id', 'value'), Input('calculator_id', 'value'),
+              Input('society_approval_rate_perc', 'value'),
+              Input('filter_perc','value'))
+def load_datatable(user_id, calculator_id,society_approval_rate_perc,filter_perc):
+    context = {}
+    calculator_directory = False
+    print(user_id,calculator_id)
+    if calculator_id <= 0:
+        profile_obj = Profile.objects.get(user=int(user_id))
+        calculator_id = profile_obj.calculator_id and profile_obj.calculator_id.id or calculator_id
+    if calculator_id > 0:
+        calculator_obj = CalculatorMaster.objects.get(pk=int(calculator_id))
+        calculator_directory = calculator_obj and calculator_obj.directory_name or calculator_directory
+    if calculator_directory:
+        context['calculator_directory'] = calculator_directory
+        context['filter_file'] = ['Journal_Database']
+        filedataframe = get_filedataframe(**context)
+        journal_database = filedataframe.get('journal_database', False)
+        # get_filelocation(calculator_directory=calculator_directory)
+        data_table,average_prie_increase = prepare_pivot(dataframe=journal_database,society_approval_rate_perc=society_approval_rate_perc,filter_perc=filter_perc)
+        return data_table.to_dict('records'),average_prie_increase
