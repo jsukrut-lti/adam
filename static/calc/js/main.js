@@ -1,4 +1,12 @@
 $(document).ready( function () {
+
+    $('#rateAnalysis').DataTable({
+        paging: true,
+        searching: true,
+        info : true,
+        order: [],
+    });
+
     $('#bauMax20').DataTable({
         "pageLength": 5,
         // ordering: false,
