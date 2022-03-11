@@ -33,6 +33,7 @@ urlpatterns = [
     path('logout/', include("calc.urls")),
     path('profile/', include("calc.urls")),
     path('get_calculator_data/', include("calc.urls"), name = 'get_calculator_data'),
+    path('api/', include("adam.urls"), name="address_api")
 ]
 
 if settings.DEBUG:

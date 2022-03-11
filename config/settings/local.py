@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'calc',
     'import_export', #for importing excel data to database.
     'django_extensions',
-    'django_object_actions'
+    'django_object_actions',
+    'rest_framework',
+    'adam'
 ]
 
 MIDDLEWARE = [
