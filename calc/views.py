@@ -135,7 +135,7 @@ def get_profile(request):
     else:
         return redirect("login")
 
-def financial_analysis_view(request):
+def financial_analysis_view(request,key=None):
     calculator_id = 0
     calc_filters = {'active': True, 'is_published': True}
     if request.user.is_authenticated:
@@ -162,13 +162,30 @@ def financial_analysis_view(request):
 def financial_analysis_report(request):
     if request.user.is_authenticated:
         calculator_id = get_calculator_id(request)
+        print(request.user.id)
         scenario_data = RateAnalysis.objects.filter(created_by = request.user.id)
 
         context = {
-                    'user_id': {'value': request.user.id},
-                    'calculator_id': {'value': calculator_id},
-                    'scenario_data': {'value': scenario_data}
+                    'user_id': request.user.id,
+                    'calculator_id': calculator_id,
+                    'scenario_data': scenario_data
                 }
-        print(context)
+
+        return render(request, 'calc/financial_analysis_report.html', context)
+    return redirect('login')
+
+
+def financial_analysis_view_form(request, key):
+    if request.user.is_authenticated:
+        calculator_id = get_calculator_id(request)
+        print(request.user.id)
+        scenario_data = RateAnalysis.objects.filter(created_by=request.user.id)
+
+        context = {
+            'user_id': request.user.id,
+            'calculator_id': calculator_id,
+            'scenario_data': scenario_data
+        }
+
         return render(request, 'calc/financial_analysis_report.html', context)
     return redirect('login')

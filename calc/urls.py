@@ -29,6 +29,8 @@ urlpatterns=[
   # path('financial-analysis/', TemplateView.as_view(template_name='calc/financial_analysis.html'), name = 'financial_analysis'),
   path('financial-analysis/', views.financial_analysis_view, name = 'financial_analysis'),
   path('financial-analysis-report/', views.financial_analysis_report, name = 'financial_analysis_report'),
+  path('financial-analysis-view-form/<str:key>/', views.financial_analysis_view_form, name = 'financial-analysis-view-form'),
+  path('financial-analysis-edit/<str:key>/', views.financial_analysis_view, name = 'financial-analysis-edit'),
   path('ajax/load-data/<str:key>/', views.load_data, name = 'ajax_load_data'),
   path('logout/',views.logout_view,name='logout'),
   path('profile/',views.get_profile,name='profile'),
