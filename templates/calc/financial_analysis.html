@@ -2,10 +2,13 @@
 {% block content %}
 {% load static %}
 {% load plotly_dash %}
-<div class="financialAnalysis container-sm my-4"><div class="{% plotly_class name='AnalysisApp' %} card" style="height: 100%; width: 100%; box-shadow: 1px 2px 5px darkgrey;">
-    {% plotly_app name='AnalysisApp' initial_arguments=dash_input ratio=0.70 %}
-    </div></div><br>
-    {{ request | safe }}
+
+<div class="financialAnalysis container-md my-4">
+    <div class="{% plotly_class name='AnalysisApp' %} card">
+        {% plotly_app name='AnalysisApp' initial_arguments=dash_input ratio=0.70 %}
+    </div>
+</div><br>
+{{ request | safe }}
 {% endblock %}
 
 <!--initial_arguments='{"target_id": {"value": "67"}}'-->
