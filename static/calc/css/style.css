@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-input, .btn, ul, a {
+input, select, .btn, ul, li, a {
   font-family: 'Lora', serif;
 }
 
@@ -608,24 +608,31 @@ body.show::after {
 }
 
 /* Rate Analysis CSS Start */
-.rateAnalysisContainer {
+.rateAnalysisContainer,
+.rateAnalysisChangeContainer {
   -webkit-box-shadow: 1px 2px 5px darkgrey;
           box-shadow: 1px 2px 5px darkgrey;
   padding: 12px;
 }
 
-.rateAnalysisContainer h5 {
+.rateAnalysisContainer h5,
+.rateAnalysisChangeContainer h5 {
   padding: 12px;
 }
 
-.rateAnalysisContainer .table {
+.rateAnalysisContainer .table,
+.rateAnalysisChangeContainer .table {
   margin-bottom: 0;
   border-spacing: revert;
 }
 
 .rateAnalysisContainer .table thead > tr > th,
 .rateAnalysisContainer .table thead > tr > td, .rateAnalysisContainer .table tbody > tr > th,
-.rateAnalysisContainer .table tbody > tr > td {
+.rateAnalysisContainer .table tbody > tr > td,
+.rateAnalysisChangeContainer .table thead > tr > th,
+.rateAnalysisChangeContainer .table thead > tr > td,
+.rateAnalysisChangeContainer .table tbody > tr > th,
+.rateAnalysisChangeContainer .table tbody > tr > td {
   padding: 12px 8px;
   color: #ffffff;
   font-weight: normal;
@@ -634,13 +641,15 @@ body.show::after {
   text-align: center;
 }
 
-.rateAnalysisContainer .table tfoot tr td {
+.rateAnalysisContainer .table tfoot tr td,
+.rateAnalysisChangeContainer .table tfoot tr td {
   padding: 12px 8px 12px 0;
   border-top: 1px solid #dee2e6;
   border-right: none;
 }
 
-.rateAnalysisContainer .table tfoot tr td span {
+.rateAnalysisContainer .table tfoot tr td span,
+.rateAnalysisChangeContainer .table tfoot tr td span {
   font-size: 14px;
   border: 1px solid #dee2e6;
   background: #dee2e6;
@@ -648,25 +657,29 @@ body.show::after {
   padding: 5px 10px;
 }
 
-.rateAnalysisContainer .table thead > tr > th {
+.rateAnalysisContainer .table thead > tr > th,
+.rateAnalysisChangeContainer .table thead > tr > th {
   background: #0c1639;
   border-right: none;
   font-size: 12px;
   white-space: normal;
 }
 
-.rateAnalysisContainer .table thead > tr > th:first-child .form-check-input {
+.rateAnalysisContainer .table thead > tr > th:first-child .form-check-input,
+.rateAnalysisChangeContainer .table thead > tr > th:first-child .form-check-input {
   display: block;
   margin: 0 auto;
   padding: 10px;
   opacity: 1;
 }
 
-.rateAnalysisContainer .table thead > tr > th:last-child {
+.rateAnalysisContainer .table thead > tr > th:last-child,
+.rateAnalysisChangeContainer .table thead > tr > th:last-child {
   width: 25px !important;
 }
 
-.rateAnalysisContainer .table tbody > tr > td {
+.rateAnalysisContainer .table tbody > tr > td,
+.rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
   background: #4599b3;
   font-size: 11px;
@@ -674,31 +687,37 @@ body.show::after {
   white-space: normal;
 }
 
-.rateAnalysisContainer .table tbody > tr > td:last-child {
+.rateAnalysisContainer .table tbody > tr > td:last-child,
+.rateAnalysisChangeContainer .table tbody > tr > td:last-child {
   text-align: left;
 }
 
-.rateAnalysisContainer .table tbody > tr > td:first-child .form-check-input {
+.rateAnalysisContainer .table tbody > tr > td:first-child .form-check-input,
+.rateAnalysisChangeContainer .table tbody > tr > td:first-child .form-check-input {
   display: block;
   margin: 0 auto;
   padding: 10px;
   opacity: 1;
 }
 
-.rateAnalysisContainer .table tbody > tr > td:last-child {
+.rateAnalysisContainer .table tbody > tr > td:last-child,
+.rateAnalysisChangeContainer .table tbody > tr > td:last-child {
   width: 25px !important;
 }
 
-.rateAnalysisContainer .table tbody > tr > td a {
+.rateAnalysisContainer .table tbody > tr > td a,
+.rateAnalysisChangeContainer .table tbody > tr > td a {
   color: #ffffff;
   text-decoration: none;
 }
 
-.rateAnalysisContainer .table tbody > tr > td a:hover {
+.rateAnalysisContainer .table tbody > tr > td a:hover,
+.rateAnalysisChangeContainer .table tbody > tr > td a:hover {
   text-decoration: underline;
 }
 
-.rateAnalysisContainer .table tbody > tr > td .crud {
+.rateAnalysisContainer .table tbody > tr > td .crud,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -707,28 +726,35 @@ body.show::after {
           justify-content: center;
 }
 
-.rateAnalysisContainer .table tbody > tr > td .crud i {
+.rateAnalysisContainer .table tbody > tr > td .crud i,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud i {
   cursor: pointer;
 }
 
-.rateAnalysisContainer .table tbody > tr > td .crud i.bi-pencil-fill::before {
+.rateAnalysisContainer .table tbody > tr > td .crud i.bi-pencil-fill::before,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud i.bi-pencil-fill::before {
   color: #ffa500;
 }
 
-.rateAnalysisContainer .table tbody > tr > td .crud i.bi-trash3-fill::before {
+.rateAnalysisContainer .table tbody > tr > td .crud i.bi-trash3-fill::before,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud i.bi-trash3-fill::before {
   color: #ff0000;
 }
 
-.rateAnalysisContainer .table tbody > tr > td .crud i.bi-x-octagon-fill::before {
+.rateAnalysisContainer .table tbody > tr > td .crud i.bi-x-octagon-fill::before,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud i.bi-x-octagon-fill::before {
   color: #bff1f3;
 }
 
-.rateAnalysisContainer .table tbody td, .rateAnalysisContainer .table tbody th {
+.rateAnalysisContainer .table tbody td, .rateAnalysisContainer .table tbody th,
+.rateAnalysisChangeContainer .table tbody td,
+.rateAnalysisChangeContainer .table tbody th {
   padding: 12px 8px;
   border-right: none;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label {
+.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label,
+.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -736,12 +762,209 @@ body.show::after {
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 15px;
+  font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label input {
+.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label input,
+.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label input {
   border: 1px solid darkgray;
   -webkit-box-shadow: 1px 2px 5px darkgrey;
           box-shadow: 1px 2px 5px darkgrey;
   padding: 10px;
+}
+
+.rateAnalysisChangeContainer .btnContainerTop {
+  gap: 15px;
+}
+
+.rateAnalysisChangeContainer .btnContainerTop .btn {
+  border-radius: 15px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background: #4599b3 !important;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  opacity: 1;
+}
+
+.rateAnalysisChangeContainer .btnContainerTop .btn:hover {
+  background: #5fa2b7 !important;
+}
+
+.rateAnalysisChangeContainer input {
+  opacity: 1;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li:first-child a {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li:first-child a::before {
+  display: none;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li:last-child a {
+  padding-right: 15px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li:last-child a::after {
+  display: none;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 44px;
+  background: #4599b3;
+  text-align: center;
+  padding: 5px 10px 5px 20px;
+  position: relative;
+  margin: 0 10px 0 0;
+  font-size: 15px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a::after {
+  content: "";
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 10px solid #4599b3;
+  position: absolute;
+  right: -10px;
+  top: 0;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a::before {
+  content: "";
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 10px solid white;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.inProgress {
+  background: #f0ad4e;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.inProgress::after {
+  border-left-color: #f0ad4e;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.reject {
+  background: #d9534f;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.reject::after {
+  border-left-color: #d9534f;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.approve {
+  background: #5cb85c;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.approve::after {
+  border-left-color: #5cb85c;
+}
+
+.rateAnalysisChangeContainer select,
+.rateAnalysisChangeContainer select option {
+  cursor: pointer;
+}
+
+.rateAnalysisChangeContainer .basicInfo,
+.rateAnalysisChangeContainer .metricInfo,
+.rateAnalysisChangeContainer .otherInfo {
+  background: #ffffff;
+  color: #212529;
+  -webkit-box-shadow: 1px 2px 5px darkgray;
+          box-shadow: 1px 2px 5px darkgray;
+  border-radius: 5px;
+}
+
+.rateAnalysisChangeContainer .basicInfo h5,
+.rateAnalysisChangeContainer .metricInfo h5,
+.rateAnalysisChangeContainer .otherInfo h5 {
+  background: #4599b3;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.rateAnalysisChangeContainer .historyDetails {
+  -webkit-box-shadow: 1px 2px 5px darkgray;
+          box-shadow: 1px 2px 5px darkgray;
+  border-radius: 5px;
+}
+
+.rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link {
+  background: #4599b3 !important;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: 'Lora', serif;
+}
+
+.rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active {
+  background: #0e1941 !important;
+}
+
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > td,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > th,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > td {
+  word-break: unset;
+}
+
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > th:last-child,
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > td:last-child,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > th:last-child,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > td:last-child {
+  width: 90px !important;
+  text-align: center;
+}
+
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > th {
+  font-size: 14px;
+}
+
+.rateAnalysisChangeContainer .historyDetails .table thead > tr > td,
+.rateAnalysisChangeContainer .historyDetails .table tbody > tr > td {
+  font-size: 13px;
+}
+
+.rateAnalysisChangeContainer .paginations .pagination .page-item a {
+  background: #4599b3;
+  color: #ffffff;
+  opacity: 1;
+  font-weight: bold;
+  padding: 10px 20px;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+
+.rateAnalysisChangeContainer .paginations .pagination .page-item a:hover {
+  background: #67a5b9;
+}
+
+.rateAnalysisChangeContainer .paginations .pagination .page-item.active a {
+  background: #0e1941;
+}
+
+.rateAnalysisChangeContainer .paginations .pagination .page-item.disabled a {
+  background: #4599b3;
+  color: #ffffff;
+  opacity: 0.7;
 }
 /*# sourceMappingURL=style.css.map */

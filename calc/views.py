@@ -135,11 +135,39 @@ def get_profile(request):
     else:
         return redirect("login")
 
-def financial_analysis_view(request,key=None):
+def financial_analysis_view(request, **kwargs):
+    print ('\n financial_analysis_view dkjsndj ======',kwargs)
+    search_key = kwargs.get('key',False)
+    search_key = search_key and search_key.strip() and search_key
+    search_key_list = []
+    search_cond_list = []
+    search_cond_dict = {}
+    if search_key:
+        if '&' in search_key:
+            search_key_list = search_key.split('&')
+        if search_key_list:
+            for search in search_key_list:
+                if '=' in search:
+                    search_cond_list = search.split('=')
+                    if search_cond_list[1].isdigit():
+                        reference_id_str = search_cond_list[1] and int(search_cond_list[1]) or search_cond_list[1]
+                        search_cond_dict[search_cond_list[0]] = reference_id_str
+                    else:
+                        search_cond_dict[search_cond_list[0]] = search_cond_list[1]
+        if not search_key_list and '=' in search_key:
+            search_cond_list = search_key.split('=')
+            if search_cond_list[1].isdigit():
+                reference_id_str = search_cond_list[1] and int(search_cond_list[1]) or search_cond_list[1]
+                search_cond_dict[search_cond_list[0]] = reference_id_str
+            else:
+                search_cond_dict[search_cond_list[0]] = search_cond_list[1]
     calculator_id = 0
     calc_filters = {'active': True, 'is_published': True}
     if request.user.is_authenticated:
         if not request.user.is_superuser:
+            profile_filter_obj = Profile.objects.filter(user=request.user.id)
+            if not profile_filter_obj:
+                return redirect('login')
             profile_obj = Profile.objects.get(user=request.user.id)
             calculator_rec = profile_obj and profile_obj.calculator_id or False
             calculator_id = calculator_rec and calculator_rec.id or 0
@@ -149,12 +177,22 @@ def financial_analysis_view(request,key=None):
         calc_filter_obj = calc_filter_obj and list(calc_filter_obj) or []
         calc_filter_obj = len(calc_filter_obj)>0 and calc_filter_obj[0] or calc_filter_obj
         calculator_id = calc_filter_obj and calc_filter_obj.get('pk',0) or calculator_id
-        context = {'dash_input': {
-                                    'user_id': {'value': request.user.id},
-                                    'calculator_id': {'value': calculator_id},
-                                    # 'fig_dropdown': {'value': calculator_id},
-                                },
-                  }
+        # search_cond_dict and context.update(search_cond_dict) or context
+        param = { 'user_id': {'value': request.user.id },
+                  'calculator_id': {'value': calculator_id },
+                }
+        if search_cond_dict:
+            rate_analysis_obj = RateAnalysis.objects.get(id=search_cond_dict.get('rate_analysis_id'))
+            load_param_dict = search_cond_dict
+            load_param_dict['filter_perc'] = rate_analysis_obj.filter_perc
+            load_param_dict['society_approval_rate_perc'] = rate_analysis_obj.society_approval_rate_perc
+            load_param_dict['avg_price_change_perc'] = rate_analysis_obj.avg_price_change_perc
+            load_param_dict['description'] = rate_analysis_obj.description and rate_analysis_obj.description.strip() or 0
+            load_param_dict['document_id'] = rate_analysis_obj.document_id and rate_analysis_obj.document_id.id or 0
+            for k,v in load_param_dict.items():
+                param.update({k : {'value': v}})
+        print ('papaapp ===',param)
+        context = {'dash_input': param, }
         return render(request, 'calc/financial_analysis.html', context)
     return redirect('login')
 
@@ -162,8 +200,9 @@ def financial_analysis_view(request,key=None):
 def financial_analysis_report(request):
     if request.user.is_authenticated:
         calculator_id = get_calculator_id(request)
-        print(request.user.id)
-        scenario_data = RateAnalysis.objects.filter(created_by = request.user.id)
+        scenario_data = RateAnalysis.objects.filter(created_by=request.user.id)
+        if request.user.is_superuser:
+            scenario_data = RateAnalysis.objects.all()
 
         context = {
                     'user_id': request.user.id,
@@ -187,5 +226,5 @@ def financial_analysis_view_form(request, key):
             'scenario_data': scenario_data
         }
 
-        return render(request, 'calc/financial_analysis_report.html', context)
+        return render(request, 'calc/rate_analysis_change.html', context)
     return redirect('login')

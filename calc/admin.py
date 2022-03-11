@@ -1,13 +1,16 @@
 from django.contrib import admin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
+from django.urls import reverse
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
 from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
+from django.shortcuts import redirect
+from calc.views import financial_analysis_view
 # from calc.forms import JournalMasterAdminForm
 import os
 from calc.models import CurrencyMaster, CurrencyRateMaster, CalculatorMaster, \
-    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails
+    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory
 
 # Register your models here.
 class CurrencyMasterAdmin(admin.ModelAdmin):
@@ -103,6 +106,8 @@ class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
         return actions
 
     def get_readonly_fields(self, request, obj=None):
@@ -164,39 +169,102 @@ admin.site.register(Document, DocumentAdmin)
 class RateAnalysisDetailsAdminInline(admin.TabularInline):
     model = RateAnalysisDetails
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+class RateAnalysisHistoryAdminInline(admin.TabularInline):
+    model = RateAnalysisHistory
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 class RateAnalysisAdmin(DjangoObjectActions, admin.ModelAdmin):
 
-    inlines = (RateAnalysisDetailsAdminInline,)
+    fieldsets = (
+        ('Basic Info', {'fields': ('rate_analysis_no','scenario_id','document_id','status'), 'classes': ['wide']}),
+        ('Metrics Info', {'fields': ('filter_perc','society_approval_rate_perc','avg_price_change_perc',), 'classes': ['form-row-6columns']}),
+        ('', {'fields': ('description','remarks',), 'classes': ['form-row-6columns']}),
+        ('Log Info', {'fields': ('created_by','modified_by'), 'classes': ['form-row-6columns']}),
+    )
+
+    inlines = (RateAnalysisDetailsAdminInline,RateAnalysisHistoryAdminInline,)
     list_display = ("rate_analysis_no","scenario_id","filter_perc","society_approval_rate_perc","avg_price_change_perc","status","remarks")
-    search_fields = ['rate_analysis_no','scenario_id','status']
+    search_fields = ['rate_analysis_no','scenario_id__name','status']
     list_filter = ('rate_analysis_no','scenario_id','status')
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        # make all fields readonly
+        readonly_fields = self.readonly_fields
+        exclude_fileds = ['description','remarks']
+        if obj:
+            readonly_fields = list(
+                set([field.name for field in self.opts.local_fields] +
+                    [field.name for field in self.opts.local_many_to_many]))
+        diff = set(readonly_fields) - set(exclude_fileds)
+        readonly_fields = diff and list(diff) or readonly_fields
+        return readonly_fields
+
+    def get_changeform_initial_data(self, request):
+        get_data = super(RateAnalysisAdmin, self).get_changeform_initial_data(request)
+        get_data['created_by'] = request.user.pk
+        return get_data
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.created_by = request.user
+        else:
+            obj.modified_by = request.user
+        obj.save()
+
     def approve(self, request, obj):
+        obj.modified_by = request.user
         obj.status = 'approve'
         obj.save()
 
     def reject(self, request, obj):
+        print('\n fadkfk ====',request)
+        print('\n obj ====',obj)
+        print('\n self ====',self)
+        obj.modified_by = request.user
         obj.status = 'reject'
         obj.save()
 
     def cancel(self, request, obj):
+        obj.modified_by = request.user
         obj.status = 'cancel'
         obj.save()
 
+    def reopen(self, request, obj):
+        obj.modified_by = request.user
+        obj.status = 'pending'
+        obj.save()
+
+    def edit_price(self, request, obj):
+        if obj.status == 'pending':
+            return_url = '/financial-analysis/rate_analysis_id={}'.format(str(obj.id))
+            return redirect(return_url)
+
     change_actions = (
+        "reopen",
+        "edit_price",
         "approve",
         "reject",
         "cancel",
     )
 
 admin.site.register(RateAnalysis, RateAnalysisAdmin)
-
-#
-# class RateAnalysisAdmin(admin.ModelAdmin):
-#     inlines = (RateAnalysisDetailsAdminInline,)
-#     list_display = ("rate_analysis_no","scenario_id","filter_perc","society_approval_rate_perc","avg_price_change_perc","status","remarks")
-#     search_fields = ['rate_analysis_no','scenario_id','status']
-#     list_filter = ('rate_analysis_no','scenario_id','status')
-
-
-
