@@ -8,6 +8,7 @@ from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
 from django.shortcuts import redirect
 from calc.views import financial_analysis_view
 # from calc.forms import JournalMasterAdminForm
+### Testing
 import os
 from calc.models import CurrencyMaster, CurrencyRateMaster, CalculatorMaster, \
     JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory
