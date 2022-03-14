@@ -22,7 +22,7 @@ class CurrencyMaster(models.Model):
         verbose_name_plural = '     Currency Master'
 
 class CurrencyRateMaster(models.Model):
-    code = models.CharField(max_length=10, verbose_name=u"Conversion Code", help_text=u"Conversion Code", unique=True, blank=True)
+    code = models.CharField(max_length=10, verbose_name=u"Conversion Code", editable=False,  help_text=u"Conversion Code", unique=True, blank=True)
     name = models.CharField(max_length=100, verbose_name=u"Conversion Name", help_text=u"Conversion Name", unique=True, blank=True)
     from_currency = models.ForeignKey(CurrencyMaster, verbose_name=u"From Currency", on_delete=models.CASCADE, related_name='from_currency')
     to_currency = models.ForeignKey(CurrencyMaster, verbose_name=u"To Currency", on_delete=models.CASCADE, related_name='to_currency')
@@ -45,9 +45,21 @@ class CurrencyRateMaster(models.Model):
                 raise ValidationError("From Currency and To Currency should not be same")
         super(CurrencyRateMaster, self).clean()
 
+def increment_calculator_seq_no():
+    last_calculator_seq = CalculatorMaster.objects.all().order_by('id').last()
+    if not last_calculator_seq:
+        return 'CAL' + str(datetime.date.today().year) + str(datetime.date.today().month).zfill(2) + '0000'
+    calculator_seq_no = last_calculator_seq.calculator_seq_no
+    calculator_seq_int = int(calculator_seq_no[9:13])
+    new_calculator_seq_int = calculator_seq_int + 1
+    new_calculator_seq_no = 'CAL' + str(str(datetime.date.today().year)) + str(datetime.date.today().month).zfill(
+        2) + str(new_calculator_seq_int).zfill(4)
+    return new_calculator_seq_no
+
 class CalculatorMaster(models.Model):
     name = models.CharField(max_length=100, verbose_name=u"Name", unique=True)
     directory_name = models.CharField(max_length=100, verbose_name=u"Directory", editable=False, unique=True) #
+    calculator_seq_no = models.CharField(max_length=20, default=increment_calculator_seq_no, editable=False)
     primary_currency_id = models.ForeignKey(CurrencyMaster, verbose_name=u"Primary Currency", on_delete=models.CASCADE, related_name='primary_currency_id')
     currency_ids = models.ManyToManyField(CurrencyMaster, verbose_name=u"Secondary Currency", related_name="currency_ids", blank=True)
     active = models.BooleanField(verbose_name=u"Active",default=True)
@@ -175,9 +187,6 @@ class RateAnalysisAbstract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"Created by", null=True, blank=True)
 
-    # modified_by = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name=u"Modifield by", related_name='user_modified_by', null=True, blank=True)
-    # active = models.BooleanField(verbose_name=u"Active", default=True)
-
     class Meta:
         abstract = True
 
@@ -203,6 +212,7 @@ class RateAnalysis(RateAnalysisAbstract):
         verbose_name_plural = '     Rate Analysis'
 
     def save(self, *args, **kwargs):
+        print('rate save .....')
         # Prep the data
         data = {'filter_perc' : 0.00,
                 'society_approval_rate_perc' : 0.00,
@@ -219,6 +229,8 @@ class RateAnalysis(RateAnalysisAbstract):
         old_instance = False
         new_instance = False
         if self.id:
+            old_instance1 = RateAnalysis.objects.filter(id=self.id)
+            print('old_instance1 ===',old_instance1)
             old_instance = RateAnalysis.objects.filter(id=self.id). \
                 values('filter_perc', 'society_approval_rate_perc', 'avg_price_change_perc',
                        'status', 'remarks', 'description')
