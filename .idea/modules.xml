@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/WileyCalculator.iml" filepath="$PROJECT_DIR$/.idea/WileyCalculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Git_Wiley.iml" filepath="$PROJECT_DIR$/.idea/Git_Wiley.iml" />
     </modules>
   </component>
 </project>
