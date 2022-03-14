@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static "calc/css/style.css" %}">
+
+<section class="main-container">
+    <div class="container-md my-4">
+        <div class="rateAnalysisContainer bg-white">
+            <h5>Rate Analysis</h5>
+            <div class="table-responsive">
+                <table class="table" id="rateAnalysis">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rate Analysis No</th>
+                            <th scope="col">Scenario</th>
+                            <th scope="col">Filter Percentage</th>
+                            <th scope="col">Society Approval Rate (%)</th>
+                            <th scope="col">Average Price Change (%)</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Approve / Reject Remarks</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for scenario in scenario_data %}
+                        <tr>
+                            <td><a href="{% url 'financial-analysis-view-form' scenario.rate_analysis_no %}">{{scenario.rate_analysis_no}}</a></td>
+                            <td>{{scenario.scenario_id}}</td>
+                            <td>{{scenario.filter_perc}}</td>
+                            <td>{{scenario.society_approval_rate_perc}}</td>
+                            <td>{{scenario.avg_price_change_perc}}</td>
+                            <td>{{scenario.status}}</td>
+                            <td>{{scenario.remarks}}</td>
+
+
+                            <td>
+                                <div class="crud">
+                                    {% if request.user.is_superuser %}
+                                        <a class="bi bi-pencil-fill" href="{% url 'financial-analysis-view-form' scenario.rate_analysis_no %}"></a>
+                                    {% else %}
+                                        <a class="bi bi-pencil-fill" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"></a>
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8"><span class="fw-bold">2 Total</span></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="{% static "calc/js/main.js" %}"></script>
+{% endblock %}
