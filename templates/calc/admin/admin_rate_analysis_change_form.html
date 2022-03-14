@@ -1,0 +1,57 @@
+{% extends 'admin/change_form.html' %}
+{% load i18n admin_urls %}
+{% block object-tools-items %}
+  {% for tool in objectactions %}
+    <li class="objectaction-item" data-tool-name="{{ tool.name }}" id="{{ tool.name }}">
+      {% url tools_view_name pk=object_id tool=tool.name as action_url %}
+      <a href="{% add_preserved_filters action_url %}" title="{{ tool.standard_attrs.title }}"
+         style="background: #309bbf; border: 1px solid #309bbf;"
+         {% for k, v in tool.custom_attrs.items %}
+         {% if original.status == 'pending' %}
+            {{ k }}="{{ v }}"
+         {% else %}
+         {% endif %}
+         {% endfor %}
+         class="{{ tool.standard_attrs.class }}">
+      {{ tool.label|capfirst }}
+      </a>
+    </li>
+  {% endfor %}
+  {{ block.super }}
+{% endblock %}
+{% block submit_buttons_bottom %}
+<footer class="grp-module grp-submit-row grp-fixed-footer">
+    <header style="display:none"><h1>Submit Options</h1></header>
+    <ul>
+        {% if show_delete_link %}
+        {{ add_preserved_filters }}
+            {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+            <li class="grp-float-left"><a href="{% add_preserved_filters delete_url %}" class="grp-button grp-delete-link">{% trans "Delete" %}</a></li>
+        {% endif %}
+        {% if show_save_as_new %}
+        	<li><input type="submit" value="{% trans 'Save as new' %}" class="grp-button" name="_saveasnew" /></li>
+        {% endif %}
+        {% if show_save_and_add_another %}
+        	<li><input type="submit" value="{% trans 'Save and add another' %}" class="grp-button" name="_addanother" /></li>
+        {% endif %}
+        {% if show_save_and_continue %}
+        	<li><input type="submit" value="{% trans 'Save and continue editing' %}" class="grp-button" name="_continue" /></li>
+        {% endif %}
+        {% if show_cancel %}
+        	<li><input type="submit" value="{% trans 'Cancel' %}" class="grp-button" name="_cancel" /></li>
+        {% endif %}
+        {% if show_reopen %}
+        	<li><input type="submit" value="{% trans 'Re-open' %}" class="grp-button" name="_reopen" /></li>
+        {% endif %}
+        {% if show_reject %}
+        	<li><input type="submit" value="{% trans 'Reject' %}" class="grp-button" name="_reject" /></li>
+        {% endif %}
+        {% if show_approve %}
+        	<li><input type="submit" value="{% trans 'Approve' %}" class="grp-button" name="_approve" /></li>
+        {% endif %}
+        {% if show_save %}
+        	<li><input type="submit" value="{% trans 'Save' %}" class="grp-button grp-default" name="_save" /></li>
+        {% endif %}
+    </ul>
+</footer>
+{% endblock %}
