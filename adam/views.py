@@ -1,3 +1,5 @@
+from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -40,3 +42,15 @@ class AddressDetailsView(APIView):
                 return Response({"result": "Data Not founded"})
         else:
             return Response({"result": "Data Not founded"})
+
+
+def create_address_view(request):
+    return render(request, 'adam/create_address.html')
+
+
+def view_address(request):
+    return render(request, 'adam/view_address.html')
+
+
+def find_address(request):
+    return render(request, 'adam/find_address.html')
