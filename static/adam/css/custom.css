@@ -1,0 +1,228 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .map-btn {
+    text-decoration: none;
+
+  }
+
+  .red {
+    color: #dc3545;
+  }
+
+  .green {
+    color: #198754;
+  }
+ 
+  /* #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  } */
+  .marker {
+    background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .mapboxgl-popup {
+    max-width: 200px;
+  }
+  .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  #info {
+    display: table;
+    position: relative;
+    margin: 0px auto;
+    word-wrap: anywhere;
+    white-space: pre-wrap;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #222;
+    background: #fff;
+}
+ 
+    .calculation-box {
+        height: 75px;
+        width: 150px;
+        position: absolute;
+        bottom: 40px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        text-align: center;
+    }
+
+   
+
+.area-box {
+  position: absolute;
+  top: 50%;
+  background: #3b618236;
+  width: 150px;
+  font-size: 15px;
+  padding: 10px;
+  color: #000;
+  
+  /* height: 75px;
+  width: 150px;
+  position: absolute;
+  bottom: 40px;
+  left: 10px; */
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  text-align: center;
+  }
+  
+  #map { 
+    /* position: absolute;  */
+    top: 0;
+    bottom: 0;  
+    width: 700px;
+    height: 500px;
+     }
+    
+    .mapboxgl-popup {
+      max-width: 400px;
+      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
+
+/* with side bar css */
+/*   
+   
+   {
+    box-sizing: border-box;
+  }  
+  h1 {
+    font-size: 22px;
+    margin: 0;
+    font-weight: 400;
+  }
+  a {
+    color: #404040;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #101010;
+  }
+
+  .sidebar {
+    position: absolute;
+    width: 33.3333%;
+    height: 100%;
+     top: 0;
+    left: 0;
+    overflow: hidden; 
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+  .pad2 {
+    padding: 20px;
+  }
+  .quiet {
+    color: #888;
+  }
+   .map {
+    position: absolute;
+    left: 33.3333%;
+    width: 66.6666%;
+    top: 0;
+    bottom: 0;
+  } 
+  .heading {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    min-height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+  }
+  .listings {
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 60px;
+  }
+  .listings .item {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    text-decoration: none;
+  }
+  .listings .item:last-child {
+    border-bottom: none;
+  }
+  .listings .item .title {
+    display: block;
+    color: #00853e;
+    font-weight: 700;
+  }
+  .listings .item .title small {
+    font-weight: 400;
+  }
+  .listings .item.active .title,
+  .listings .item .title:hover {
+    color: #8cc63f;
+  }
+  .listings .item.active {
+    background-color: #f8f8f8;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-left: 0;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #00853e;
+    border-radius: 0;
+  }
+ 
+  .leaflet-popup-close-button {
+    display: none;
+  }
+  .leaflet-popup-content {
+    font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    padding: 0;
+    width: 200px;
+  }
+  .leaflet-popup-content-wrapper {
+    padding: 0;
+  }
+  .leaflet-popup-content h3 {
+    background: #91c949;
+    color: #fff;
+    margin: 0;
+    display: block;
+    padding: 10px;
+    border-radius: 3px 3px 0 0;
+    font-weight: 700;
+    margin-top: -15px;
+  }
+  .leaflet-popup-content div {
+    padding: 10px;
+  }
+  .leaflet-container .leaflet-marker-icon {
+    cursor: pointer;
+  }
+  */
