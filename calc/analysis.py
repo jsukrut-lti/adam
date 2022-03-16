@@ -19,6 +19,7 @@ from dash.exceptions import PreventUpdate
 from django_plotly_dash import DjangoDash
 import visdcc
 import logging
+import math
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
@@ -342,6 +343,8 @@ def prepare_pivot(**kwargs):
             dataframe_filter = dataframe.loc[dataframe['Percentage Change'] <= (filter_perc / 100)]
         else:
             dataframe_filter = dataframe
+
+        print(dataframe_filter)
         table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
                                index=['% category'],
@@ -364,7 +367,7 @@ def prepare_pivot(**kwargs):
         table.reset_index(inplace=True)
         table = table.drop(['index'], axis=1)
         table.infer_objects().dtypes
-        average_prie_increase = (dataframe_filter['Percentage Change'].mean() * 100) * (1 - (society_approval_rate_perc / 100 ))
+        average_prie_increase = math.ceil((dataframe_filter['Percentage Change'].mean() * 100) * (1 - (society_approval_rate_perc / 100 )))
 
         table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
     except Exception as e:
@@ -380,29 +383,39 @@ def prepare_approval_data(**kwargs):
     dataframe = kwargs.get('dataframe', False)
     approval_rate = kwargs.get('society_approval_rate_perc', False)
 
+    print(dataframe)
+
+    print(dataframe.columns)
+
     df_zero = {}
     for col in dataframe.columns:
         if col.find('-') != -1 and  col.split('-')[0] == "N":
-            dataframe[col] = dataframe[col].apply(lambda x: (x * approval_rate) / 100)
+            dataframe[col] = round(dataframe[col].apply(lambda x: ((x * approval_rate) / 100)) ,0)
             if col.split('-')[1] == "Number of Journals":
-                df_zero[col] = dataframe.drop(dataframe.index[-1]).loc[:,col].sum()
+                df_zero[col] = round(dataframe.drop(dataframe.index[-1]).loc[:,col].sum(),0)
 
+    print(df_zero)
+    print(dataframe['APC change %'].unique())
+    print(dataframe)
 
-    if '0%' not in dataframe['APC change %']:
+    if '0%' not in dataframe['APC change %'].unique():
+        print("----- insite 0 -------------")
         dataframe.loc[-1] = [0] * len(dataframe.columns)
         dataframe.index = dataframe.index + 1
         dataframe.sort_index(inplace=True)
         dataframe['APC change %'][0] = "0%"
         for key, value in df_zero.items():
             dataframe[key][0] = value
-            dataframe[key] = dataframe.apply(lambda x: dataframe.drop(dataframe.index[-1]).loc[:,key].sum()
-                                            if x['APC change %'] == "Total" else x[key], axis=1)
+            dataframe[key] = round(dataframe.apply(lambda x: dataframe.drop(dataframe.index[-1]).loc[:,key].sum()
+                                            if x['APC change %'] == "Total" else x[key], axis=1),0)
+
+    print(dataframe)
 
     for col in dataframe.columns:
         if col.find('Total') != -1 :
-            dataframe[col] = dataframe[[dif_col for dif_col in dataframe.columns
+            dataframe[col] = round(dataframe[[dif_col for dif_col in dataframe.columns
                                         if dif_col.find('-') != -1 and dif_col.split('-')[1] == col.split('-')[1]
-                                        and dif_col.find('Total') == -1]].sum(axis=1)
+                                        and dif_col.find('Total') == -1]].sum(axis=1),0)
 
     return dataframe
 
@@ -537,6 +550,7 @@ def toggle_upload_option(document_id):
 def update_datatable(society_approval_rate_perc, scenario_id, document_id, contents, filename,filter_perc):
     print('update_datatable ...',scenario_id)
     print('update_datatable document_id ...',document_id)
+    print('----start-------')
     if not scenario_id:
         print('yes....')
     else:
@@ -554,6 +568,7 @@ def update_datatable(society_approval_rate_perc, scenario_id, document_id, conte
                       }
         df = parse_contents(file_data = file_data)
     data_table,average_prie_increase = prepare_pivot(dataframe=df,society_approval_rate_perc=society_approval_rate_perc,filter_perc=filter_perc)
+    print('----end-------')
     if not data_table.empty:
         return data_table.to_dict('records'),average_prie_increase #,'17.00%'
     return [{}], 0.00
