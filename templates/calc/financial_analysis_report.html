@@ -30,23 +30,21 @@
                             <td>{{scenario.filter_perc}}</td>
                             <td>{{scenario.society_approval_rate_perc}}</td>
                             <td>{{scenario.avg_price_change_perc}}</td>
-                            <td>{{scenario.status_verbose}}</td>
+                            <td class="text-capitalize">{{scenario.status_verbose}}</td>
                             <td>{{scenario.remarks}}</td>
 
 
                             <td>
                                 <div class="crud">
                                     {% if request.user.is_superuser %}
-                                        <a class="bi bi-pencil-fill" href="#"></a>
+                                        <a class="bi bi-pencil-square" href="#"></a>
                                     {% else %}
 
                                         {% if scenario.status == 'pending' %}
-                                            <a class="bi bi-pencil-fill" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"
-                                            data-toggle="tooltip" data-placement="top" title="Edit"></a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="bi bi-pencil-fill btn-approve" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top" title="Approve"></button>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="bi bi-pencil-fill btn-reject" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top" title="Reject"></button>
+                                            <a class="bi bi-pencil-square btn-edit" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"
+                                            data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-check-square-fill btn-approve" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-x-square-fill btn-reject" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -64,14 +62,14 @@
             </div>
         </div>
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
+          <div class="modal-dialog modal-md">
+            <div class="modal-content p-3">
               <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Are you sure you want to <label id="button_lable" value=""></label> selected scenario ?</h4>
+                <h4 class="modal-title" id="myModalLabel">Are you sure you want to <label id="button_lable" value=""></label> selected scenario?</h4>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal-btn-si">Submit</button>
-                <button type="button" class="btn btn-primary" id="modal-btn-no">Cancel</button>
+              <div class="modal-footer d-flex flex-sm-wrap flex-md-nowrap">
+                <button type="button" class="btn confirmBtn" id="modal-btn-si">Yes</button>
+                <button type="button" class="btn confirmBtn" id="modal-btn-no">No</button>
               </div>
             </div>
           </div>
