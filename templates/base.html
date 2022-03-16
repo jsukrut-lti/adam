@@ -1,3 +1,4 @@
+{% load custom_tags %}
 {% load static %}
 
 
@@ -83,6 +84,25 @@
 <!--           <span class="p-2" >ADAMS</span>-->
 
       </a>
+        <div class="headerContainer">
+          <div class="headerContainerLeft">
+<!--            <h3 class="text-white mb-0 d-md-flex d-none">Analysis</h3>-->
+          </div>
+           {% show_calculator_tag user as calculator_option %}
+          <div class="headerContainerRight">
+            <div class="dropdown d-md-flex d-none" id="calculator_version">
+              <input type="text" readonly class="d-none" id="main_calculator_id" value="">
+              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-calculator-fill"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
+              {% if calculator_option %}
+                {% for loop in calculator_option %}
+                    <li><a class="dropdown-item select" href="#" onClick="return tag_calculator({{loop.id}});" id="{{loop.id}}">{{loop.name}}</a></li>
+                {% endfor %}
+              {% endif %}
+              </ul>
+            </div>
         {% if user.is_authenticated %}
           <div class="d-md-flex flex-grow-1 d-none" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
@@ -100,6 +120,8 @@
               </ul>
             </div>
         {% endif %}
+          </div>
+        </div>
   </nav>
 
   <div id="sideNav" class="overlay">
@@ -190,13 +212,26 @@
                     <span class="menu-collapsed">Calculator</span>
                   </div>
                 </a>
-                <a href="/financial-analysis" class="bg-dark list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-start align-items-center">
-<!--                    <i class="bi bi-bar-chart-fill me-3"></i>-->
-                      <i class="bi bi-search me-3"></i>
-                    <span class="menu-collapsed">Analysis</span>
-                  </div>
-                </a>
+                <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
+                      class="bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
+                      <div class="d-flex w-100 justify-content-start align-items-center">
+                        <!-- <span class="fa fa-users fa-fw me-3"></span> -->
+                        <i class="bi bi-people-fill me-3"></i>
+                        <span class="menu-collapsed">Analysis</span>
+                        <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
+                      </div>
+                    </a>
+                <div id='submenu3' class="collapse sidebar-submenu">
+                      <a href="/financial-analysis" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="menu-collapsed">Create Scenario</span>
+                      </a>
+
+                    </div>
+                <div id='submenu3' class="collapse sidebar-submenu">
+                      <a href="/financial-analysis-report" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="menu-collapsed">Scenario Reports</span>
+                      </a>
+                    </div>
 <!--                <a href="/analysis" class="bg-dark list-group-item list-group-item-action">-->
 <!--                  <div class="d-flex w-100 justify-content-start align-items-center">-->
 <!--                    <i class="bi bi-search me-3"></i>-->

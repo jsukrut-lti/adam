@@ -929,6 +929,76 @@ thead tr {
     display: none;
 }
 
+/* header CSS */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.headerContainer .headerContainerLeft {
+  margin-left: 35px;
+  font-size: 24px;
+}
+.headerContainer .headerContainerRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.headerContainer .dropdown .btn {
+  opacity: 1;
+  padding: 0;
+  line-height: unset;
+  font-size: 15px;
+}
+.headerContainer .dropdown .btn::after {
+  display: none;
+}
+.headerContainer .dropdown .btn:hover,
+.headerContainer .dropdown .btn:focus {
+  box-shadow: none;
+  border: none;
+}
+.headerContainer .dropdown ul.dropdown-menu {
+  padding: 0;
+  font-size: 15px;
+  margin-top: 5px;
+  left: -127px;
+  background: #4599b3;
+  border: none;
+}
+/* .headerContainer .dropdown .btn.show i.bi-calculator-fill {
+  position: relative;
+} */
+/* .headerContainer .dropdown .btn.show i.bi-calculator-fill::after {
+  content:'';
+  position: absolute;
+  z-index: 1111;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 18px solid white;
+  display: block;
+  margin-left: auto;
+  margin-right: 5px;
+} */
+.navbar .bi::before {
+  font-size: 18px;
+}
+.headerContainer .dropdown ul.dropdown-menu .dropdown-item {
+  padding: 8px 15px;
+  color: #ffffff;
+  font-family: 'Lora', serif;
+  font-size: 16px;
+}
+.headerContainer .dropdown ul.dropdown-menu .dropdown-item:hover {
+  background: #5fa2b7;
+  padding-left: 20px;
+}
+/* header CSS */
+
 @media (max-width: 767px) {
   .mainsection {
     width: 100%;

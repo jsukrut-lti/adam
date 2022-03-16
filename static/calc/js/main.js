@@ -1,4 +1,12 @@
 $(document).ready( function () {
+
+    $('#rateAnalysis').DataTable({
+        paging: true,
+        searching: true,
+        info : true,
+        order: [],
+    });
+
     $('#bauMax20').DataTable({
         "pageLength": 5,
         // ordering: false,
@@ -423,5 +431,6 @@ $("#dd_calculator").change(function () {
     const calculator_id = $(this).val();
 //    calculator_data_load(calculator_id);
 });
+
 
 // Project Code Ends Here

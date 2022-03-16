@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import json
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -18,6 +18,8 @@ from .models import *
 import logging
 
 logger = logging.getLogger(__file__)
+
+button_values_dict = {'Approve': 'approve','Reject': 'reject', 'Cancel': 'cancel', 'Re-open': 'pending', 'Re-Open': 'pending'}
 
 def index(request):
     if (request.path == '/'):
@@ -47,13 +49,12 @@ def get_calculator_id(request):
 
 def page_index(request):
     if request.user.is_authenticated:
-        return render(request, 'home.html')
-        # calculator_id = get_calculator_id(request)
-        # all_calculator_data = []
-        # if request.user.is_superuser:
-        #     all_calculator_data = CalculatorMaster.objects.filter(active=True,is_published=True).values('id','name').distinct('name')
-        # return render(request,'calc/calculator.html',{"calculator_id": calculator_id,
-        #                                               "all_calculator_data": all_calculator_data})
+        calculator_id = get_calculator_id(request)
+        all_calculator_data = []
+        if request.user.is_superuser:
+            all_calculator_data = CalculatorMaster.objects.filter(active=True,is_published=True).values('id','name').distinct('name')
+        return render(request,'calc/calculator.html',{"calculator_id": calculator_id,
+                                                      "all_calculator_data": all_calculator_data})
     else:
         return redirect('login')
 
@@ -136,11 +137,39 @@ def get_profile(request):
     else:
         return redirect("login")
 
-def financial_analysis_view(request):
+def financial_analysis_view(request, **kwargs):
+    print ('\n financial_analysis_view dkjsndj ======',kwargs)
+    search_key = kwargs.get('key',False)
+    search_key = search_key and search_key.strip() and search_key
+    search_key_list = []
+    search_cond_list = []
+    search_cond_dict = {}
+    if search_key:
+        if '&' in search_key:
+            search_key_list = search_key.split('&')
+        if search_key_list:
+            for search in search_key_list:
+                if '=' in search:
+                    search_cond_list = search.split('=')
+                    if search_cond_list[1].isdigit():
+                        reference_id_str = search_cond_list[1] and int(search_cond_list[1]) or search_cond_list[1]
+                        search_cond_dict[search_cond_list[0]] = reference_id_str
+                    else:
+                        search_cond_dict[search_cond_list[0]] = search_cond_list[1]
+        if not search_key_list and '=' in search_key:
+            search_cond_list = search_key.split('=')
+            if search_cond_list[1].isdigit():
+                reference_id_str = search_cond_list[1] and int(search_cond_list[1]) or search_cond_list[1]
+                search_cond_dict[search_cond_list[0]] = reference_id_str
+            else:
+                search_cond_dict[search_cond_list[0]] = search_cond_list[1]
     calculator_id = 0
     calc_filters = {'active': True, 'is_published': True}
     if request.user.is_authenticated:
         if not request.user.is_superuser:
+            profile_filter_obj = Profile.objects.filter(user=request.user.id)
+            if not profile_filter_obj:
+                return redirect('login')
             profile_obj = Profile.objects.get(user=request.user.id)
             calculator_rec = profile_obj and profile_obj.calculator_id or False
             calculator_id = calculator_rec and calculator_rec.id or 0
@@ -150,233 +179,117 @@ def financial_analysis_view(request):
         calc_filter_obj = calc_filter_obj and list(calc_filter_obj) or []
         calc_filter_obj = len(calc_filter_obj)>0 and calc_filter_obj[0] or calc_filter_obj
         calculator_id = calc_filter_obj and calc_filter_obj.get('pk',0) or calculator_id
-        context = {'dash_input': {
-                                    'user_id': {'value': request.user.id},
-                                    'calculator_id': {'value': calculator_id},
-                                    # 'fig_dropdown': {'value': calculator_id},
-                                },
-                  }
+        # search_cond_dict and context.update(search_cond_dict) or context
+        param = { 'user_id': {'value': request.user.id },
+                  'calculator_id': {'value': calculator_id },
+                }
+        if search_cond_dict:
+            rate_analysis_obj = RateAnalysis.objects.get(id=search_cond_dict.get('rate_analysis_id'))
+            load_param_dict = search_cond_dict
+            load_param_dict['filter_perc'] = rate_analysis_obj.filter_perc
+            load_param_dict['society_approval_rate_perc'] = rate_analysis_obj.society_approval_rate_perc
+            load_param_dict['avg_price_change_perc'] = rate_analysis_obj.avg_price_change_perc
+            load_param_dict['description'] = rate_analysis_obj.description and rate_analysis_obj.description.strip() or 0
+            load_param_dict['document_id'] = rate_analysis_obj.document_id and rate_analysis_obj.document_id.id or 0
+            for k,v in load_param_dict.items():
+                param.update({k : {'value': v}})
+        print ('papaapp ===',param)
+        context = {'dash_input': param, }
         return render(request, 'calc/financial_analysis.html', context)
     return redirect('login')
 
-# def financial_analysis_view(request):
-#     print ('\n financial_analysis_view')
-#     from django_plotly_dash import DjangoDash
-#     # from .analysis import layout
-#     data = {'symbol': 'Ƀ 0.0',
-#      'btc_percentage': 10.00,
-#      'bitcoin_balance': 3000,
-#      'usd_percentage': 23.25,
-#      'usd_balance': 4000,
-#      'user_usd_balance': '5000',
-#      'user_btc_balance': 2400,
-#      'user_btc_value': '2350',
-#      'portfolio_balance': '1900',
-#      'change': 12,
-#      # 'transaction': transaction,
-#      'message': '* Reset will delete the transactions history...'}
-#     return render(request, 'calc/financial_analysis.html', data)
 
-# def session_state_view(request, template_name, **kwargs):
-#
-#     session = request.session
-#
-#     demo_count = session.get('django_plotly_dash', {})
-#
-#     ind_use = demo_count.get('ind_use', 0)
-#     ind_use += 1
-#     demo_count['ind_use'] = ind_use
-#     session['django_plotly_dash'] = demo_count
-#
-#     # Use some of the information during template rendering
-#     context = {'ind_use' : ind_use}
-#
-#     return render(request, template_name=template_name, context=context)
+def financial_analysis_report(request):
+    if request.user.is_authenticated:
+        calculator_id = get_calculator_id(request)
+        scenario_data = RateAnalysis.objects.filter(created_by=request.user.id)
+        if request.user.is_superuser:
+            scenario_data = RateAnalysis.objects.all()
 
-# import pandas as pd
-# from django.conf import settings
-# from calc.models import *
-# import datetime
-# import itertools
-# from django.shortcuts import render,redirect
-# from dash import dcc, html, callback_context, dash_table as dt
-# from dash.dash_table import DataTable, FormatTemplate
-# from dash.dash_table.Format import Format, Group
-# import plotly.express as px
-# from dash.dependencies import Input, Output, State, MATCH, ALL
-# from dash.exceptions import PreventUpdate
-# import plotly.graph_objs as go
-# from django_plotly_dash import DjangoDash
-# import logging
-# logger = logging.getLogger(__file__)
-#
-# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',{'href':'http://127.0.0.1:8000/static/calc/css/style.css', 'rel': 'stylesheet'}]
-# app = DjangoDash('AnalysisApp', external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
-#
-# sales = pd.read_csv('C:\\Users\\Lenovo\\Documents\\GitHub\\wileydash\\scripts\\train.csv')
-# percentage = FormatTemplate.percentage(2)
-#
-# ### Test Data
-# column_names = ["APC change %",
-#                 "N-Number of journals", "N-Revenue change $",
-#                 "J-Number of journals", "J-Revenue change $",
-#                 "O-Number of journals", "O-Revenue change $",
-#                 "Total Number of journals",
-#                 "Total Number of journals1",
-#                 "Total Number of journals2",
-#                 "Total Number of journals3",
-#                 "Total Number of journals4",
-#                 "Total Number of journals5",
-#                 "Total Revenue change $"]
-# df = pd.DataFrame(columns = column_names)
-# df = df.append({
-#                 'APC change %' : '1-2%',
-#                 'N-Number of journals' : 78,
-#                 'N-Revenue change $' : 109531,
-#                 'J-Number of journals' : 50,
-#                 'J-Revenue change $' : 69475,
-#                 'O-Number of journals' : 225,
-#                 'O-Revenue change $' : 344570,
-#                 'Total Number of journals' : 353,
-#                 'Total Revenue change $' : 523576,
-#                 }, ignore_index = True)
-# df = df.append({
-#                 'APC change %' : '3-5%',
-#                 'N-Number of journals' : 5,
-#                 'N-Revenue change $' : 12450,
-#                 'J-Number of journals' : 9,
-#                 'J-Revenue change $' : 97520,
-#                 'O-Number of journals' : 95,
-#                 'O-Revenue change $' : 257232,
-#                 'Total Number of journals' : 109,
-#                 'Total Revenue change $' : 367202,
-#                 }, ignore_index = True)
-# df = df.append({
-#                 'APC change %' : '6-10%',
-#                 'N-Number of journals' : 4,
-#                 'N-Revenue change $' : 14576,
-#                 'J-Number of journals' : 7,
-#                 'J-Revenue change $' : 56780,
-#                 'O-Number of journals' : 41,
-#                 'O-Revenue change $' : 307496,
-#                 'Total Number of journals' : 52,
-#                 'Total Revenue change $' : 378753,
-#                 }, ignore_index = True)
-# print(df)
-#
-# colors = {
-#     'background': '#ffffff',
-#     'text': '#212529'
-# }
-#
-# app.layout = html.Div([
-#     html.Div([
-#         html.Div([
-#             html.P('Select Scenario', className='fix_label',
-#                    style={'color': colors['text']}),
-#             dcc.Dropdown(id='fig_dropdown',
-#                          options=[{'label': i, 'value': i}
-#                                   for i in ['BAU - min 2%, max 20%', 'Summary - Max % increase', 'Summary - Volume threshold', 'Impact Factor threshold']],
-#                          value='Summary - Max % increase',
-#                          style={'textAlign': 'left', 'color': 'black',
-#                                 'height': '36px', 'width': '290px'},
-#                          className='dcc_compon'),
-#         ], className='one-third column', id='title13', style={'margin-left':'0','width': '100%'}),
-#
-#         html.Div([
-#             html.P('Society Approval Rate (%)', className='fix_label',
-#                    style={'color': colors['text']}),
-#             dcc.Input(id='approval_rate', type='number', value=20.00,
-#                       style={'height': '36px', 'width': '290px'},
-#                       ),
-#         ], className='one-third column', id='title4', style={'margin-left':'0'}),
-#
-#         html.Div([
-#             html.P('Average Price Increase', className='fix_label',
-#                    style={'color': colors['text']}),
-#             dcc.Input(id='avg_price_increase', type='text', value="0.00%",
-#                       style={'height': '36px', 'width': '290px'},
-#                       ),
-#         ], className='one-third column', id='title6', style={'margin-left':'0'}),
-#
-#         html.Div([
-#             html.P('Combined average price increase (Gold + Hybrid)',
-#                    className='fix_label', style={'color': colors['text']},
-#                    ),
-#             dcc.Input(id='comb_avg_price_increase', type='text', value="0.00%",
-#                       style={'height': '36px', 'width': '290px'},
-#                       # format=Format(symbol_suffix=percentage).group(True).precision(0),
-#                       ),
-#         ], className='one-third column', id='title7', style={'margin-left':'0'}),
-#
-#     ], style={'display': 'flex', 'flex-wrap':'wrap', 'justify-content':'start', 'align-items':'center', 'row-gap':'30px', 'gap': '30px', 'margin-bottom':'30px'}),
-#
-#     html.Div([
-#         html.Div([
-#             dt.DataTable(id='my_datatable2',
-#                          columns=[
-#                              {"name": ["", "APC change %"], "id": "APC change %"},
-#                              {"name": ["N-Society Owned", "Number of journals"], "id": "N-Number of journals"},
-#                              {"name": ["N-Society Owned", "Revenue change $"], "id": "N-Revenue change $"},
-#                              {"name": ["J-Joint Owned", "Number of journals"], "id": "J-Number of journals"},
-#                              {"name": ["J-Joint Owned", "Revenue change $"], "id": "J-Revenue change $"},
-#                              {"name": ["O-Proprietary Owned", "Number of journals"], "id": "O-Number of journals"},
-#                              {"name": ["O-Proprietary Owned", "Revenue change $"], "id": "O-Revenue change $"},
-#                              {"name": ["", "Total Number of journals"], "id": "Total Number of journals"},
-#                              {"name": ["", "Total Number of journals1"], "id": "Total Number of journals1"},
-#                              {"name": ["", "Total Number of journals2"], "id": "Total Number of journals2"},
-#                              {"name": ["", "Total Number of journals3"], "id": "Total Number of journals3"},
-#                              {"name": ["", "Total Number of journals4"], "id": "Total Number of journals4"},
-#                              {"name": ["", "Total Number of journals5"], "id": "Total Number of journals5"},
-#                              {"name": ["", "Total Revenue change $"], "id": "Total Revenue change $"},
-#                          ],
-#
-#                          virtualization=True,
-#                          style_cell={'textAlign': 'center',
-#                                      'min-width': '100px',
-#                                      'backgroundColor': '#1f2c56',
-#                                      'color': '#FEFEFE',
-#                                      'border-bottom': '0.01rem solid #19AAE1',
-#                                      'font-size': '15px',
-#                                      'height': '40px'},
-#                          style_header={'backgroundColor': '#1f2c56',
-#                                        'fontWeight': 'bold',
-#                                        'font': 'Lato, sans-serif',
-#                                        'color': 'orange',
-#                                        'border': '#1f2c56',
-#                                        'font-size': '18px'},
-#                          style_as_list_view=True,
-#                          style_data={'styleOverflow': 'hidden',
-#                                      'color': 'white', 'font-size': '14px',
-#                                      'font-weight': '520',
-#                                      'font-family': 'sans-serif'},
-#                          fixed_rows={'headers': True},
-#                          sort_action='native',
-#                          page_size=6,
-#                          style_header_conditional=[
-#                              {'if': {'column_id': 'Customer ID', 'header_index': 0},
-#                               'text-align': '-webkit-center'},
-#                              {'if': {'column_id': 'Customer Name',
-#                                      'header_index': 0}, 'text-align': '-webkit-center'},
-#                              {'font-size': '16px',
-#                               'font-weight': '580',
-#                               'font-family': 'sans-serif'}
-#                          ],
-#                          merge_duplicate_headers=True,
-#                          sort_mode='multi')
-#
-#         ], className='create_container2'),
-#
-#     ], className='row flex-display')
-#
-# ], id='mainContainer', style={'display': 'flex', 'flexDirection': 'column', 'padding':'15px'})
-#
-#
-# @app.callback(Output('my_datatable2', 'data'),
-#               Output('comb_avg_price_increase', 'value'),
-#               [Input('approval_rate', 'value'), Input('fig_dropdown', 'value')])
-# def update_datatable(approval_rate, fig_dropdown):
-#     print('fig_dropdown=====',fig_dropdown)
-#     data_table = df
-#     return [data_table.to_dict('records'),'17.00%']
+        context = {
+                    'user_id': request.user.id,
+                    'calculator_id': calculator_id,
+                    'scenario_data': scenario_data
+                }
 
+        return render(request, 'calc/financial_analysis_report.html', context)
+    return redirect('login')
+
+
+def financial_analysis_view_form(request, key):
+    if request.user.is_authenticated:
+        calculator_id = get_calculator_id(request)
+        if request.user.is_superuser:
+            rate_analysis_rec = RateAnalysis.objects.filter(rate_analysis_no=key)
+        else:
+            rate_analysis_rec = RateAnalysis.objects.filter(created_by=request.user.id, rate_analysis_no=key)
+        rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+        rate_analysis_rec = rate_analysis_rec and rate_analysis_rec[0] or False
+        update_data = {}
+        #### Starts Here ####
+        if request.method == 'POST':
+            post = request.POST
+            post.get('approve', False)
+            post.get('description', False)
+            post.get('remarks', False)
+            rate_analysis_rec = RateAnalysis.objects.filter(rate_analysis_no=key)
+            rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+            rate_analysis_rec = rate_analysis_rec and rate_analysis_rec[0] or False
+            status = button_values_dict.get(post.get('status', False))
+            update_data = {}
+            if status == 'edit_price':
+                pass
+            else:
+                if rate_analysis_rec.status != status:
+                    if rate_analysis_rec.description != post.get('description', False):
+                        update_data['description'] = post.get('description', False)
+                    if rate_analysis_rec.remarks != post.get('remarks', False):
+                        update_data['remarks'] = post.get('remarks', False)
+                    update_data['status'] = status
+            if update_data:
+                rate_analysis_rec.__dict__.update(update_data)
+                rate_analysis_rec.modified_by = request.user
+                rate_analysis_rec.save()
+        #### Ends Here ####
+        if rate_analysis_rec:
+            rate_analysis_detail_rec = RateAnalysisDetails.objects.filter(rate_analysis_id=rate_analysis_rec.id)
+            rate_analysis_detail_rec = rate_analysis_detail_rec and list(rate_analysis_detail_rec) or []
+            rate_analysis_history_rec = RateAnalysisHistory.objects.filter(rate_analysis_id=rate_analysis_rec.id)
+            rate_analysis_history_rec = rate_analysis_history_rec and list(rate_analysis_history_rec) or []
+            context = {
+                'user_id': request.user.id,
+                'calculator_id': calculator_id,
+                'scenario_data': rate_analysis_rec,
+                'scenario_details_data': rate_analysis_detail_rec,
+                'scenario_history_data': rate_analysis_history_rec,
+            }
+            return render(request, 'calc/rate_analysis_change.html', context)
+    return redirect('login')
+
+def update_scenario_status(request):
+    output_data = []
+    status = request.GET.get('status', False)
+    scenario_id = request.GET.get('scenario_id', False)
+
+    rate_analysis_rec = RateAnalysis.objects.filter(pk=int(scenario_id)). \
+        values('status','rate_analysis_no')
+    rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+    rate_analysis_rec_data = rate_analysis_rec and rate_analysis_rec[0] or {}
+    print(rate_analysis_rec_data)
+    if status == "A":
+        status = "approve"
+    elif status == "R":
+        status = "reject"
+
+    if rate_analysis_rec_data:
+        parent_data = {
+            'modified_by': request.user.id,
+            'status': status
+        }
+        rate_analysis_update_rec = RateAnalysis.objects.filter(pk=int(scenario_id)).update(
+            **parent_data)
+
+    rate_analysis_rec = RateAnalysis.objects.get(pk=int(scenario_id))
+
+    output_data = {'flag': 1,'status' : status,'rate_analysis_no':rate_analysis_rec_data['rate_analysis_no']}
+    return HttpResponse(json.dumps(output_data), content_type='application/json')
