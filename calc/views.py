@@ -47,12 +47,13 @@ def get_calculator_id(request):
 
 def page_index(request):
     if request.user.is_authenticated:
-        calculator_id = get_calculator_id(request)
-        all_calculator_data = []
-        if request.user.is_superuser:
-            all_calculator_data = CalculatorMaster.objects.filter(active=True,is_published=True).values('id','name').distinct('name')
-        return render(request,'calc/calculator.html',{"calculator_id": calculator_id,
-                                                      "all_calculator_data": all_calculator_data})
+        return render(request, 'home.html')
+        # calculator_id = get_calculator_id(request)
+        # all_calculator_data = []
+        # if request.user.is_superuser:
+        #     all_calculator_data = CalculatorMaster.objects.filter(active=True,is_published=True).values('id','name').distinct('name')
+        # return render(request,'calc/calculator.html',{"calculator_id": calculator_id,
+        #                                               "all_calculator_data": all_calculator_data})
     else:
         return redirect('login')
 
