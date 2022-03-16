@@ -10,5 +10,7 @@ urlpatterns = [
     # path('view_address/', TemplateView.as_view(template_name="adam/view_address.html"))
     path('create_address/', views.create_address_view),
     path('view_address/', views.view_address),
-    path('find_address/', views.find_address)
+    path('find_address/', views.find_address),
+    path('add_address/', views.create_address)
+
 ]

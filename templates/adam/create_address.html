@@ -11,7 +11,7 @@
 
         </div>
         <div class="col-4 text-center">
-          <a class="blog-header-logo text-dark text-decoration-none" href="#"> ADAMS </a>
+          <a class="blog-header-logo text-dark text-decoration-none" href="#"> PANEL </a>
         </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
 
@@ -29,20 +29,25 @@
             <!-- <p>Click the map to draw a polygon.</p> -->
             <!-- <div id="calculated-area"></div> -->
           <!-- </div> -->
-          <form>
+            <table id="list_view">
+                <thead>
+                    <tr>
+
+                    </tr>
+                </thead>
+            </table>
             <table id="yourLabelId" class="table table-bordered">
             <thead>
               <tr>
                 <th> Co ordinates</th>
                 <th> Locations</th>
+                  <th> Remove</th>
               </tr>
             </thead>
             <tbody>
 
             </tbody>
 			</table>
-
-			</form>
             <button type="button" class="btn btn-primary submitbtn" style="display:none;">Create</button>
 			<input type="hidden" name="area_value" id="area_value" value="">
         </div>
@@ -60,7 +65,10 @@
 <script>
 
 	$(document).ready(function(){
-		showing_addresss()
+<!--		showing_addresss()-->
+		$("#yourLabelId").on('click','.btnDelete',function(){
+			$(this).closest('tr').remove();
+		});
     })
 
 
@@ -97,22 +105,67 @@
 
 	  address = showing_table(store)
 	  split_address = address.split(',')
-	  store_address(split_address,store)
+<!--      store_address(split_address,store)-->
 
+      add_value = {
+        "lat": store.lng,
+        "lat": store.lat,
+        "city": split_address[0],
+        "state": split_address[1],
+      }
+      console.log(add_value)
 	  $('#area_value').val(function(i,val) {
-			 return val + (!val ? '' : ', ') + "[" + locationValues + "]";
-		});
+			 return val + (!val ? '' : ', ') + "[" + add_value + "]";
+	   });
 
-
-	  document.querySelector('#yourLabelId tbody').innerHTML += `<tr>
-              <td> ${locationValues} </td>
-              <td> ${address} </td>
-          </tr>`
+    document.querySelector('#yourLabelId tbody').innerHTML += "<td data-lat='"+store.lat+"' data-lng='"+store.lng+"'>"+locationValues+"</td><td>"+split_address[0]+"</td><td><button type='button' class='btnDelete'>Remove</button></td></tr>"
+<!--	  document.querySelector('#yourLabelId tbody').innerHTML += `<tr>-->
+<!--              <td> ${locationValues} </td>-->
+<!--              <td> ${address} </td>-->
+<!--          </tr>`-->
     });
 
 
   </script>
   <script>
+    $('.submitbtn').click(function(e){
+		e.preventDefault();
+		var rowCount = $('#yourLabelId tbody tr').length;
+        var jsonObj = []
+		$("#yourLabelId tbody td").each(function(){
+			var lat = $(this).attr("data-lat")
+			var lng = $(this).attr("data-lng")
+			if (lat != undefined && lng != undefined){
+				console.log(lat)
+				console.log(lng)
+				datas = {
+				            'address_title': "test",
+				            'address_type': "current",
+				            'address_line1':"1st street",
+				            'address_line2': "west",
+				            'city':"chennai",
+                            'state':"tamilnadu",
+                            'country': "india",
+                            'postal_code': "657680",
+                            'latitude': lat,
+                            'longitude': lng
+					    }
+				jsonObj.push(datas)
+			}
+		})
+
+        jsonString = JSON.stringify(jsonObj);
+        console.log(jsonString);
+        $.ajax({
+            type:"POST",
+            url: "/add_address/",
+            data: jsonString,
+            dataType: 'json',
+            success: function(res){
+                console.log(res)
+            }
+        })
+	})
 
 	function showing_table(store){
 	  url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + store.lng + "," + store.lat + ".json?access_token=" + mapboxgl.accessToken
