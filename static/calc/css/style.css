@@ -854,7 +854,7 @@ body.show::after {
 .rateAnalysisContainer .table tbody > tr > td .crud a,
 .rateAnalysisChangeContainer .table tbody > tr > td .crud a {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid;
   padding: 2px 5px;
 }
