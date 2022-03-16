@@ -305,6 +305,138 @@ body.show::after {
   }
 }
 
+/* Not Found CSS Start Here... */
+.notFoundContainer h1, .notFoundContainer h3, .notFoundContainer p, .notFoundContainer .btn, .notFoundContainer span {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.notFoundContainer h1 {
+  font-weight: 600;
+  font-size: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.notFoundContainer h1 span:nth-child(1) {
+  -webkit-animation: bounce 1s ease infinite;
+          animation: bounce 1s ease infinite;
+}
+
+.notFoundContainer h1 span:nth-child(2) {
+  -webkit-animation: bounce 1s ease infinite 0.1s;
+          animation: bounce 1s ease infinite 0.1s;
+}
+
+.notFoundContainer h1 span:nth-child(3) {
+  -webkit-animation: bounce 1s ease infinite 0.2s;
+          animation: bounce 1s ease infinite 0.2s;
+}
+
+.notFoundContainer h3 {
+  font-weight: 600;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.notFoundContainer p {
+  margin-bottom: 10px;
+}
+
+.notFoundContainer p a {
+  color: #ed7d31;
+  text-decoration: none;
+  position: relative;
+}
+
+.notFoundContainer p a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: #ed7d31;
+}
+
+.notFoundContainer p a:hover::after {
+  width: 100%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.notFoundContainer .btn {
+  background: #0070c0;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.notFoundContainer .btn:hover {
+  background: #065085;
+}
+
+.notFoundContainer .notfound {
+  height: 100vh;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#0070c0), to(#ed7d31));
+  background-image: linear-gradient(to bottom right, #0070c0, #ed7d31);
+  color: #ffffff;
+}
+
+.notFoundContainer .notfound .notfoundcontent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 15px;
+}
+
+.notFoundContainer .notfound .notfoundcontent .btn {
+  max-width: 200px;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    -webkit-transform: scale(1, 1) translateY(-25px);
+            transform: scale(1, 1) translateY(-25px);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    -webkit-transform: scale(1, 1) translateY(-25px);
+            transform: scale(1, 1) translateY(-25px);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+
 /* Analysis CSS Start Here... */
 .analysisContainer {
   font-size: 12px;
@@ -673,11 +805,6 @@ body.show::after {
   opacity: 1;
 }
 
-.rateAnalysisContainer .table thead > tr > th:last-child,
-.rateAnalysisChangeContainer .table thead > tr > th:last-child {
-  width: 25px !important;
-}
-
 .rateAnalysisContainer .table tbody > tr > td,
 .rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
@@ -700,11 +827,6 @@ body.show::after {
   opacity: 1;
 }
 
-.rateAnalysisContainer .table tbody > tr > td:last-child,
-.rateAnalysisChangeContainer .table tbody > tr > td:last-child {
-  width: 25px !important;
-}
-
 .rateAnalysisContainer .table tbody > tr > td a,
 .rateAnalysisChangeContainer .table tbody > tr > td a {
   color: #ffffff;
@@ -724,6 +846,32 @@ body.show::after {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  gap: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a {
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid;
+  padding: 2px 5px;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-edit {
+  background: #ffc107;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-approve,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-approve {
+  background: #198754;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-reject,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-reject {
+  background: #dc3545;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud i,
@@ -918,15 +1066,6 @@ body.show::after {
   top: 0;
 }
 
-/* Dynamic status highlight starts */
-.rateAnalysisChangeContainer #crumbs ul li a.selected_status {
-  background: #d9534f;
-}
-.rateAnalysisChangeContainer #crumbs ul li a.selected_status::after {
-  border-left-color: #d9534f;
-}
-/* Dynamic status highlight ends */
-
 .rateAnalysisChangeContainer #crumbs ul li a.inProgress {
   background: #f0ad4e;
 }
@@ -1039,56 +1178,37 @@ body.show::after {
   color: #ffffff;
   opacity: 0.7;
 }
+
+.modal .modal-dialog {
+  -webkit-transform: translate(-50%, -50%) !important;
+          transform: translate(-50%, -50%) !important;
+  top: 50%;
+  left: 50%;
+  margin: 0 30px 0 0;
+}
+
+.modal .modal-header .modal-title {
+  font-size: 18px;
+}
+
+.modal .modal-footer {
+  gap: 15px;
+}
+
+.modal .modal-footer .confirmBtn {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.modal .modal-footer .confirmBtn:hover {
+  opacity: 0.85;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-si {
+  background: #198754 !important;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-no {
+  background: #dc3545 !important;
+}
 /*# sourceMappingURL=style.css.map */
-
-
-/* ### Datatable Export css ### */
-div button.export {background:url('http://127.0.0.1:8000/static/calc/images/export.png');}
-div button.export {
-color: transparent;
-border: none;
-background-repeat: no-repeat;
-}
-.export::after {
-    content: 'Download Result ';
-    background-color: #0c1639;
-    display: none;
-    position: absolute;
-    width: 200px;
-    height: 35px;
-    z-index: 999;
-    color: white;
-    margin-left: 12px;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: capitalize;
-    padding: 2px 15px;
-    position: absolute;
-    margin-top: -40px;
-}
-.export::before {
-    background-color: #0c1639;
-    display: none;
-    position: absolute;
-    width: 200px;
-    height: 35px;
-    z-index: 999;
-    color: white;
-    margin-left: 12px;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: capitalize;
-}
-.export:hover::after {
-display: block;
-}
-.export:hover::before {
-display: block;
-}
-/* ### Datatable Export css ### */

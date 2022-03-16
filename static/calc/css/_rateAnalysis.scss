@@ -62,7 +62,7 @@
                 }
 
                 &:last-child {
-                    width: 25px !important;
+                    // width: 25px !important;
                 }
             }
         }
@@ -89,7 +89,7 @@
                 }
 
                 &:last-child {
-                    width: 25px !important;
+                    // width: 25px !important;
                 }
 
                 a {
@@ -104,6 +104,27 @@
                 .crud {
                     display: flex;
                     justify-content: center;
+                    gap: 15px;
+                    flex-wrap: wrap;
+
+                    a {
+                        cursor: pointer;
+                        font-size: 14px;
+                        border: 1px solid;
+                        padding: 2px 5px;
+
+                        &.btn-edit {
+                            background: #ffc107;
+                        }
+
+                        &.btn-approve {
+                            background: #198754;
+                        }
+
+                        &.btn-reject {
+                            background: #dc3545;
+                        }
+                    }
 
                     i {
                         cursor: pointer;
@@ -397,6 +418,44 @@
                         opacity: 0.7;
                     }
                 }
+            }
+        }
+    }
+}
+
+.modal {
+    .modal-dialog {
+        transform: translate(-50%, -50%) !important;
+        top: 50%;
+        left: 50%;
+        margin: 0 30px 0 0;
+    }
+    
+    .modal-header {
+        .modal-title {
+            font-size: 18px;
+        }
+    }
+
+    .modal-footer {
+        gap: 15px;
+
+        .confirmBtn {
+            // background: #4599b3 !important;
+            color: #ffffff;
+            opacity: 1;
+
+            &:hover {
+                // background: #67a5b9 !important;
+                opacity: 0.85;
+            }
+
+            &#modal-btn-si {
+                background: #198754 !important;
+            }
+
+            &#modal-btn-no {
+                background: #dc3545 !important;
             }
         }
     }
