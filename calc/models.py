@@ -135,6 +135,11 @@ class Document(models.Model):
         db_table = 'document_master'
         verbose_name_plural = ' Document'
 
+    def get_file_name(self):
+        base = os.path.basename(str(self.document))
+        os.path.splitext(base)
+        return '{}{}'.format(os.path.splitext(base)[0], os.path.splitext(base)[1])
+
     def clean(self):
         self.is_cleaned = True
         if False:
@@ -190,6 +195,11 @@ class RateAnalysisAbstract(models.Model):
     class Meta:
         abstract = True
 
+    def status_verbose(self):
+        if self.status:
+            return dict(self.STATUS)[self.status]
+        return ''
+
 class RateAnalysis(RateAnalysisAbstract):
 
     rate_analysis_no = models.CharField(max_length=20, default=increment_rate_analysis_number, editable=False)
@@ -199,7 +209,7 @@ class RateAnalysis(RateAnalysisAbstract):
                                     related_name='rate_analysis_document_id', null=True, blank=True)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE,related_name='rate_analysis_user_id', null=True, blank=True)
     modified_by = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name=u"Last Edited by", related_name='user_modified_by', null=True, blank=True)
-    modified_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
          return self.rate_analysis_no
@@ -229,8 +239,6 @@ class RateAnalysis(RateAnalysisAbstract):
         old_instance = False
         new_instance = False
         if self.id:
-            old_instance1 = RateAnalysis.objects.filter(id=self.id)
-            print('old_instance1 ===',old_instance1)
             old_instance = RateAnalysis.objects.filter(id=self.id). \
                 values('filter_perc', 'society_approval_rate_perc', 'avg_price_change_perc',
                        'status', 'remarks', 'description')
@@ -240,7 +248,7 @@ class RateAnalysis(RateAnalysisAbstract):
         obj = super(RateAnalysis, self).save(*args, **kwargs)
         new_instance = RateAnalysis.objects.filter(id=self.id).\
             values('filter_perc', 'society_approval_rate_perc', 'avg_price_change_perc',
-                   'status', 'remarks', 'description','id')
+                   'status', 'remarks', 'description','id', 'modified_by')
         if (old_instance and new_instance):
             diff = list(dictdiffer.diff(old_instance[0], new_instance[0]))
             filtered_diff = diff and list(filter(lambda x: x[0] == 'change', diff)) or []
@@ -281,3 +289,6 @@ class RateAnalysisHistory(RateAnalysisAbstract):
     class Meta:
         db_table = 'calc_rate_analysis_history'
         verbose_name_plural = '     Rate Analysis History'
+
+    def action_verbose(self):
+        return dict(self.ACTIONS)[self.action]

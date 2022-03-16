@@ -19,7 +19,7 @@ from . import views
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
-from calc import analysis
+from calc import analysis , analysis01
 
 urlpatterns=[
   path('',views.index),
@@ -34,4 +34,5 @@ urlpatterns=[
   path('logout/',views.logout_view,name='logout'),
   path('profile/',views.get_profile,name='profile'),
   path('get_calculator_data/', views.get_calculator_data, name = 'get_calculator_data'),
+  path('update_scenario_status/', views.update_scenario_status, name = 'update_scenario_status'),
 ]

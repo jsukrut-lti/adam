@@ -5,50 +5,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calc/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calc/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0002_profile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0003_alter_profile_calculator_id.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0004_auto_20220226_2024.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0005_alter_calculatormaster_currency_ids.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0006_auto_20220228_1314.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0007_auto_20220228_1359.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0008_scenariomaster.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0009_document_scenario_id.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0010_alter_calculatormaster_currency_ids.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0011_rateanalysis_rateanalysisdetails.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0012_rateanalysis_created_by.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/migrations/0013_auto_20220311_1452.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/calc/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calc/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings/local.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings/local.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Calculator_Selection.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Competitor_analysis_adj.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Corporate_adj_price.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Impact_Factors.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Journal_Codes.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Journal_Database.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Journal_Info.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Journal_Information.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/OnlineOpen_APCs.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_One/Price_limits_adj_price.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Calculator_Selection.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Competitor_analysis_adj.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Corporate_adj_price.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Impact_Factors.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Journal_Codes.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Journal_Database.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Journal_Info.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Journal_Information.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/OnlineOpen_APCs.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Calculator_two/Price_limits_adj_price.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/2022.02.28/Calculator_One/Online_Open_Pricing_Calculator_Sept2021_1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/2022.02.28/Calculator_two/Online_Open_Pricing_Calculator_Sept2021_1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/2022.03.11/Calculator_One/Journal_Database.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/2022.03.11/Calculator_One/Journal_Databasef1617963-8e31-4809-9386-d622b662bf18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/calc/css/_rateAnalysis.scss" beforeDir="false" afterPath="$PROJECT_DIR$/static/calc/css/_rateAnalysis.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calc/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calc/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calc/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/CAL2022030000/Journal_Database.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/CAL2022030000/Journal_Database.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/calc/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/calc/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/calc/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/calc/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/calc/financial_analysis.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/calc/financial_analysis.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/calc/financial_analysis_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/calc/financial_analysis_report.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/calc/rate_analysis_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/calc/rate_analysis_change.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +55,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/calc/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CIBC" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -290,12 +257,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Run" />
-      <item itemvalue="Python.Migrations" />
       <item itemvalue="Python.Migrate" />
+      <item itemvalue="Python.Migrations" />
+      <item itemvalue="Python.Run" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.views" />
       <item itemvalue="Python.analysis_dash" />
+      <item itemvalue="Python.views" />
     </list>
     <recent_temporary>
       <list>
