@@ -34,7 +34,7 @@ urlpatterns = [
     path('profile/', include("calc.urls")),
     path('get_calculator_data/', include("calc.urls"), name = 'get_calculator_data'),
     path('', include("adam.urls")),
-    path('api/', include("adam.urls"), name="address_api")
+    path('api/', include("adam.urls"), name="address_api"),
     # path('create_address/', include("adam.urls"), name="create_address"),
     # path('view_address/', include("adam.urls"), name="view_address")
     path('update_scenario_status/', include("calc.urls"), name = 'update_scenario_status')
