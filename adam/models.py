@@ -26,3 +26,6 @@ class Address(models.Model):
 
     def __str__(self):
         return str(self.address_title)
+
+    class Meta:
+        verbose_name_plural = 'Panels'

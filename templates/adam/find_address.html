@@ -64,7 +64,10 @@ map.addControl(
         mapboxgl: mapboxgl
       })
    );
-
+map.on('click', function(e) {
+      var eventLngLat = [e.lngLat.lng, e.lngLat.lat];
+      console.log(eventLngLat)
+    });
 const draw = new MapboxDraw({
 	displayControlsDefault: false,
 	// Select which mapbox-gl-draw control buttons to add to the map.
@@ -84,11 +87,16 @@ map.on('draw.update', updateArea);
 
 function updateArea(e) {
 	const data = draw.getAll();
+	console.log(draw)
 	const answer = document.getElementById('calculated-area');
 	if (data.features.length > 0) {
 		const area = turf.area(data);
+		console.log(turf)
+		var lngLatArray = data.features[0].geometry.coordinates[0]
 		// Restrict the area to 2 decimal points.
 		const rounded_area = Math.round(area * 100) / 100;
+<!--		searchRadius = makeRadius(eventLngLat, 1500)-->
+<!--		map.getSource('search-radius').setData(searchRadius);-->
 		answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
 	} else {
 		answer.innerHTML = '';
@@ -96,5 +104,11 @@ function updateArea(e) {
 			alert('Click the map to draw a polygon.');
 	}
 }
+function makeRadius(lngLatArray, radiusInMeters) {
+      var point = turf.point(lngLatArray);
+      console.log(point)
+      var buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
+      return buffered;
+    }
 </script>
 {% endblock %}
