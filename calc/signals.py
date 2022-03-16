@@ -11,8 +11,8 @@ from .calc import *
 # pre_save method signal
 @receiver(signals.pre_save, sender=CalculatorMaster)
 def create_directory_name(sender, instance, **kwargs):
-    name = instance.name.strip()
-    instance.directory_name = name.replace(" ", "_")
+    instance.directory_name = instance.calculator_seq_no # name.replace(" ", "_")
+
 
 @receiver(m2m_changed, sender=CalculatorMaster.currency_ids.through)
 def prevent_duplicate_secondary_currency(sender, instance, action, reverse, model, pk_set, **kwargs):

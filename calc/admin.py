@@ -6,6 +6,8 @@ from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
 from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
 from django.shortcuts import redirect
+from django.db.models import F
+from django.contrib import messages
 from calc.views import financial_analysis_view
 # from calc.forms import JournalMasterAdminForm
 ### Testing
@@ -28,9 +30,12 @@ class CurrencyRateMasterAdmin(admin.ModelAdmin):
 admin.site.register(CurrencyRateMaster, CurrencyRateMasterAdmin)
 
 class CalculatorMasterAdmin(admin.ModelAdmin):
-    list_display = ("name","primary_currency_id","active","is_published") # "currency_ids",
+    list_display = ("name","primary_currency_id","seconday_Currency","active","is_published")
     search_fields = ['name','primary_currency_id__code','currency_ids__name']
     list_filter = ('primary_currency_id','currency_ids','active','is_published',)
+
+    def seconday_Currency(self, obj):
+        return ", ".join([str(p) for p in obj.currency_ids.all()])
 
     def changelist_view(self, request, extra_context=None):
         default_filter = False
@@ -182,6 +187,9 @@ class RateAnalysisDetailsAdminInline(admin.TabularInline):
 class RateAnalysisHistoryAdminInline(admin.TabularInline):
     model = RateAnalysisHistory
 
+    readonly_fields = ['created_at']
+    fields = ('created_at','created_by','action','filter_perc','society_approval_rate_perc','avg_price_change_perc','status','remarks','description')
+
     def has_change_permission(self, request, obj=None):
         return False
 
@@ -191,19 +199,89 @@ class RateAnalysisHistoryAdminInline(admin.TabularInline):
     def has_delete_permission(self, request, obj=None):
         return False
 
-class RateAnalysisAdmin(DjangoObjectActions, admin.ModelAdmin):
+class RateAnalysisAdmin(DjangoObjectActions,admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Info', {'fields': ('rate_analysis_no','scenario_id','document_id','status'), 'classes': ['wide']}),
         ('Metrics Info', {'fields': ('filter_perc','society_approval_rate_perc','avg_price_change_perc',), 'classes': ['form-row-6columns']}),
         ('', {'fields': ('description','remarks',), 'classes': ['form-row-6columns']}),
-        ('Log Info', {'fields': ('created_by','modified_by'), 'classes': ['form-row-6columns']}),
+        ('Log Info', {'fields': ('created_at','created_by','modified_at','modified_by'), 'classes': ['form-row-6columns']}),
     )
+
+    change_actions = ("edit_price",)
 
     inlines = (RateAnalysisDetailsAdminInline,RateAnalysisHistoryAdminInline,)
     list_display = ("rate_analysis_no","scenario_id","filter_perc","society_approval_rate_perc","avg_price_change_perc","status","remarks")
     search_fields = ['rate_analysis_no','scenario_id__name','status']
     list_filter = ('rate_analysis_no','scenario_id','status')
+
+    change_form_template = "calc/admin/admin_rate_analysis_change_form.html"
+
+    def edit_price(self, request, obj):
+        if obj.status == 'pending':
+            return_url = '/financial-analysis/rate_analysis_id={}'.format(str(obj.id))
+            return redirect(return_url)
+        self.message_user(request, "Invalid Action! Edit price can be performed on pending status", level=messages.ERROR)
+
+    edit_price.attrs = {'target': '_blank'}
+
+    def change_view(self, request, object_id, extra_context=None):
+        ''' customize add/edit form '''
+        extra_context = extra_context or {}
+        # extra_context['objectactions'] = [{"name": "edit_price","label": "Edit Price"}]
+        if object_id:
+            rate_analysis_obj = RateAnalysis.objects.get(pk=object_id)
+            if rate_analysis_obj.status == 'pending':
+                extra_context['show_approve'] = True
+                extra_context['show_reject'] = True
+                extra_context['show_cancel'] = True
+                extra_context['show_edit_price'] = True
+                extra_context['show_delete'] = True
+                extra_context['show_delete_link'] = True
+                # extra_context['show_save'] = True
+            if rate_analysis_obj.status == 'cancel':
+                extra_context['show_reopen'] = True
+            if rate_analysis_obj.status in ('approve','reject'):
+                extra_context['show_reopen'] = True
+        return super(RateAnalysisAdmin, self).change_view(request, object_id, extra_context=extra_context)
+
+    def response_change(self, request, obj):
+        rate_analysis_rec = obj and RateAnalysis.objects.filter(pk=obj.id) or False
+        update_data = {'modified_by': request.user}
+        if "_approve" in request.POST:
+            print('call approve from response_change ...')
+            self.approve(request, obj)
+            # update_data.update(status='approve')
+            # if rate_analysis_rec and update_data:
+            #     rate_analysis_rec.update(**update_data)
+            return HttpResponseRedirect(".")
+        if "_reject" in request.POST:
+            print('call reject from response_change ...')
+            self.reject(request, obj)
+            # update_data.update(status='reject')
+            # if rate_analysis_rec and update_data:
+            #     rate_analysis_rec.update(**update_data)
+            return HttpResponseRedirect(".")
+        if "_cancel" in request.POST:
+            print('call cancel from response_change ...')
+            self.cancel(request, obj)
+            # update_data.update(status='cancel')
+            # if rate_analysis_rec and update_data:
+            #     rate_analysis_rec.update(**update_data)
+            return HttpResponseRedirect(".")
+        if "_reopen" in request.POST:
+            print('call reopen from response_change ...')
+            self.reopen(request, obj)
+            # update_data.update(status='pending')
+            # if rate_analysis_rec and update_data:
+            #     rate_analysis_rec.update(**update_data)
+            return HttpResponseRedirect(".")
+        if "_edit_price" in request.POST:
+            print('call edit price from response_change ...')
+            return self.edit_price(request, obj)
+            # return HttpResponseRedirect(".")
+            pass
+        return super().response_change(request, obj)
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -226,46 +304,36 @@ class RateAnalysisAdmin(DjangoObjectActions, admin.ModelAdmin):
         return get_data
 
     def save_model(self, request, obj, form, change):
-        if not change:
-            obj.created_by = request.user
-        else:
-            obj.modified_by = request.user
-        obj.save()
+        instance = form.save(commit=False)
+        if not hasattr(instance, 'created_by'):
+            instance.created_by = request.user
+        instance.modified_by = request.user
+        instance.save()
+        return instance
 
     def approve(self, request, obj):
+        print('approve .....')
         obj.modified_by = request.user
         obj.status = 'approve'
         obj.save()
 
     def reject(self, request, obj):
-        print('\n fadkfk ====',request)
-        print('\n obj ====',obj)
-        print('\n self ====',self)
+        print('reject .....')
         obj.modified_by = request.user
         obj.status = 'reject'
         obj.save()
 
     def cancel(self, request, obj):
+        print('cancel .....')
         obj.modified_by = request.user
         obj.status = 'cancel'
         obj.save()
 
     def reopen(self, request, obj):
+        print('reopen .....')
         obj.modified_by = request.user
         obj.status = 'pending'
         obj.save()
 
-    def edit_price(self, request, obj):
-        if obj.status == 'pending':
-            return_url = '/financial-analysis/rate_analysis_id={}'.format(str(obj.id))
-            return redirect(return_url)
-
-    change_actions = (
-        "reopen",
-        "edit_price",
-        "approve",
-        "reject",
-        "cancel",
-    )
 
 admin.site.register(RateAnalysis, RateAnalysisAdmin)

@@ -24,9 +24,8 @@ logger = logging.getLogger(__file__)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
                         {'href':'http://127.0.0.1:8000/static/calc/css/style.css', 'rel': 'stylesheet'},
                         #dbc.themes.BOOTSTRAP
-                        {'href':'http://127.0.0.1:8000/static/base.js'}
                         ]
-app = DjangoDash('AnalysisApp', external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
+app = DjangoDash('AnalysisApp',external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
 
 colors = {
     'background': '#ffffff',
@@ -46,6 +45,7 @@ app.layout = html.Div([
             dcc.Input(id='rate_analysis_id', persistence=False, readOnly=True, value=0)],style={'display':'none'}),
         html.Div([
             dcc.Input(id='document_id', persistence=False, readOnly=True, value=0)],style={'display':'none'}),
+        # html.A('Download *SELECTED* Data',id='download-selection',href="",target="_blank"),
         html.Div([
             html.Div([
                 html.P('Select Scenario', className='fix_label',
@@ -55,7 +55,7 @@ app.layout = html.Div([
                              value='',
                              style={'textAlign': 'left', 'color': 'black'},
                              className='dcc_compon'),
-            ], className='ml-0', id='title13'),
+            html.Div(id="valid_scenario_id", style={"color": "red", "fontSize": "12px"})], className='four columns', id='title13'),
             html.Div([
                 dcc.Upload(
                     id='datatable-upload',
@@ -75,26 +75,26 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=0.00,
+            dcc.Input(id='filter_perc', type='number', value=0.00, required=True,
                       ),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=0.00
+            dcc.Input(id='society_approval_rate_perc', type='number', value=0.00, required=True,
                       ),
         ], className='ml-0', id='title4'),
         html.Div([
-            html.P('Average Price Increase', className='fix_label',
+            html.P('Average Price Increase (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='avg_price_change_perc', type='text', value="0.00%"
+            dcc.Input(id='avg_price_change_perc', type='number', value=0.00, readOnly=True,
                       ),
         ], className='ml-0', id='title6'),
         html.Div([
-            html.P('Combined average price increase (Gold + Hybrid) ',
+            html.P('Combined average price increase (Gold + Hybrid) %',
                    className='fix_label', style={'color': colors['text']},
                    ),
-            dcc.Input(id='comb_avg_price_increase', type='text', value="0.00%"
+            dcc.Input(id='comb_avg_price_increase', type='number', value=0.00, readOnly=True,
                       ),
         ], className='ml-0', id='title7'),
         html.Div([
@@ -103,6 +103,12 @@ app.layout = html.Div([
             dcc.Input(id='description', type='text', value='',
                       ),
         ], className='ml-0', id='title00'),
+        html.Div([
+            html.P('Approve/Reject Remarks', className='fix_label',
+                   style={'color': colors['text'],'display': 'none'}),
+            dcc.Input(id='remarks', type='text', value='', style={'display': 'none'}
+                      ),
+        ], className='ml-0', id='title000'),
         ], className='topSection'),
         html.Div([
             html.Button(id='submit-button-state', className='btnSubmit', children="Submit"),
@@ -160,7 +166,7 @@ app.layout = html.Div([
                                             )},
                              ],
                              # virtualization=True,
-                             export_format="csv",
+                             export_format="xlsx",
                              export_headers="display",
                              style_cell={},
                              style_header={},
@@ -176,6 +182,7 @@ app.layout = html.Div([
 )
 
 def save_file(name, content, filepath, output_filepath):
+    print ('save file .....')
     """Decode and store a file uploaded with Plotly Dash."""
     data = content.encode("utf8").split(b";base64,")[1]
     with open(os.path.join(filepath, name), "wb") as fp:
@@ -185,6 +192,7 @@ def save_file(name, content, filepath, output_filepath):
 
 @transaction.atomic()
 def create_or_update_record(save=True,**kwargs):
+    print ('create or update ....')
     input_data = kwargs.get('input_data',False)
     inputline_data = input_data.get('datatable',[])
     user_obj = User.objects.get(pk=int(input_data.get('user_id')))
@@ -202,7 +210,7 @@ def create_or_update_record(save=True,**kwargs):
                    'society_approval_rate_perc' : input_data.get('society_approval_rate_perc',0.00),
                    'avg_price_change_perc' : input_data.get('avg_price_change_perc',0.00),
                    'status' : 'pending',
-                   'remarks' : '',
+                   'remarks' : input_data.get('remarks',''),
                    'description' : input_data.get('description',''),
                    }
     if input_data.get('action') == 'create':
@@ -277,6 +285,7 @@ def create_or_update_record(save=True,**kwargs):
     return rate_analysis_rec.rate_analysis_no
 
 def parse_contents(**kwargs):
+    print('parse content ....')
     file_data = kwargs.get('file_data',False)
     contents = file_data and file_data.get('contents', False)
     filename = file_data and file_data.get('filename', False)
@@ -320,6 +329,7 @@ def get_rate_analysis_dataframe(**kwargs):
     return pd.DataFrame()
 
 def prepare_pivot(**kwargs):
+    print('prepare pivot ...')
     dataframe = kwargs.get('dataframe',False)
     society_approval_rate_perc = kwargs.get('society_approval_rate_perc',False)
     filter_perc = kwargs.get('filter_perc',False)
@@ -332,7 +342,6 @@ def prepare_pivot(**kwargs):
             dataframe_filter = dataframe.loc[dataframe['Percentage Change'] <= (filter_perc / 100)]
         else:
             dataframe_filter = dataframe
-        print ('dataframe_filter ====',dataframe_filter)
         table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
                                index=['% category'],
@@ -343,7 +352,6 @@ def prepare_pivot(**kwargs):
                                margins=True, margins_name='Total').\
                                reset_index().rename(columns={'Journal Code': 'Number of Journals',
                                                              '% category': 'APC change %'})
-        print('jjjjjjjjjjjjj',table)
         table.columns = list(map( lambda x: '-'.join([x[1].split('-')[0], x[0]])
                                                 if x[1].find('-') != -1  else '-'.join([x[1], x[0]])
                                                 if x[1] != '' else ''.join([x[0], x[1]]), table.columns))
@@ -356,14 +364,9 @@ def prepare_pivot(**kwargs):
         table.reset_index(inplace=True)
         table = table.drop(['index'], axis=1)
         table.infer_objects().dtypes
-        # print("----1------")
-        # print(table)
-        average_prie_increase = (dataframe_filter['Percentage Change'].mean()) * (1 - society_approval_rate_perc)
+        average_prie_increase = (dataframe_filter['Percentage Change'].mean() * 100) * (1 - (society_approval_rate_perc / 100 ))
 
         table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
-        # return pd.DataFrame(), 0.00
-        # print("----3------")
-        # print(data_table)
     except Exception as e:
         print('\n Exception args ... ', e.args)
         exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -373,9 +376,9 @@ def prepare_pivot(**kwargs):
     return table,average_prie_increase
 
 def prepare_approval_data(**kwargs):
+    print('prepare approval data ...')
     dataframe = kwargs.get('dataframe', False)
     approval_rate = kwargs.get('society_approval_rate_perc', False)
-    # print(dataframe)
 
     df_zero = {}
     for col in dataframe.columns:
@@ -401,7 +404,6 @@ def prepare_approval_data(**kwargs):
                                         if dif_col.find('-') != -1 and dif_col.split('-')[1] == col.split('-')[1]
                                         and dif_col.find('Total') == -1]].sum(axis=1)
 
-    # print(dataframe)
     return dataframe
 
 
@@ -422,6 +424,7 @@ def get_calculator_directory(**kwargs):
               Output('scenario_id', 'value'),
               [Input('user_id', 'value')])
 def update_scenario(user_id):
+    print('update_scenario ...')
     scenario_obj1 = ScenarioMaster.objects.values('pk', 'name')
     scenario_list1 = scenario_obj1 and list(scenario_obj1) or []
     if scenario_obj1:
@@ -437,19 +440,21 @@ def update_scenario(user_id):
               State('filter_perc', 'value'),
               State('society_approval_rate_perc', 'value'),
               State('avg_price_change_perc', 'value'),
+              State('remarks', 'value'),
               State('description', 'value'),
               State('datatable', 'data'),
               State('datatable', 'columns'),
               State('datatable-upload', 'contents'),State('datatable-upload', 'filename')
                )
-def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc, society_approval_rate_perc, avg_price_change_perc, description, datatable, datatable_column, contents, filename):
-    print('\n update_output =====',description)
+def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc, society_approval_rate_perc, avg_price_change_perc, remarks, description, datatable, datatable_column, contents, filename):
+    print('\n update_output ...')
     input_data = {'scenario_id'  : scenario_id,
                   'calculator_id': calculator_id,
                   'user_id' : user_id,
                   'filter_perc' : filter_perc,
                   'society_approval_rate_perc'  : society_approval_rate_perc,
                   'avg_price_change_perc'   : avg_price_change_perc,
+                  'remarks'   : remarks,
                   'description'   : description,
                   'datatable'   : datatable,
                   'filename'    : filename,
@@ -487,11 +492,33 @@ def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator
                 res = 'alert("{}");'.format(message_two)
                 res = '{}{}'.format(res,message_three)
                 return res
+    raise PreventUpdate
+
+### Validation
+@app.callback(Output('valid_scenario_id', 'children'),
+              [Input('datatable-upload', 'contents')],
+              [State("scenario_id", "value")])
+def validate_input_fields(contents,scenario_id):
+    print('validate_input_fields ...',scenario_id)
+    if contents is None:
         raise PreventUpdate
+    else:
+        pass
+    if not scenario_id:
+        return "Scenario can't be an empty value."
+
+@app.callback(Output("datatable", "css"), Input("datatable", "derived_virtual_data"))
+def style_export_button(data):
+    if data == [] or data == [{}]:
+        return [{"selector": ".export", "rule": "display:none"}]
+    else:
+        return [{"selector": ".export", "rule": "display:block"}]
+
 
 @app.callback(Output('upload_file', 'style'),Output('scenario_id', 'style'),
               [Input('document_id', 'value')])
 def toggle_upload_option(document_id):
+    print('toggle_upload_option ....')
     print('document_id ===',document_id)
     if document_id is None or document_id <= 0:
         return {'display': 'block'} , {'display': 'block'}
@@ -508,25 +535,26 @@ def toggle_upload_option(document_id):
                Input('datatable-upload', 'filename'),
                Input('filter_perc','value')])
 def update_datatable(society_approval_rate_perc, scenario_id, document_id, contents, filename,filter_perc):
+    print('update_datatable ...',scenario_id)
+    print('update_datatable document_id ...',document_id)
+    if not scenario_id:
+        print('yes....')
+    else:
+        print('no ...')
     df = pd.DataFrame()
     if document_id > 0 and contents is None:
         df = get_rate_analysis_dataframe(document_id = document_id)
     elif contents is None and document_id == 0:
-        return [{}], []
+        return [{}], 0.00
     else:
-        print('\n jwekjfkwejfklj')
+        if not scenario_id:
+            return [{}], 0.00
         file_data = { 'contents' : contents,
                       'filename': filename,
                       }
         df = parse_contents(file_data = file_data)
-    print('\n khdakjf ====',df)
-    print('\n society_approval_rate_perc ====',society_approval_rate_perc)
-    print('\n filter_perc ====',filter_perc)
     data_table,average_prie_increase = prepare_pivot(dataframe=df,society_approval_rate_perc=society_approval_rate_perc,filter_perc=filter_perc)
-    print ('\n aksjjkkhajk ====',data_table)
-    print ('\n aksjjkkhajk average_prie_increase ====',average_prie_increase)
     if not data_table.empty:
-        print('jkhkjhkjkhkhjknjkjnkjhnjkhnjkhnkjnjk')
         return data_table.to_dict('records'),average_prie_increase #,'17.00%'
     return [{}], 0.00
 

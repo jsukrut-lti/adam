@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import json
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -18,6 +18,8 @@ from .models import *
 import logging
 
 logger = logging.getLogger(__file__)
+
+button_values_dict = {'Approve': 'approve','Reject': 'reject', 'Cancel': 'cancel', 'Re-open': 'pending', 'Re-Open': 'pending'}
 
 def index(request):
     if (request.path == '/'):
@@ -217,14 +219,77 @@ def financial_analysis_report(request):
 def financial_analysis_view_form(request, key):
     if request.user.is_authenticated:
         calculator_id = get_calculator_id(request)
-        print(request.user.id)
-        scenario_data = RateAnalysis.objects.filter(created_by=request.user.id)
-
-        context = {
-            'user_id': request.user.id,
-            'calculator_id': calculator_id,
-            'scenario_data': scenario_data
-        }
-
-        return render(request, 'calc/rate_analysis_change.html', context)
+        if request.user.is_superuser:
+            rate_analysis_rec = RateAnalysis.objects.filter(rate_analysis_no=key)
+        else:
+            rate_analysis_rec = RateAnalysis.objects.filter(created_by=request.user.id, rate_analysis_no=key)
+        rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+        rate_analysis_rec = rate_analysis_rec and rate_analysis_rec[0] or False
+        update_data = {}
+        #### Starts Here ####
+        if request.method == 'POST':
+            post = request.POST
+            post.get('approve', False)
+            post.get('description', False)
+            post.get('remarks', False)
+            rate_analysis_rec = RateAnalysis.objects.filter(rate_analysis_no=key)
+            rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+            rate_analysis_rec = rate_analysis_rec and rate_analysis_rec[0] or False
+            status = button_values_dict.get(post.get('status', False))
+            update_data = {}
+            if status == 'edit_price':
+                pass
+            else:
+                if rate_analysis_rec.status != status:
+                    if rate_analysis_rec.description != post.get('description', False):
+                        update_data['description'] = post.get('description', False)
+                    if rate_analysis_rec.remarks != post.get('remarks', False):
+                        update_data['remarks'] = post.get('remarks', False)
+                    update_data['status'] = status
+            if update_data:
+                rate_analysis_rec.__dict__.update(update_data)
+                rate_analysis_rec.modified_by = request.user
+                rate_analysis_rec.save()
+        #### Ends Here ####
+        if rate_analysis_rec:
+            rate_analysis_detail_rec = RateAnalysisDetails.objects.filter(rate_analysis_id=rate_analysis_rec.id)
+            rate_analysis_detail_rec = rate_analysis_detail_rec and list(rate_analysis_detail_rec) or []
+            rate_analysis_history_rec = RateAnalysisHistory.objects.filter(rate_analysis_id=rate_analysis_rec.id)
+            rate_analysis_history_rec = rate_analysis_history_rec and list(rate_analysis_history_rec) or []
+            context = {
+                'user_id': request.user.id,
+                'calculator_id': calculator_id,
+                'scenario_data': rate_analysis_rec,
+                'scenario_details_data': rate_analysis_detail_rec,
+                'scenario_history_data': rate_analysis_history_rec,
+            }
+            return render(request, 'calc/rate_analysis_change.html', context)
     return redirect('login')
+
+def update_scenario_status(request):
+    output_data = []
+    status = request.GET.get('status', False)
+    scenario_id = request.GET.get('scenario_id', False)
+
+    rate_analysis_rec = RateAnalysis.objects.filter(pk=int(scenario_id)). \
+        values('status','rate_analysis_no')
+    rate_analysis_rec = rate_analysis_rec and list(rate_analysis_rec) or []
+    rate_analysis_rec_data = rate_analysis_rec and rate_analysis_rec[0] or {}
+    print(rate_analysis_rec_data)
+    if status == "A":
+        status = "approve"
+    elif status == "R":
+        status = "reject"
+
+    if rate_analysis_rec_data:
+        parent_data = {
+            'modified_by': request.user.id,
+            'status': status
+        }
+        rate_analysis_update_rec = RateAnalysis.objects.filter(pk=int(scenario_id)).update(
+            **parent_data)
+
+    rate_analysis_rec = RateAnalysis.objects.get(pk=int(scenario_id))
+
+    output_data = {'flag': 1,'status' : status,'rate_analysis_no':rate_analysis_rec_data['rate_analysis_no']}
+    return HttpResponse(json.dumps(output_data), content_type='application/json')
