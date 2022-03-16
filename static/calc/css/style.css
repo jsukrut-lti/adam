@@ -1196,12 +1196,19 @@ body.show::after {
 }
 
 .modal .modal-footer .confirmBtn {
-  background: #4599b3 !important;
   color: #ffffff;
   opacity: 1;
 }
 
 .modal .modal-footer .confirmBtn:hover {
-  background: #67a5b9 !important;
+  opacity: 0.85;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-si {
+  background: #198754 !important;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-no {
+  background: #dc3545 !important;
 }
 /*# sourceMappingURL=style.css.map */

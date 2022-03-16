@@ -441,12 +441,21 @@
         gap: 15px;
 
         .confirmBtn {
-            background: #4599b3 !important;
+            // background: #4599b3 !important;
             color: #ffffff;
             opacity: 1;
 
             &:hover {
-                background: #67a5b9 !important;
+                // background: #67a5b9 !important;
+                opacity: 0.85;
+            }
+
+            &#modal-btn-si {
+                background: #198754 !important;
+            }
+
+            &#modal-btn-no {
+                background: #dc3545 !important;
             }
         }
     }
