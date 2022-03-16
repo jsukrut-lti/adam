@@ -205,7 +205,7 @@ class RateAnalysisAdmin(DjangoObjectActions,admin.ModelAdmin):
         ('Basic Info', {'fields': ('rate_analysis_no','scenario_id','document_id','status'), 'classes': ['wide']}),
         ('Metrics Info', {'fields': ('filter_perc','society_approval_rate_perc','avg_price_change_perc',), 'classes': ['form-row-6columns']}),
         ('', {'fields': ('description','remarks',), 'classes': ['form-row-6columns']}),
-        ('Log Info', {'fields': ('created_by','modified_by','modified_at'), 'classes': ['form-row-6columns']}),
+        ('Log Info', {'fields': ('created_at','created_by','modified_at','modified_by'), 'classes': ['form-row-6columns']}),
     )
 
     change_actions = ("edit_price",)
@@ -283,11 +283,6 @@ class RateAnalysisAdmin(DjangoObjectActions,admin.ModelAdmin):
             pass
         return super().response_change(request, obj)
 
-    def save_model(self, request, obj, form, change):
-        print('save_model ....')
-        print('save change ....',change)
-        super(RateAnalysisAdmin, self).save_model(request, obj, form, change)
-
     def has_add_permission(self, request, obj=None):
         return False
 
@@ -309,11 +304,12 @@ class RateAnalysisAdmin(DjangoObjectActions,admin.ModelAdmin):
         return get_data
 
     def save_model(self, request, obj, form, change):
-        if not change:
-            obj.created_by = request.user
-        else:
-            obj.modified_by = request.user
-        obj.save()
+        instance = form.save(commit=False)
+        if not hasattr(instance, 'created_by'):
+            instance.created_by = request.user
+        instance.modified_by = request.user
+        instance.save()
+        return instance
 
     def approve(self, request, obj):
         print('approve .....')

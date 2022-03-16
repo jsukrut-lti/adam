@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% block content %}
 
@@ -7,98 +8,126 @@
 <section class="main-container">
     <div class="container-md my-4">
         <div class="rateAnalysisChangeContainer bg-white p-3">
-            <h4 class="mb-3 pb-3 border-bottom">Change Rate Analysis</h4>
+            <h4 class="mb-3 pb-3 border-bottom">Change Rate Analysis / {{ scenario_data.rate_analysis_no }}</h4>
             <div class="col-md-12 mb-3">
                 <div class="row">
                     <div class="col-md-12 col-lg-6 mb-2 mb-lg-0">
-                        <div class="d-sm-flex btnContainerTop">
+                        <div class="d-sm-flex btnContainerTop" style="gap: 5px;">
+                            {%if scenario_data.status == 'pending' %}
                             <div class="col-sm-3">
-                                <button type="button" class="btn text-white fw-bold">Approve</button>
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Approve' %}" class="btn text-white fw-bold" id="approve" style="border-radius: 5px !important;">
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn text-white fw-bold">Reject</button>
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Reject' %}" class="btn text-white fw-bold" id="reject" style="border-radius: 5px !important;">
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn text-white fw-bold">Cancel</button>
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Cancel' %}" class="btn text-white fw-bold" id="cancel" style="border-radius: 5px !important;">
                             </div>
+                            <div class="col-sm-3">
+                            <a href="/financial-analysis/rate_analysis_id={{scenario_data.id|stringformat:'i'}}" target="_blank" >
+                                <input type="buton" form="rate-analysis-form" value="{% trans 'Edit Price' %}" class="btn text-white fw-bold" id="edit_price" style="border-radius: 5px !important;">
+                            </a>
+                            </div>
+
+
+                            {% endif %}
+                            {%if scenario_data.status in 'approve,reject' %}
+                            <div class="col-sm-3">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Re-Open' %}" class="btn text-white fw-bold" id="reopen" style="border-radius: 5px !important;">
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-6 d-flex justify-content-md-start justify-content-lg-end align-items-center">
                         <div id="crumbs">
                             <ul class="list-unstyled d-flex flex-wrap mb-0">
-                                <li class="mb-sm-0 mb-1"><a class="fw-bold">In Progress</a></li>
-                                <li class="mb-sm-0 mb-1"><a class="fw-bold reject">Rejected</a></li>
-                                <li class="mb-sm-0 mb-1"><a class="fw-bold">Approved</a></li>
+                                <li class="mb-sm-0 mb-1"><a class="fw-bold {%if scenario_data.status == 'pending' %} selected_status {% endif %}" id="pending">Pending for Approval</a></li>
+                                <li class="mb-sm-0 mb-1"><a class="fw-bold {%if scenario_data.status == 'approve' %} selected_status {% endif %}" id="approve">Approved</a></li>
+                                <li class="mb-sm-0 mb-1"><a class="fw-bold {%if scenario_data.status == 'reject' %} selected_status {% endif %}" id="reject">Rejected</a></li>
+                                <li class="mb-sm-0 mb-1"><a class="fw-bold {%if scenario_data.status == 'cancel' %} selected_status {% endif %}" id="cancel">Cancel</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <form>
-                <div class="basicInfo p-3 mb-5">
-                    <h5 class="mb-3 p-3">Basic Info</h5>
+            <form id="rate-analysis-form"  method="POST">
+                {% csrf_token %}
+                <div class="basicInfo p-3 mb-5" style="margin-bottom: 10px !important">
+                    <h5 class="mb-3 p-3" style="font-size: 15px;padding-top: 10px !important;padding-bottom: 10px !important;margin-left: -10px !important;margin-right: -10px !important;">Basic Info</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
-                            <label for="rateAnalysisNo" class="form-label">Rate Analysis No</label>
-                            <input type="text" id="rateAnalysisNo" class="form-control m-0">
+                            <label for="rate_analysis_no" class="form-label">Rate Analysis Number</label>
+                            <input type="text" id="rate_analysis_no" readonly value="{{scenario_data.rate_analysis_no}}" class="form-control m-0">
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <label for="scenario" class="form-label">Scenario</label>
-                            <input type="text" id="scenario" class="form-control m-0">
+                            <input type="text" id="scenario" readonly value="{{scenario_data.scenario_id.name}}" class="form-control m-0">
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <label for="referenceDocument" class="form-label">Reference Document</label>
-                            <input type="text" id="referenceDocument" class="form-control m-0">
+                            <div class="d-flex">
+                                <input type="text" id="referenceDocument" readonly value="{{scenario_data.document_id.get_file_name}}" class="form-control m-0 me-1">
+                                <a href="{{scenario_data.document_id.document.url}}">
+                                    <img src="{% static 'calc/images/download.png' %}">
+                                </a>
+                            </div>
                         </div>
-                        <!-- <div class="col-md-6 col-lg-4">
-                            <label for="status" class="form-label">Status</label>
-                            <input type="text" id="status" class="form-control m-0">
-                        </div> -->
                     </div>
-                </div>
-
-                <div class="metricInfo p-3 mb-5">
-                    <h5 class="mb-3 p-3">Metrics Info</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
                             <label for="filterPercentage" class="form-label">Filter Percentage</label>
-                            <input type="text" id="filterPercentage" class="form-control m-0">
+                            <input type="text" id="filterPercentage" readonly value="{{scenario_data.filter_perc|floatformat:'2'}}" class="form-control m-0">
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <label for="societyApprovalRate" class="form-label">Society Approval Rate (%)</label>
-                            <input type="text" id="societyApprovalRate" class="form-control m-0">
+                            <input type="text" id="societyApprovalRate" readonly value="{{scenario_data.society_approval_rate_perc|floatformat:'2'}}" class="form-control m-0">
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <label for="avgPriceChange" class="form-label">Average Price Change (%)</label>
-                            <input type="text" id="avgPriceChange" class="form-control m-0">
+                            <input type="text" id="avgPriceChange" readonly value="{{scenario_data.avg_price_change_perc|floatformat:'2'}}" class="form-control m-0">
                         </div>
                     </div>
                 </div>
 
-                <div class="otherInfo p-3 mb-5">
-                    <h5 class="mb-3 p-3">Other Info</h5>
+                <div class="basicInfo p-3 mb-5" style="margin-bottom: 10px !important">
+                    <h5 class="mb-3 p-3" style="font-size: 15px;padding-top: 10px !important;padding-bottom: 10px !important;margin-left: -10px !important;margin-right: -10px !important;"> Comment Info </h5>
                     <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <label for="createdBy" class="form-label">Created By</label>
-                            <input type="text" id="createdBy" class="form-control m-0">
-                        </div>
-                        <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-6">
                             <label for="description" class="form-label">Description</label>
-                            <input type="text" id="description" class="form-control m-0">
+                            <input type="text" id="description" name="description" value="{{scenario_data.description}}" class="form-control m-0">
                         </div>
-                        <div class="col-md-6 col-lg-4">
-                            <label for="modifiedBy" class="form-label">Modified By</label>
-                            <input type="text" id="modifiedBy" class="form-control m-0">
-                        </div>
-                        <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-6">
                             <label for="remark" class="form-label">Approve/Reject Remarks</label>
-                            <input type="text" id="remark" class="form-control m-0">
+                            <input type="text" id="remarks" name="remarks" value="{{scenario_data.remarks}}" class="form-control m-0">
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-5">
+                <div class="otherInfo p-3 mb-5" style="margin-bottom: 10px !important">
+                    <h5 class="mb-3 p-3" style="font-size: 15px;padding-top: 10px !important;padding-bottom: 10px !important;margin-left: -10px !important;margin-right: -10px !important;">Other Info</h5>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3">
+                            <label for="createdDate" class="form-label">Created Date</label>
+                            <input type="text" id="createdDate" readonly value="{{scenario_data.created_at|date:'d-m-Y H:m:s'}}" class="form-control m-0">
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <label for="createdBy" class="form-label">Created By</label>
+                            <input type="text" id="createdBy" readonly value="{{scenario_data.created_by.username|capfirst}}" class="form-control m-0">
+                        </div>
+                        {% if scenario_data.modified_by%}
+                            <div class="col-md-6 col-lg-3">
+                                <label for="modifiedDate" class="form-label">Modified Date</label>
+                                <input type="text" id="modifiedDate" readonly value="{{scenario_data.modified_at|date:'d-m-Y H:m:s'}}" class="form-control m-0">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label for="modifiedBy" class="form-label">Modified By</label>
+                                <input type="text" id="modifiedBy" readonly value="{{scenario_data.modified_by.username|capfirst}}" class="form-control m-0">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-5" style="margin-bottom: 10px !important">
                     <div class="historyDetails p-3">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item col-md-5 col-lg-4" role="presentation">
@@ -121,69 +150,53 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                            <td>O-Proprietary Owned</td>
-                                            <td>1-2%</td>
-                                            <td>1.0</td>
-                                            <td>737.175</td>
-                                        </tr>
-                                        <tr>
-                                            <td>N-Society Owned</td>
-                                            <td>6-10%</td>
-                                            <td>1.0</td>
-                                            <td>737.175</td>
-                                        </tr>
-                                        <tr>
-                                            <td>N-Society Owned</td>
-                                            <td>21-25%</td>
-                                            <td>1.0</td>
-                                            <td>737.175</td>
-                                        </tr>
-                                        <tr>
-                                            <td>O-Proprietary Owned</td>
-                                            <td>36-40%</td>
-                                            <td>1.0</td>
-                                            <td>737.175</td>
-                                        </tr>
+                                        {% if scenario_details_data %}
+                                        {% for loop in scenario_details_data %}
+                                            <tr>
+                                                <td>{{loop.ownership_structure}}</td>
+                                                <td>{{loop.apc_change_perc}}</td>
+                                                <td>{{loop.journal_count|floatformat:"2"}}</td>
+                                                <td>{{loop.revenue_change|floatformat:"2"}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        {% endif %}
                                       </tbody>
                                     </table>
                                 </div>
                             </div>
-    
+
                             <div class="tab-pane fade" id="rate-history" role="tabpanel" aria-labelledby="rate-history-tab">
                                 <div class="table-responsive">
                                     <table class="table">
                                       <thead>
                                         <tr>
+                                            <th scope="col">Modified Date</th>
+                                            <th scope="col">Modified By</th>
+                                            <th scope="col">Action</th>
                                             <th scope="col">Filter Percentage</th>
                                             <th scope="col">Society Approval Rate (%)</th>
                                             <th scope="col">Average Price Change (%)</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Approve / Reject Remarks</th>
+                                            <th scope="col">Description</th>
                                         </tr>
                                       </thead>
                                       <tbody>
+                                        {% if scenario_history_data %}
+                                        {% for loop in scenario_history_data %}
                                         <tr>
-                                            <td>0.0</td>
-                                            <td>0.0</td>
-                                            <td>0.0</td>
-                                            <td>Pending Approval</td>
-                                            <td>-</td>
+                                            <td>{{loop.created_at|date:"d-m-Y H:m:s"}}</td>
+                                            <td>{{loop.created_by.username|capfirst}}</td>
+                                            <td>{{loop.action_verbose}}</td>
+                                            <td>{{loop.filter_perc|floatformat:'2'}}</td>
+                                            <td>{{loop.society_approval_rate_perc|floatformat:'2'}}</td>
+                                            <td>{{loop.avg_price_change_perc|floatformat:'2'}}</td>
+                                            <td>{{loop.status_verbose}}</td>
+                                            <td>{{loop.remarks}}</td>
+                                            <td>{{loop.description}}</td>
                                         </tr>
-                                        <tr>
-                                            <td>0.0</td>
-                                            <td>40.0</td>
-                                            <td>0.0</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0.0</td>
-                                            <td>0.0</td>
-                                            <td>0.0</td>
-                                            <td>Rejected</td>
-                                            <td>-</td>
-                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
                                       </tbody>
                                     </table>
                                 </div>

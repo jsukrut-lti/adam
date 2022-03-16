@@ -103,6 +103,12 @@ app.layout = html.Div([
             dcc.Input(id='description', type='text', value='',
                       ),
         ], className='ml-0', id='title00'),
+        html.Div([
+            html.P('Approve/Reject Remarks', className='fix_label',
+                   style={'color': colors['text'],'display': 'none'}),
+            dcc.Input(id='remarks', type='text', value='', style={'display': 'none'}
+                      ),
+        ], className='ml-0', id='title000'),
         ], className='topSection'),
         html.Div([
             html.Button(id='submit-button-state', className='btnSubmit', children="Submit"),
@@ -358,7 +364,7 @@ def prepare_pivot(**kwargs):
         table.reset_index(inplace=True)
         table = table.drop(['index'], axis=1)
         table.infer_objects().dtypes
-        average_prie_increase = (dataframe_filter['Percentage Change'].mean()) * (1 - society_approval_rate_perc)
+        average_prie_increase = (dataframe_filter['Percentage Change'].mean() * 100) * (1 - (society_approval_rate_perc / 100 ))
 
         table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
     except Exception as e:
@@ -434,12 +440,13 @@ def update_scenario(user_id):
               State('filter_perc', 'value'),
               State('society_approval_rate_perc', 'value'),
               State('avg_price_change_perc', 'value'),
+              State('remarks', 'value'),
               State('description', 'value'),
               State('datatable', 'data'),
               State('datatable', 'columns'),
               State('datatable-upload', 'contents'),State('datatable-upload', 'filename')
                )
-def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc, society_approval_rate_perc, avg_price_change_perc, description, datatable, datatable_column, contents, filename):
+def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc, society_approval_rate_perc, avg_price_change_perc, remarks, description, datatable, datatable_column, contents, filename):
     print('\n update_output ...')
     input_data = {'scenario_id'  : scenario_id,
                   'calculator_id': calculator_id,
@@ -447,6 +454,7 @@ def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator
                   'filter_perc' : filter_perc,
                   'society_approval_rate_perc'  : society_approval_rate_perc,
                   'avg_price_change_perc'   : avg_price_change_perc,
+                  'remarks'   : remarks,
                   'description'   : description,
                   'datatable'   : datatable,
                   'filename'    : filename,
