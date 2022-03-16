@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+input, select, .btn, ul, li, a {
+    font-family: 'Lora', serif;
+}
+
 ::-webkit-scrollbar {
     width: 0.5rem;
     height: 0.5rem;

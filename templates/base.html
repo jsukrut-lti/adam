@@ -1,3 +1,4 @@
+{% load custom_tags %}
 {% load static %}
 
 
@@ -53,6 +54,25 @@
       <a class="navbar-brand p-0 m-0" href="/home">
         <img src="{% static 'calc/images/logo.png' %}" class="d-inline-block align-top" alt="">
       </a>
+        <div class="headerContainer">
+          <div class="headerContainerLeft">
+<!--            <h3 class="text-white mb-0 d-md-flex d-none">Analysis</h3>-->
+          </div>
+           {% show_calculator_tag user as calculator_option %}
+          <div class="headerContainerRight">
+            <div class="dropdown d-md-flex d-none" id="calculator_version">
+              <input type="text" readonly class="d-none" id="main_calculator_id" value="">
+              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-calculator-fill"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
+              {% if calculator_option %}
+                {% for loop in calculator_option %}
+                    <li><a class="dropdown-item select" href="#" onClick="return tag_calculator({{loop.id}});" id="{{loop.id}}">{{loop.name}}</a></li>
+                {% endfor %}
+              {% endif %}
+              </ul>
+            </div>
         {% if user.is_authenticated %}
           <div class="d-md-flex flex-grow-1 d-none" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
@@ -70,6 +90,8 @@
               </ul>
             </div>
         {% endif %}
+          </div>
+        </div>
   </nav>
 
   <div id="sideNav" class="overlay">

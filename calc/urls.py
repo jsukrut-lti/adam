@@ -19,18 +19,20 @@ from . import views
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
-from calc import analysis
+from calc import analysis , analysis01
 
 urlpatterns=[
   path('',views.index),
   path('home/', views.page_index, name = 'home'),
   path('calculator/', views.calculator_view, name = 'calculator'),
   path('analysis/', views.analysis_view, name = 'analysis'),
-  # path('financial-analysis/', TemplateView.as_view(template_name='calc/financial_analysis.html'), name = 'financial_analysis'),
   path('financial-analysis/', views.financial_analysis_view, name = 'financial_analysis'),
+  path('financial-analysis/<str:key>/', views.financial_analysis_view, name = 'financial_analysis'),
   path('financial-analysis-report/', views.financial_analysis_report, name = 'financial_analysis_report'),
+  path('financial-analysis-view-form/<str:key>/', views.financial_analysis_view_form, name = 'financial-analysis-view-form'),
   path('ajax/load-data/<str:key>/', views.load_data, name = 'ajax_load_data'),
   path('logout/',views.logout_view,name='logout'),
   path('profile/',views.get_profile,name='profile'),
   path('get_calculator_data/', views.get_calculator_data, name = 'get_calculator_data'),
+  path('update_scenario_status/', views.update_scenario_status, name = 'update_scenario_status'),
 ]
