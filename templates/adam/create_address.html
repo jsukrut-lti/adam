@@ -3,7 +3,35 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-{% csrf_token %}
+<style>
+  #yourLabelId {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+.custom-style th {
+       font-size: 14px !important;
+    }
+
+
+.custom-style td {
+       font-size: 14px !important;
+    white-space: break-spaces;
+    border-right: 1px solid;
+    }
+    .submitbtn {
+        width:120px;    float: right; padding: 7px;
+    }
+.table tbody>tr>td {
+border-top:0px solid;
+}
+
+table {
+table-layout: inherit !important;
+}
+.mapboxgl-ctrl button{
+    background-color : #f9fafb!important
+}
+</style>
 <div class="container">
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
@@ -65,9 +93,13 @@
 <script>
 
 	$(document).ready(function(){
-<!--		showing_addresss()-->
 		$("#yourLabelId").on('click','.btnDelete',function(){
 			$(this).closest('tr').remove();
+			leng = $("#yourLabelId tbody tr").length
+			if (leng == 0){
+			    $('#yourLabelId').hide();
+                $('.submitbtn').hide()
+			}
 		});
     })
 
@@ -93,6 +125,9 @@
       $('#yourLabelId').show();
 	  $('.submitbtn').show()
       let store = e.lngLat.wrap();
+      console.log(store)
+      //console.log(store.lng)
+      //console.log(store.lat)
       let locationValues = Object.values(store);
       let marker1 = new mapboxgl.Marker({ "color": "#198754" })
         .setLngLat(locationValues)
@@ -105,24 +140,33 @@
 
 	  address = showing_table(store)
 	  split_address = address.split(',')
+	  //console.log(split_address)
+	  add_len = split_address.length
+	  if(add_len==5){
+	    address1 = split_address[0]
+	    address2 = split_address[1]
+	    city = split_address[2]
+	    state = split_address[3]
+	    country = split_address[4]
+	  }
+	  else if(add_len==3)
+	  {
+        address1 = split_address[0]
+        address2 = ''
+        city = ''
+	    state = split_address[1]
+	    country = split_address[3]
+	  }else{
+        address1 = split_address[0]
+        address2 = ''
+        city = split_address[0]
+	    state = split_address[1]
+	    country = split_address[1]
+	  }
+
+
 <!--      store_address(split_address,store)-->
-
-      add_value = {
-        "lat": store.lng,
-        "lat": store.lat,
-        "city": split_address[0],
-        "state": split_address[1],
-      }
-      console.log(add_value)
-	  $('#area_value').val(function(i,val) {
-			 return val + (!val ? '' : ', ') + "[" + add_value + "]";
-	   });
-
-    document.querySelector('#yourLabelId tbody').innerHTML += "<td data-lat='"+store.lat+"' data-lng='"+store.lng+"'>"+locationValues+"</td><td>"+split_address[0]+"</td><td><button type='button' class='btnDelete'>Remove</button></td></tr>"
-<!--	  document.querySelector('#yourLabelId tbody').innerHTML += `<tr>-->
-<!--              <td> ${locationValues} </td>-->
-<!--              <td> ${address} </td>-->
-<!--          </tr>`-->
+    document.querySelector('#yourLabelId tbody').innerHTML += "<td data-lat='"+store.lat+"' data-lng='"+store.lng+"' data-add1='"+address1+"' data-add2='"+address2+"' data-city='"+city+"' data-state='"+state+"' data-country='"+country+"'>"+locationValues+"</td><td>"+address+"</td><td><button type='button' class='btnDelete'>Remove</button></td></tr>"
     });
 
 
@@ -131,45 +175,62 @@
     $('.submitbtn').click(function(e){
 		e.preventDefault();
 		var rowCount = $('#yourLabelId tbody tr').length;
-        var jsonObj = []
-		$("#yourLabelId tbody td").each(function(){
-			var lat = $(this).attr("data-lat")
-			var lng = $(this).attr("data-lng")
-			if (lat != undefined && lng != undefined){
-				console.log(lat)
-				console.log(lng)
-				datas = {
-				            'address_title': "test",
-				            'address_type': "current",
-				            'address_line1':"1st street",
-				            'address_line2': "west",
-				            'city':"chennai",
-                            'state':"tamilnadu",
-                            'country': "india",
-                            'postal_code': "657680",
-                            'latitude': lat,
-                            'longitude': lng
-					    }
-				jsonObj.push(datas)
-			}
-		})
+		if (rowCount > 0){
+            var jsonObj = []
+            $("#yourLabelId tbody td").each(function(){
+                var lat = $(this).attr("data-lat")
+                var lng = $(this).attr("data-lng")
+                var add1 = $(this).attr("data-add1")
+                var add2 = $(this).attr("data-add2")
+                var city = $(this).attr("data-city")
+                var state = $(this).attr("data-state")
+                var country = $(this).attr("data-country")
+                if (lat != undefined && lng != undefined){
+                    data = {
+                                'address_title': add1.trim(),
+                                'address_type': "current",
+                                'address_line1': add1.trim(),
+                                'address_line2': add2.trim(),
+                                'city':city.trim(),
+                                'state':state.trim(),
+                                'country': country.trim(),
+                                'postal_code': "",
+                                'latitude': lat,
+                                'longitude': lng
+                            }
+                    //jsonObj.push(data)
+                    create_panel(data)
+                }
+            })
 
-        jsonString = JSON.stringify(jsonObj);
-        console.log(jsonString);
+            //jsonString = JSON.stringify(jsonObj);
+            //console.log(jsonString);
+            $('#yourLabelId').hide();
+            $('.submitbtn').hide()
+            alert("Panel Created Successfully")
+            $("#yourLabelId tbody tr").each(function(){
+                $(this).remove()
+            })
+            location.reload();
+        }
+	})
+
+    function create_panel(data){
         $.ajax({
             type:"POST",
+            async: false,
             url: "/add_address/",
-            data: datas,
+            data: data,
             dataType: 'json',
             success: function(res){
                 console.log(res)
             }
         })
-	})
+    }
 
 	function showing_table(store){
 	  url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + store.lng + "," + store.lat + ".json?access_token=" + mapboxgl.accessToken
-	  console.log(url)
+	  //console.log(url)
 	  var temp = null
       $.ajax({
         url: url,

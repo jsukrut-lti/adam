@@ -62,12 +62,23 @@ def find_address(request):
 @csrf_exempt
 def create_address(request):
     if request.method == 'POST' and request.is_ajax():
-        serilalizer = AddressSerializers(data=request.POST, many=True)
-        if serilalizer.is_valid():
-            serilalizer.save()
-            print("saved")
-        else:
-            print("not valid")
+        obj = Address()
+        obj.address_title = request.POST.get('address_title')
+        obj.address_type = request.POST.get('address_type')
+        obj.address_line1 = request.POST.get('address_line1')
+        obj.address_line2 = request.POST.get('address_line2')
+        obj.city = request.POST.get('city')
+        obj.state = request.POST.get('state')
+        obj.country = request.POST.get('country')
+        obj.latitude = request.POST.get('latitude')
+        obj.longitude = request.POST.get('longitude')
+        obj.save()
+        # serilalizer = AddressSerializers(data=request.POST)
+        # if serilalizer.is_valid():
+        #      serilalizer.save()
+        #      print("saved")
+        # else:
+        #      print("not valid")
         return HttpResponse(json.dumps({'status': "success"}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
