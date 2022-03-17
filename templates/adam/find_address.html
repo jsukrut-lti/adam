@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
-
-{% load crispy_forms_tags %}
-
+{% load static %}
 {% block content %}
 
-<div class="container">
+  <style>
+    .calculation-box {
+      height: 93px;
+      width: 150px;
+      position: absolute;
+      bottom: 72px;
+      left: 40px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      text-align: center;
+    }
+
+    p {
+      font-family: 'Open Sans';
+      margin: 0;
+      font-size: 13px;
+    }
+  </style>
+
+  <div class="container">
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
         <div class="col-4 pt-1">
@@ -18,6 +35,88 @@
         </div>
       </div>
     </header>
+
+
   </div>
+  <main class="container">
+    <div class="col-md-10">
+
+      <div id="map"></div>
+      <div class="calculation-box">
+        <p>Click the map to draw a polygon.</p>
+        <div id="calculated-area"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdmVlbmxrdW1hciIsImEiOiJjbDBncnp6MGcwMHBkM29vMjE2YjB5ZXJ2In0.luURpRwktZMoOvxihp_J_A';
+    const map = new mapboxgl.Map({
+      container: 'map', // container ID
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      center: [77.75016552885222, 12.96832211908719], // starting position [lng, lat]
+      zoom: 7 // starting zoom
+    });
+
+    map.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+      })
+    );
+    map.on('click', function (e) {
+      var eventLngLat = [e.lngLat.lng, e.lngLat.lat];
+      console.log(eventLngLat)
+    });
+    const draw = new MapboxDraw({
+      displayControlsDefault: false,
+      // Select which mapbox-gl-draw control buttons to add to the map.
+      controls: {
+        polygon: true,
+        trash: true
+      },
+      // Set mapbox-gl-draw to draw by default.
+      // The user does not have to click the polygon control button first.
+      defaultMode: 'draw_polygon'
+    });
+    map.addControl(draw);
+
+    map.on('draw.create', updateArea);
+    map.on('draw.delete', updateArea);
+    map.on('draw.update', updateArea);
+
+    function updateArea(e) {
+      const data = draw.getAll();
+      console.log(draw)
+      const answer = document.getElementById('calculated-area');
+      if (data.features.length > 0) {
+        const area = turf.area(data);
+        console.log(turf)
+        var lngLatArray = data.features[0].geometry.coordinates[0]
+        // Restrict the area to 2 decimal points.
+        const rounded_area = Math.round(area * 100) / 100;
+
+
+        answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
+      } else {
+        answer.innerHTML = '';
+        if (e.type !== 'draw.delete')
+          alert('Click the map to draw a polygon.');
+      }
+    }
+    function makeRadius(lngLatArray, radiusInMeters) {
+      var point = turf.point(lngLatArray);
+      console.log(point)
+      var buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
+      return buffered;
+    }
+  </script>
 
 {% endblock %}
