@@ -21,7 +21,6 @@ class AddressSerializers(serializers.ModelSerializer):
     postal_code = serializers.CharField(max_length=50)
     latitude = serializers.CharField(max_length=50)
     longitude = serializers.CharField(max_length=50)
-    enable = serializers.BooleanField(default=True)
 
     class Meta:
         model = PanelMaster
