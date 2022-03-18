@@ -36,7 +36,7 @@ class AddressDetailsView(APIView):
                              "data": list(serializer.data),
                              "status": status.HTTP_200_OK})
         elif not item:
-            items = PanelMaster.objects.filter(enable=True)
+            items = PanelMaster.objects.filter(status='Active')[:50]
             serializer = AddressSerializers(items, many=True)
             if items:
                 return Response({"result": "success",
