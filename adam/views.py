@@ -1,13 +1,14 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import AddressSerializers
-from .models import Address
+from .models import PanelMaster
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db import connection
+cursor = connection.cursor()
 # Create your views here.
 
 
@@ -28,14 +29,14 @@ class AddressViewSet(APIView):
 class AddressDetailsView(APIView):
 
     def get(self, request):
-        item = Address.objects.filter(postal_code=request.GET['post_code'])
+        item = PanelMaster.objects.filter(postal_code=request.GET['post_code'])
         serializer = AddressSerializers(item, many=True)
         if item:
             return Response({"result": "success",
                              "data": list(serializer.data),
                              "status": status.HTTP_200_OK})
         elif not item:
-            items = Address.objects.filter(enable=True)
+            items = PanelMaster.objects.filter(enable=True)
             serializer = AddressSerializers(items, many=True)
             if items:
                 return Response({"result": "success",
@@ -52,7 +53,40 @@ def create_address_view(request):
 
 
 def view_address(request):
-    return render(request, 'adam/view_address.html')
+    if request.user.is_authenticated:
+        address_data = []
+        query = '''select panel.panel_no,panel_st.player_no,panel.latitude,panel.longitude,panel.market_name,
+                    panel_st.submarket,panel_st.media_type,panel_st.unit_type,
+                    panel.status,panel_st.description,panel_st.code,
+                    panel_st.city,panel_st.site,panel_st.wk4_imp,
+                    translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code
+                    from adam_panelstaticdetails panel_st
+                    join adam_panelmaster panel
+                    on panel.panel_no = translate(panel_st.player_no,panel_st.code||'-','') limit 100
+                '''
+        cursor.execute(query)
+        if (cursor.rowcount > 0):
+            for row in cursor.fetchall():
+                record = {}
+                record['panel_no'] = row[0]
+                record['player_no'] = row[1]
+                record['market_name'] = row[4]
+                record['longitude'] = row[3]
+                record['latitude'] = row[2]
+                record['description'] = row[9]
+                record['city'] = row[11]
+
+                address_data.append(record)
+
+        print(address_data)
+        context = {
+                    'user_id': request.user.id,
+                    'address_data': address_data
+                }
+
+        return render(request, 'adam/view_address.html', context)
+    return redirect('login')
+
 
 
 def find_address(request):
@@ -62,7 +96,7 @@ def find_address(request):
 @csrf_exempt
 def create_address(request):
     if request.method == 'POST' and request.is_ajax():
-        obj = Address()
+        obj = PanelMaster()
         obj.address_title = request.POST.get('address_title')
         obj.address_type = request.POST.get('address_type')
         obj.address_line1 = request.POST.get('address_line1')
@@ -83,5 +117,19 @@ def create_address(request):
     else:
         return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
 
-
+@csrf_exempt
+def check_area(request):
+    if request.method == 'POST' and request.is_ajax():
+        min_lng = request.POST.get('min_lng')
+        max_lng = request.POST.get('max_lng')
+        min_lat = request.POST.get('min_lat')
+        max_lat = request.POST.get('max_lat')
+        result = PanelMaster.objects.filter(longitude__range=(min_lng, max_lng)
+                                        # latitude__range=(min_lat, max_lat)
+                                        ).values('longitude', 'latitude', 'city', 'state', 'country')
+        print(list(result))
+        data = [{'longitude': '77.29972607572665', 'latitude': '13.200179182144382'}, {'longitude': '76.88224560697597', 'latitude': '13.028982684247879'}]
+        return HttpResponse(json.dumps({'status': "success", "data": list(result)}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
 

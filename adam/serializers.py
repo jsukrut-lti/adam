@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Address
+from .models import PanelMaster
 
 
 address_type_choice = (
@@ -24,5 +24,5 @@ class AddressSerializers(serializers.ModelSerializer):
     enable = serializers.BooleanField(default=True)
 
     class Meta:
-        model = Address
+        model = PanelMaster
         fields = '__all__'

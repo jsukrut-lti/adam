@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 
@@ -22,105 +23,70 @@
     </div>
 
     <main class="container">
-        <div class="row g-5">
+        <div class="row">
             <div class="col-md-12">
                 <article class="blog-post">
 
-
-                    <table class="table table-bordered table-hover">
+                    <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="viewAddress">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col"> Panel No </th>
+                                <th scope="col"> Player No  </th>
+                                <th scope="col"> Market  </th>
                                 <th scope="col">Co ordinates</th>
-                                <th scope="col"> Address </th>
-                                <th scope="col"> Address </th>
+                                <th scope="col"> Description  </th>
+                                <th scope="col"> City  </th>
                             </tr>
                         </thead>
                         <tbody>
+                        {% for add in address_data %}
                             <tr>
-                                <td> 1 </td>
                                 <td>
-                                    <a href="#" class="map-btn button" data-latLng="77.580643,12.972442">
-                                        77.580643,12.972442
+                                    <address class="mb-0">
+                                        {{add.panel_no}}
+                                    </address>
+                                </td>
+                                <td>
+                                    <address class="mb-0">
+                                        {{add.player_no}}
+                                    </address>
+                                </td>
+                                <td>
+                                    <address class="mb-0">
+                                        {{add.market_name}}
+                                    </address>
+                                </td>
+                                <td>
+                                    <a href="#" class="map-btn button" data-latLng="{{add.longitude}},{{add.latitude}}">
+                                        {{add.longitude}},{{add.latitude}}
                                     </a>
                                 </td>
                                 <td>
                                     <address class="mb-0">
-                                        <strong> Bengaluru </strong>
+                                        {{add.description}}
                                     </address>
                                 </td>
                                 <td>
                                     <address class="mb-0">
-                                        Karnataka
+                                        {{add.city}}
                                     </address>
                                 </td>
+
                             </tr>
-                            <tr>
-                                <td> 2 </td>
-                                <td>
-                                    <a href="#" class="map-btn button" data-latLng="73.856255,18.516726">
-                                        73.856255,18.516726
-                                    </a>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        <strong> Pune </strong>
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        Maharashtra
-                                    </address>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> 3 </td>
-                                <td>
-                                    <a href="#" class="map-btn button" data-latLng="72.865030,19.089154">
-                                        72.865030,19.089154
-                                    </a>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        <strong> Mumbai </strong>
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        Maharashtra
-                                    </address>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> 4 </td>
-                                <td>
-                                    <a href="#" class="map-btn button" data-latLng="76.652985,12.311827">
-                                        76.652985,12.311827
-                                    </a>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        <strong> Mysuru </strong>
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        Karnataka
-                                    </address>
-                                </td>
-                            </tr>
+                        {% endfor %}
 
                         </tbody>
 
                     </table>
-
+                    </div>
                 </article>
 
             </div>
 
 
 
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="pt-3">
                     <div id="map" class="map mb-3" style='height: 500px;'></div>
                 </div>
@@ -162,5 +128,5 @@
 
         }); 
     </script>
-
+<script src="{% static "calc/js/main.js" %}"></script>
 {% endblock %}
