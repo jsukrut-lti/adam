@@ -1,103 +1,115 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static "calc/css/style.css" %}">
+<section class="main-container">
+    <div class="container-md my-4">
+        <div class="rateAnalysisContainer bg-white">
+            <h5>View Panel</h5>
+            <div class="table-responsive">
+                <table class="table" id="rateAnalysis">
+                    <thead>
+                        <tr>
+                           <th scope="col">Panel No</th>
+                            <th scope="col">Player No</th>
+                            <th scope="col">Market </th>
+                            <th scope="col">Co ordinates</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">City</th>
+<!--                            <th scope="col">Actions</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for add in address_data %}
+                        <tr>
+                            <td>{{add.panel_no}}</td>
+                            <td>{{add.player_no}}</td>
+                            <td>{{add.market_name}}</td>
+                            <td>
+                                <a href="#" class="map-btn button" data-bs-toggle="modal" data-bs-target="#myModal"
+                                   style="background: transparent;text-decoration: underline;"
+                                   data-latLng="{{add.longitude}},{{add.latitude}}">
+                                    {{add.longitude}},{{add.latitude}}
+                                </a>
+                            </td>
+                            <td>{{add.description}}</td>
+                            <td>{{add.city}}</td>
 
-    <div class="container">
-        <header class="blog-header py-3">
-            <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-4 pt-1">
 
-                </div>
-                <div class="col-4 text-center">
-                    <a class="blog-header-logo text-dark text-decoration-none" href="#"> ADAMS </a>
-                </div>
-                <div class="col-4 d-flex justify-content-end align-items-center">
+<!--                            <td>-->
+<!--                                <div class="crud">-->
+<!--                                    {% if request.user.is_superuser %}-->
+<!--                                        <a class="bi bi-pencil-fill" href="#"></a>-->
+<!--                                    {% else %}-->
 
-                </div>
+<!--                                        {% if scenario.status == 'pending' %}-->
+<!--                                            <a class="bi bi-pencil-fill" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"-->
+<!--                                            data-toggle="tooltip" data-placement="top" title="Edit"></a>-->
+<!--                                            &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            <button class="bi bi-pencil-fill btn-approve" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top" title="Approve"></button>-->
+<!--                                            &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            <button class="bi bi-pencil-fill btn-reject" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top" title="Reject"></button>-->
+<!--                                        {% endif %}-->
+<!--                                    {% endif %}-->
+<!--                                </div>-->
+<!--                            </td>-->
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+<!--                    <td colspan="8"><span class="fw-bold">{{ address_data|length }} Total</span></td>-->
+                    </tfoot>
+                </table>
             </div>
-        </header>
-
-
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Are you sure you want to <label id="button_lable" value=""></label> selected scenario ?</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modal-btn-si">Submit</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
-    <main class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <article class="blog-post">
+    <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
 
-                    <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="viewAddress">
-                        <thead>
-                            <tr>
-                                <th scope="col"> Panel No </th>
-                                <th scope="col"> Player No  </th>
-                                <th scope="col"> Market  </th>
-                                <th scope="col">Co ordinates</th>
-                                <th scope="col"> Description  </th>
-                                <th scope="col"> City  </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for add in address_data %}
-                            <tr>
-                                <td>
-                                    <address class="mb-0">
-                                        {{add.panel_no}}
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        {{add.player_no}}
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        {{add.market_name}}
-                                    </address>
-                                </td>
-                                <td>
-                                    <a href="#" class="map-btn button" data-latLng="{{add.longitude}},{{add.latitude}}">
-                                        {{add.longitude}},{{add.latitude}}
-                                    </a>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        {{add.description}}
-                                    </address>
-                                </td>
-                                <td>
-                                    <address class="mb-0">
-                                        {{add.city}}
-                                    </address>
-                                </td>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Map view</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
 
-                            </tr>
-                        {% endfor %}
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="pt-3">
+            <div id="map" class="map mb-3" style='margin: 0 auto; height:400px'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        </tbody>
-
-                    </table>
-                    </div>
-                </article>
+                <div class="col-md-12">
 
             </div>
 
+</section>
+<script src="{% static "calc/js/main.js" %}"></script>
 
-
-            <div class="col-md-12">
-                <div class="pt-3">
-                    <div id="map" class="map mb-3" style='height: 500px;'></div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"-->
+<!--        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="-->
+<!--        crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 
     <script>
 
@@ -126,7 +138,7 @@
 
 
 
-        }); 
+        });
     </script>
-<script src="{% static "calc/js/main.js" %}"></script>
+<!--<script src="{% static "calc/js/main.js" %}"></script>-->
 {% endblock %}
