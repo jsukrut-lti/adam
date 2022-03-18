@@ -90,19 +90,19 @@
           </div>
            {% show_calculator_tag user as calculator_option %}
           <div class="headerContainerRight">
-            <div class="dropdown d-md-flex d-none" id="calculator_version">
-              <input type="text" readonly class="d-none" id="main_calculator_id" value="">
-              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-calculator-fill"></i>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
-              {% if calculator_option %}
-                {% for loop in calculator_option %}
-                    <li><a class="dropdown-item select" href="#" onClick="return tag_calculator({{loop.id}});" id="{{loop.id}}">{{loop.name}}</a></li>
-                {% endfor %}
-              {% endif %}
-              </ul>
-            </div>
+<!--            <div class="dropdown d-md-flex d-none" id="calculator_version">-->
+<!--              <input type="text" readonly class="d-none" id="main_calculator_id" value="">-->
+<!--              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                <i class="bi bi-calculator-fill"></i>-->
+<!--              </button>-->
+<!--              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">-->
+<!--              {% if calculator_option %}-->
+<!--                {% for loop in calculator_option %}-->
+<!--                    <li><a class="dropdown-item select" href="#" onClick="return tag_calculator({{loop.id}});" id="{{loop.id}}">{{loop.name}}</a></li>-->
+<!--                {% endfor %}-->
+<!--              {% endif %}-->
+<!--              </ul>-->
+<!--            </div>-->
         {% if user.is_authenticated %}
           <div class="d-md-flex flex-grow-1 d-none" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
@@ -273,13 +273,13 @@
                     <!-- Submenu content -->
                     <div id='submenu2' class="collapse sidebar-submenu">
                       <a href="/create_address" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">Create Address</span>
+                        <span class="menu-collapsed">Create Panel</span>
                       </a>
                       <a href="/view_address" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">View Address</span>
+                        <span class="menu-collapsed">View Panel</span>
                       </a>
                       <a href="/find_address" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed">Find Address</span>
+                        <span class="menu-collapsed">Find Panel</span>
                       </a>
 <!--                      <a href="/admin" class="list-group-item list-group-item-action bg-dark text-white">-->
 <!--                        <span class="menu-collapsed">Excel Import</span>-->
@@ -319,7 +319,7 @@
  {% block extrajs %}{% endblock %}
 
 <script src="{% static "base.js" %}"></script>
-<script src='{% static "js/jquery-3.4.1.min.js" %}'></script>
+
 <!--<script src='{% static "js/bootstrap.bundle.min.js" %}'></script>-->
 
 </html>

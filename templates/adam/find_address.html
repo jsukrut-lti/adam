@@ -19,6 +19,34 @@
       margin: 0;
       font-size: 13px;
     }
+
+    #yourLabelId {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+.custom-style th {
+       font-size: 14px !important;
+    }
+
+
+.custom-style td {
+       font-size: 14px !important;
+    white-space: break-spaces;
+    border-right: 1px solid;
+    }
+    .submitbtn {
+        width:120px;    float: right; padding: 7px;
+    }
+    .table tbody>tr>td {
+      border-top:0px solid;
+    }
+
+    table {
+      table-layout: inherit !important;
+    }
+    .mapboxgl-ctrl button{
+      background-color : #f9fafb!important
+    }
   </style>
 
   <div class="container">
@@ -28,7 +56,7 @@
 
         </div>
         <div class="col-4 text-center">
-          <a class="blog-header-logo text-dark text-decoration-none" href="#"> ADAMS </a>
+          <a class="blog-header-logo text-dark text-decoration-none" href="#"> PANEL </a>
         </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
 
@@ -40,14 +68,29 @@
   </div>
   <main class="container">
     <div class="col-md-10">
-
-      <div id="map"></div>
-      <div class="calculation-box">
+      <div class="pt-3">
+      <div id="map" class="map mb-3" style='height: 500px;'></div>
+      <div class="calculation-box" style="display:none">
         <p>Click the map to draw a polygon.</p>
         <div id="calculated-area"></div>
       </div>
 
+      <table id="yourLabelId" class="table table-bordered" style="display:none">
+        <thead>
+          <tr>
+            <th> Co ordinates</th>
+            <th> Locations</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+        <button type="button" class="btn btn-primary submitbtn" style="display:block;">Reset</button>
+      </div>
     </div>
+
+
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -71,10 +114,15 @@
         mapboxgl: mapboxgl
       })
     );
+    check_lng = []
+    check_lat = []
     map.on('click', function (e) {
       var eventLngLat = [e.lngLat.lng, e.lngLat.lat];
+      check_lng.push(e.lngLat.lng)
+      check_lat.push(e.lngLat.lat)
       console.log(eventLngLat)
     });
+
     const draw = new MapboxDraw({
       displayControlsDefault: false,
       // Select which mapbox-gl-draw control buttons to add to the map.
@@ -91,14 +139,20 @@
     map.on('draw.create', updateArea);
     map.on('draw.delete', updateArea);
     map.on('draw.update', updateArea);
-
+    map.addControl(new mapboxgl.NavigationControl());
     function updateArea(e) {
       const data = draw.getAll();
       console.log(draw)
       const answer = document.getElementById('calculated-area');
       if (data.features.length > 0) {
         const area = turf.area(data);
-        console.log(turf)
+        //console.log(turf)
+        console.log(check_lng)
+        max_lng=Math.max.apply(Math,check_lng)
+        min_lng=Math.min.apply(Math,check_lng)
+        max_lat=Math.max.apply(Math,check_lat)
+        min_lat=Math.max.apply(Math,check_lat)
+        check_area_details(max_lng,min_lng,max_lat,min_lat)
         var lngLatArray = data.features[0].geometry.coordinates[0]
         // Restrict the area to 2 decimal points.
         const rounded_area = Math.round(area * 100) / 100;
@@ -117,6 +171,40 @@
       var buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
       return buffered;
     }
+
+    function check_area_details(max_lng,min_lng,max_lat,min_lat){
+        data = {"min_lng":min_lng,"max_lng":max_lng, "min_lat":min_lat, "max_lat":max_lat}
+        $.ajax({
+            type:"POST",
+            async: false,
+            url: "/check_area/",
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                console.log(res)
+                data = res['data']
+                console.log(data)
+                $("#yourLabelId").show()
+                html = ''
+                $.each(data, function(i,v){
+                    //console.log(v['longitude'])
+                    //console.log(v['latitude'])
+                  const marker1 = new mapboxgl.Marker({ "color": "#198754" })
+                  .setLngLat([v['longitude'], v['latitude']])
+                  .addTo(map);
+                  latlng = v['longitude'] +","+v['latitude']
+                  address = v['city'] +","+ v['state'] +","+ v['country']
+                  html += '<tr><td>'+latlng+'</td><td>'+address+'</td></tr>'
+                })
+                $("#yourLabelId tbody").append(html)
+            }
+        })
+
+    }
+
+    $(".submitbtn").click(function(){
+      location.reload();
+    })
   </script>
 
 {% endblock %}
