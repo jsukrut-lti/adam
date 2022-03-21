@@ -1256,6 +1256,10 @@ body.show::after {
   border-left-color: #0e1941;
 }
 
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#cancel {
+  background: #0dcaf0;
+}
+
 .rateAnalysisChangeContainer select,
 .rateAnalysisChangeContainer select option {
   cursor: pointer;
