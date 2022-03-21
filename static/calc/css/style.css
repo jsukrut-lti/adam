@@ -536,7 +536,11 @@ body.show::after {
 #react-entry-point #mainContainer #approval_rate,
 #react-entry-point #mainContainer #avg_price_increase,
 #react-entry-point #mainContainer #comb_avg_price_increase,
-#react-entry-point #mainContainer #fig_dropdown .Select-control {
+#react-entry-point #mainContainer #avg_price_change_perc,
+#react-entry-point #mainContainer #society_approval_rate_perc,
+#react-entry-point #mainContainer #filter_perc,
+#react-entry-point #mainContainer #fig_dropdown .Select-control,
+#react-entry-point #mainContainer #description {
   width: 100%;
   height: 36px;
 }
@@ -846,7 +850,7 @@ body.show::after {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  gap: 15px;
+  gap: 5px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
@@ -985,7 +989,7 @@ body.show::after {
 }
 
 .rateAnalysisChangeContainer .btnContainerTop {
-  gap: 15px;
+  gap: 5px;
 }
 
 .rateAnalysisChangeContainer .btnContainerTop .btn {
@@ -1066,28 +1070,28 @@ body.show::after {
   top: 0;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress {
-  background: #f0ad4e;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#pending {
+  background: #ffc107;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress::after {
-  border-left-color: #f0ad4e;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#pending::after {
+  border-left-color: #ffc107;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.reject {
-  background: #d9534f;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#reject {
+  background: #dc3545;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.reject::after {
-  border-left-color: #d9534f;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#reject::after {
+  border-left-color: #dc3545;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.approve {
-  background: #5cb85c;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#approve {
+  background: #198754;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.approve::after {
-  border-left-color: #5cb85c;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#approve::after {
+  border-left-color: #198754;
 }
 
 .rateAnalysisChangeContainer select,
@@ -1111,6 +1115,7 @@ body.show::after {
   background: #4599b3;
   color: #ffffff;
   border-radius: 5px;
+  font-size: 18px;
 }
 
 .rateAnalysisChangeContainer .historyDetails {
