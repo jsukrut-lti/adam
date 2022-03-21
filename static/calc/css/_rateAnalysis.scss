@@ -111,7 +111,9 @@
                         cursor: pointer;
                         font-size: 14px;
                         border: 1px solid;
-                        padding: 2px 5px;
+                        padding: 5px;
+                        display: flex;
+                        align-items: center;
 
                         &.btn-edit {
                             background: #ffc107;

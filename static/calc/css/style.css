@@ -860,7 +860,13 @@ body.show::after {
   cursor: pointer;
   font-size: 14px;
   border: 1px solid;
-  padding: 2px 5px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
