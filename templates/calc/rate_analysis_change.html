@@ -15,25 +15,24 @@
                         <div class="d-sm-flex btnContainerTop flex-wrap flex-lg-nowrap">
                             {%if scenario_data.status == 'pending' %}
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Approve' %}" class="btn text-white fw-bold" id="approve" style="border-radius: 5px !important;">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Approve' %}" class="btn text-white fw-bold" id="approve">
                             </div>
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Reject' %}" class="btn text-white fw-bold" id="reject" style="border-radius: 5px !important;">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Reject' %}" class="btn text-white fw-bold" id="reject">
                             </div>
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Cancel' %}" class="btn text-white fw-bold" id="cancel" style="border-radius: 5px !important;">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Cancel' %}" class="btn text-white fw-bold" id="cancel">
                             </div>
                             <div class="col-sm-3">
                             <a href="/financial-analysis/rate_analysis_id={{scenario_data.id|stringformat:'i'}}" target="_blank" >
-                                <input type="buton" form="rate-analysis-form" value="{% trans 'Edit Price' %}" class="btn text-white fw-bold" id="edit_price" style="border-radius: 5px !important;cursor: pointer;">
+                                <input type="buton" form="rate-analysis-form" value="{% trans 'Edit Price' %}" class="btn text-white fw-bold" id="edit_price">
                             </a>
                             </div>
-
 
                             {% endif %}
                             {%if scenario_data.status in 'approve,reject' %}
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Re-Open' %}" class="btn text-white fw-bold" id="reopen" style="border-radius: 5px !important;">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Re-Open' %}" class="btn text-white fw-bold" id="reopen">
                             </div>
                             {% endif %}
                         </div>
