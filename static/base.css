@@ -210,7 +210,7 @@
     #sidebar-container .list-group a {
       height: 50px;
       color: white;
-      font-size: 14px;
+      font-size: 15px;
       display: flex;
     }
     #sidebar-container .list-group a:first-child {
@@ -1050,6 +1050,11 @@ thead tr {
     -webkit-transition: 0.3s;
     transition: 0.3s;
   }
+
+  .overlay .overlay-content .sidebar-submenu a {
+    font-size: 18px;
+  }
+
   .overlay .overlay-content {
     position: relative;
     top: 44%;
