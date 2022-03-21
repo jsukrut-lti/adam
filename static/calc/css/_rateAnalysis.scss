@@ -104,7 +104,7 @@
                 .crud {
                     display: flex;
                     justify-content: center;
-                    gap: 15px;
+                    gap: 5px;
                     flex-wrap: wrap;
 
                     a {
@@ -221,7 +221,7 @@
 
 .rateAnalysisChangeContainer {
     .btnContainerTop {
-        gap: 15px;
+        gap: 5px;
 
         .btn {
             border-radius: 15px;
@@ -295,27 +295,27 @@
                 top: 0;
             }
 
-            &.inProgress {
-                background: #f0ad4e;
+            &.selected_status#pending {
+                background: #ffc107;
 
                 &::after {
-                    border-left-color: #f0ad4e;
+                    border-left-color: #ffc107;
                 }
             }
 
-            &.reject {
-                background: #d9534f;
+            &.selected_status#reject {
+                background: #dc3545;
 
                 &::after {
-                    border-left-color: #d9534f;
+                    border-left-color: #dc3545;
                 }
             }
 
-            &.approve {
-                background: #5cb85c;
+            &.selected_status#approve {
+                background: #198754;
 
                 &::after {
-                    border-left-color: #5cb85c;
+                    border-left-color: #198754;
                 }
             }
         }
@@ -341,6 +341,7 @@
             background: #4599b3;
             color: #ffffff;
             border-radius: 5px;
+            font-size: 18px;
         }
     }
 
