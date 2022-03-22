@@ -69,6 +69,9 @@ app.layout = html.Div([
                         html.Img(
                             src='http://127.0.0.1:8000/static/calc/images/upload.png',
                         ),
+                        html.Img(
+                            src='http://127.0.0.1:8000/static/calc/images/download1.png',
+                        )
                     ], className='uploadImg'),
                 ),
             ], className='ml-0', id='upload_file'),
@@ -117,9 +120,9 @@ app.layout = html.Div([
         ], className='ml-0', id='title000'),
     ], className='topSection'),
     html.Div([
-        html.Button(id='submit-button-state', className='btnSubmit', children="Submit"),
-        html.Button(id='export-button-state', className='btnExport', children="Download Output",
-                    style={'display': 'none'})
+        html.Button(id='apply-button-state', className='btnApply', children="Apply Changes"),
+        html.Button(id='export-button-state', className='btnExport', children="Export"),
+        html.Button(id='submit-button-state', className='btnSubmit', children="Submit")
     ], className='btnContainer'),
     html.Div([
         html.Div([
