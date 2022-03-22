@@ -860,7 +860,13 @@ body.show::after {
   cursor: pointer;
   font-size: 14px;
   border: 1px solid;
-  padding: 2px 5px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
@@ -993,9 +999,7 @@ body.show::after {
 }
 
 .rateAnalysisChangeContainer .btnContainerTop .btn {
-  border-radius: 15px;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 5px;
   background: #4599b3 !important;
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
@@ -1092,6 +1096,10 @@ body.show::after {
 
 .rateAnalysisChangeContainer #crumbs ul li a.selected_status#approve::after {
   border-left-color: #198754;
+}
+
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status#cancel {
+  background: #0dcaf0;
 }
 
 .rateAnalysisChangeContainer select,

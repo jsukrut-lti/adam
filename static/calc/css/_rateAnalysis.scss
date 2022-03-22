@@ -111,7 +111,9 @@
                         cursor: pointer;
                         font-size: 14px;
                         border: 1px solid;
-                        padding: 2px 5px;
+                        padding: 5px;
+                        display: flex;
+                        align-items: center;
 
                         &.btn-edit {
                             background: #ffc107;
@@ -224,9 +226,9 @@
         gap: 5px;
 
         .btn {
-            border-radius: 15px;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 0;
+            border-radius: 5px;
+            // border-top-right-radius: 0;
+            // border-bottom-left-radius: 0;
             background: #4599b3 !important;
             transition: 0.3s ease;
             opacity: 1;
@@ -317,6 +319,10 @@
                 &::after {
                     border-left-color: #198754;
                 }
+            }
+
+            &.selected_status#cancel {
+                background: #0dcaf0;
             }
         }
     }
