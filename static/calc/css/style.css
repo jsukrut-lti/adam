@@ -1373,3 +1373,101 @@ body.show::after {
   background: #dc3545 !important;
 }
 /*# sourceMappingURL=style.css.map */
+/* ### Datatable Export css ### */
+div button.export {background:url('/static/calc/images/export.png');}div
+button.export
+{
+color: transparent;
+border: none;
+background-repeat: no-repeat;
+}.export::after
+{
+content: 'Download Result ';
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+padding: 2px 15px;
+position: absolute;
+margin-top: -40px;
+}.export::before
+{
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+}.export:hover::after
+{
+display: block;
+}.export:hover::before {display: block;}
+/* ### Datatable Export css ### */
+/*# sourceMappingURL=style.css.map */
+/* ### Datatable Export css ### */
+div button.export {background:url('http://127.0.0.1:8000/static/calc/images/export.png');}div
+button.export
+{
+color: transparent;
+border: none;
+background-repeat: no-repeat;
+}.export::after
+{
+content: 'Download Result ';
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+padding: 2px 15px;
+position: absolute;
+margin-top: -40px;
+}.export::before
+{
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+}.export:hover::after
+{
+display: block;
+}.export:hover::before 
+{display: block;}
+/* ### Datatable Export css ### */

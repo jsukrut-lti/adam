@@ -43,8 +43,8 @@
                                         {% if scenario.status == 'pending' %}
                                             <a class="bi bi-pencil-square btn-edit" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"
                                             data-toggle="tooltip" data-placement="top"></a>
-                                            <a class="bi bi-check-square-fill btn-approve" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
-                                            <a class="bi bi-x-square-fill btn-reject" value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-check-square-fill btn-approve" data-value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-x-square-fill btn-reject" data-value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -88,14 +88,14 @@ $(document).ready(function () {
 
     $(".btn-approve").on("click", function(){
         $('#button_lable').html("Approve");
-        $('#button_lable').val($(this).val());
+        $('#button_lable').val($(this).data("value"));
         $("#mi-modal").modal('show');
         window.status = "A";
     });
 
     $(".btn-reject").on("click", function(){
         $('#button_lable').html("Reject");
-        $('#button_lable').val($(this).val());
+        $('#button_lable').val($(this).data("value"));
         $("#mi-modal").modal('show');
         window.status = "R";
     });
