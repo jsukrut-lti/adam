@@ -578,7 +578,7 @@ def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator
             reference_number = create_or_update_record(input_data=input_data)
             message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
             message_two = '{} : {}'.format(message_one, reference_number)
-            message_three = 'window.open("{}","_parent");'.format('/profile')
+            message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
             res = 'alert("{}");'.format(message_two)
             res = '{}{}'.format(res, message_three)
             return res
