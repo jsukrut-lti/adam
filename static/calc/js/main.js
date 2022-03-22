@@ -4,7 +4,7 @@ $(document).ready( function () {
         paging: true,
         searching: true,
         info : true,
-        order: [],
+        order: []
     });
 
     $('#bauMax20').DataTable({
@@ -115,6 +115,14 @@ $(document).ready( function () {
                 } );
             } );
         }
+    });
+
+    $('#rateAnalysisDetails, #rateAnalysisHistory').DataTable({
+        "pageLength": 10,
+        paging: true,
+        searching: true,
+        info : true,
+        order: [0,'asc']
     });
 
 // Project Code Starts Here

@@ -152,72 +152,141 @@
             }
         }
     }
+}
 
-    #rateAnalysis_wrapper {
-        margin-top: 15px;
+#rateAnalysis_wrapper,
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
+    margin-top: 15px;
 
-        #rateAnalysis_filter {
-            label {
-                display: flex;
-                align-items: center;
-                margin-bottom: 15px;
-                font-size: 15px;
-
-                input {
-                    border: 1px solid darkgray;
-                    box-shadow: 1px 2px 5px darkgrey;
-                    padding: 10px;
-                }
-            }
-        }
-
-        #rateAnalysis_length {
-            label {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                font-size: 15px;
-
-                select {
-                    border: 1px solid darkgray;
-                    padding: 5px;
-                }
-            }
-        }
-
-        #rateAnalysis_info {
-            font-size: 15px;
-        }
-
-        #rateAnalysis_paginate {
-            font-size: 15px;
+    #rateAnalysis_filter,
+    #rateAnalysisDetails_filter,
+    #rateAnalysisHistory_filter {
+        label {
+            display: flex;
+            align-items: center;
             margin-bottom: 15px;
+            font-size: 15px;
 
-            .paginate_button {
-                border: none;
-                background: #4599b3;
-                color: #ffffff !important;
-                opacity: 1;
-                padding: 10px 20px;
-                -webkit-transition: 0.3s ease;
-                transition: 0.3s ease;
-
-                &:hover {
-                    background: #67a5b9;
-                }
-
-                &.current {
-                    background: #0e1941;
-                    color: #ffffff;
-                }
-
-                &.disabled {
-                    background: #4599b3;
-                    color: #ffffff;
-                    opacity: 0.7;
-                }
+            input {
+                border: 1px solid darkgray;
+                box-shadow: 1px 2px 5px darkgrey;
+                padding: 10px;
             }
         }
+    }
+
+    #rateAnalysis_length,
+    #rateAnalysisDetails_length,
+    #rateAnalysisHistory_length {
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+
+            select {
+                border: 1px solid darkgray;
+                padding: 5px;
+            }
+        }
+    }
+
+    #rateAnalysis_info,
+    #rateAnalysisDetails_info,
+    #rateAnalysisHistory_info {
+        font-size: 15px;
+    }
+
+    #rateAnalysis_paginate,
+    #rateAnalysisDetails_paginate,
+    #rateAnalysisHistory_paginate {
+        font-size: 15px;
+        margin-bottom: 15px;
+
+        .paginate_button {
+            border: none;
+            background: #4599b3;
+            color: #ffffff !important;
+            opacity: 1;
+            padding: 10px 20px;
+            -webkit-transition: 0.3s ease;
+            transition: 0.3s ease;
+
+            &:hover {
+                background: #67a5b9;
+            }
+
+            &.current {
+                background: #0e1941;
+                color: #ffffff;
+            }
+
+            &.disabled {
+                background: #4599b3;
+                color: #ffffff;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    #rateAnalysisDetails_paginate,
+    #rateAnalysisHistory_paginate,
+    #rateAnalysisDetails_info,
+    #rateAnalysisHistory_info {
+        margin-top: 10px;
+    }
+
+    #rateAnalysisDetails_filter,
+    #rateAnalysisHistory_filter {
+        margin-bottom: 0;
+
+        label {
+            input {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
+    table.dataTable thead .sorting_asc {
+        background-image: url("../images/sort_asc.png");
+        background-repeat: no-repeat;
+        background-position: 30px 14px;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background-image: url("../images/sort_desc.png");
+        background-repeat: no-repeat;
+        background-position: 30px 14px;
+    }
+}
+
+#rateAnalysisHistory_wrapper {
+    width: 100vw;
+    position: relative;
+
+    #rateAnalysisHistory_filter,
+    #rateAnalysisHistory_paginate {
+        position: sticky;
+        right: 0;
+    }
+
+    #rateAnalysisHistory_length,
+    #rateAnalysisHistory_info {
+        position: sticky;
+        left: 0;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background-position: 5px 14px;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background-position: 5px 14px;
     }
 }
 
@@ -257,6 +326,7 @@
             padding-right: 15px;
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
+            margin-right: 0;
 
             &::after {
                 display: none; 
@@ -297,32 +367,12 @@
                 top: 0;
             }
 
-            &.selected_status#pending {
-                background: #ffc107;
+            &.selected_status {
+                background: #0e1941;
 
                 &::after {
-                    border-left-color: #ffc107;
+                    border-left-color: #0e1941;
                 }
-            }
-
-            &.selected_status#reject {
-                background: #dc3545;
-
-                &::after {
-                    border-left-color: #dc3545;
-                }
-            }
-
-            &.selected_status#approve {
-                background: #198754;
-
-                &::after {
-                    border-left-color: #198754;
-                }
-            }
-
-            &.selected_status#cancel {
-                background: #0dcaf0;
             }
         }
     }
