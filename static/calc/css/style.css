@@ -1423,7 +1423,7 @@ display: block;
 /* ### Datatable Export css ### */
 /*# sourceMappingURL=style.css.map */
 /* ### Datatable Export css ### */
-div button.export {background:url('http://127.0.0.1:8000/static/calc/images/export.png');}div
+div button.export {background:url('/static/calc/images/export.png');}div
 button.export
 {
 color: transparent;
