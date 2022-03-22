@@ -27,7 +27,7 @@ import math
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
-                        {'href': 'http://127.0.0.1:8000/static/calc/css/style.css', 'rel': 'stylesheet'},
+                        {'href': '/static/calc/css/style.css', 'rel': 'stylesheet'},
                         # dbc.themes.BOOTSTRAP
                         ]
 app = DjangoDash('AnalysisApp', external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
@@ -67,10 +67,10 @@ app.layout = html.Div([
                     id='datatable-upload',
                     children=html.Div([
                         html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/upload.png',
+                            src='/static/calc/images/upload.png',
                         ),
                         html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/download1.png',
+                            src='/static/calc/images/download1.png',
                         )
                     ], className='uploadImg'),
                 ),
