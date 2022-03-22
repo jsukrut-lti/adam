@@ -90,7 +90,7 @@
                 }
 
                 #upload_file {
-                    cursor: pointer;
+                    // cursor: pointer;
                     padding: 2px;
                     
                     .uploadImg {                        
@@ -101,6 +101,11 @@
                         img {
                             height: 30px;
                             width: 30px;
+                            cursor: pointer;
+
+                            &:last-child {
+                                margin-left: 15px;
+                            }
                         }
                     }
                 }
@@ -123,6 +128,8 @@
 
         tbody {
             tr {
+                font-size: 12px;
+
                 &:nth-child(2) {
                     th {
                         width: 16.6% !important;
@@ -141,6 +148,7 @@
                     width: 16.6%;
                     border-top: none !important;
                     border-bottom: none !important;
+                    font-size: 11px;
 
                     &.cell--selected.focused {
                         background: #4599b3 !important;
@@ -205,7 +213,8 @@
     flex-wrap: wrap;
 
     .btnSubmit,
-    .btnExport {
+    .btnExport,
+    .btnApply {
         padding: 0 30px;
         font-size: 14px;
         display: flex;
@@ -217,6 +226,7 @@
         border-radius: 15px;
         border-top-right-radius: 0;
         border-bottom-left-radius: 0;
+        text-transform: capitalize;
 
         &:hover {
             background: #5fa2b7;
@@ -226,6 +236,16 @@
 
 .tableContainer {
     overflow-x: auto;
+}
+
+@media (max-width: 576px) {
+    #react-entry-point {
+        #mainContainer {
+            .btnContainer {
+                flex-flow: column;
+            }
+        }
+    }
 }
 
 @media (max-width: 992px) {

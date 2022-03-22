@@ -15,24 +15,24 @@
                         <div class="d-sm-flex btnContainerTop flex-wrap flex-lg-nowrap">
                             {%if scenario_data.status == 'pending' %}
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Approve' %}" class="btn text-white fw-bold" id="approve">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Approve' %}" class="btn text-white fw-bold m-sm-0 my-1" id="approve">
                             </div>
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Reject' %}" class="btn text-white fw-bold" id="reject">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Reject' %}" class="btn text-white fw-bold m-sm-0 my-1" id="reject">
                             </div>
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Cancel' %}" class="btn text-white fw-bold" id="cancel">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Cancel' %}" class="btn text-white fw-bold m-sm-0 my-1" id="cancel">
                             </div>
                             <div class="col-sm-3">
                             <a href="/financial-analysis/rate_analysis_id={{scenario_data.id|stringformat:'i'}}" target="_blank" >
-                                <input type="buton" form="rate-analysis-form" value="{% trans 'Edit Price' %}" class="btn text-white fw-bold" id="edit_price">
+                                <input type="buton" form="rate-analysis-form" value="{% trans 'Edit Price' %}" class="btn text-white fw-bold m-sm-0 my-1" id="edit_price">
                             </a>
                             </div>
 
                             {% endif %}
                             {%if scenario_data.status in 'approve,reject' %}
                             <div class="col-sm-3">
-                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Re-Open' %}" class="btn text-white fw-bold" id="reopen">
+                                <input type="submit" form="rate-analysis-form" name="status" value="{% trans 'Re-Open' %}" class="btn text-white fw-bold m-sm-0 my-1" id="reopen">
                             </div>
                             {% endif %}
                         </div>
@@ -51,7 +51,7 @@
             </div>
             <form id="rate-analysis-form"  method="POST">
                 {% csrf_token %}
-                <div class="basicInfo p-3 mb-3">
+                <div class="basicInfo p-3 mb-4">
                     <h5 class="mb-3 p-3 py-2">Basic Info</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="basicInfo p-3 mb-3">
+                <div class="basicInfo p-3 mb-4">
                     <h5 class="mb-3 p-3 py-2"> Comment Info </h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <div class="otherInfo p-3 mb-3">
+                <div class="otherInfo p-3 mb-4">
                     <h5 class="mb-3 p-3 py-2">Other Info</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-3">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-3">
+                <div class="col-md-12 mb-4">
                     <div class="historyDetails p-3">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item col-md-5 col-lg-4" role="presentation">
@@ -139,7 +139,7 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="rate-details" role="tabpanel" aria-labelledby="rate-details-tab">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="rateAnalysisDetails">
                                       <thead>
                                         <tr>
                                             <th scope="col">Ownership Structure</th>
@@ -166,14 +166,14 @@
 
                             <div class="tab-pane fade" id="rate-history" role="tabpanel" aria-labelledby="rate-history-tab">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="rateAnalysisHistory">
                                       <thead>
                                         <tr>
                                             <th scope="col">Modified Date</th>
                                             <th scope="col">Modified By</th>
                                             <th scope="col">Action</th>
                                             <th scope="col">Filter Percentage</th>
-                                            <th scope="col">Society Approval Rate (%)</th>
+                                            <th scope="col">Society <br/> Approval Rate (%)</th>
                                             <th scope="col">Average Price Change (%)</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Approve / Reject Remarks</th>
@@ -205,7 +205,7 @@
                 </div>
             </form>
 
-            <div class="paginations mb-5">
+            <!-- <div class="paginations mb-5">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-md-end justify-content-center flex-wrap">
                       <li class="page-item disabled">
@@ -221,7 +221,7 @@
                       </li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
