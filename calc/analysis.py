@@ -81,13 +81,13 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=00.00, required=True,
+            dcc.Input(id='filter_perc', type='number', value=20.00, required=True,
                       ),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=00.00, required=True,
+            dcc.Input(id='society_approval_rate_perc', type='number', value=50.00, required=True,
                       ),
         ], className='ml-0', id='title4'),
         html.Div([
@@ -501,14 +501,10 @@ def prepare_approval_data(**kwargs):
         dataframe.index = dataframe.index + 1
         dataframe.sort_index(inplace=True)
         dataframe['APC change %'][0] = "0%"
-        for key, value in df_zero.items():
-            dataframe[key][0] = value
-            dataframe[key] = dataframe[key].apply(lambda x: math.ceil(dataframe.drop(dataframe.index[-1]).loc[:, key].sum())
-            if x['APC change %'] == "Total" else x[key], axis=1)
-    else:
-        for key, value in df_zero.items():
-            dataframe.loc[0:0,key] = dataframe[key].apply(
-                lambda x: math.ceil(value - dataframe.loc[1:dataframe.index[-2],[key]].sum()))
+
+    for key, value in df_zero.items():
+        dataframe.loc[0:0,key] = dataframe[key].apply(
+            lambda x: math.ceil(value - dataframe.loc[1:dataframe.index[-2],[key]].sum()))
 
     for col in dataframe.columns:
         if col.find('Total') != -1:
