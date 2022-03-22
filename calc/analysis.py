@@ -81,13 +81,13 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=90.00, required=True,
+            dcc.Input(id='filter_perc', type='number', value=00.00, required=True,
                       ),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=30.00, required=True,
+            dcc.Input(id='society_approval_rate_perc', type='number', value=00.00, required=True,
                       ),
         ], className='ml-0', id='title4'),
         html.Div([
