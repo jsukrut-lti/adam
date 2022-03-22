@@ -22,6 +22,7 @@ import plotly.graph_objects as go
 import numpy as np
 import visdcc
 import logging
+import math
 
 logger = logging.getLogger(__file__)
 
@@ -80,13 +81,13 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=0.00, required=True,
+            dcc.Input(id='filter_perc', type='number', value=90.00, required=True,
                       ),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=0.00, required=True,
+            dcc.Input(id='society_approval_rate_perc', type='number', value=30.00, required=True,
                       ),
         ], className='ml-0', id='title4'),
         html.Div([
@@ -360,6 +361,7 @@ def prepare_pivot(**kwargs):
             dataframe_filter = dataframe.loc[dataframe['Percentage Change'] <= (filter_perc / 100)]
         else:
             dataframe_filter = dataframe
+
         table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
                                index=['% category'],
@@ -382,8 +384,8 @@ def prepare_pivot(**kwargs):
         table.reset_index(inplace=True)
         table = table.drop(['index'], axis=1)
         table.infer_objects().dtypes
-        average_prie_increase = (dataframe_filter['Percentage Change'].mean() * 100) * (
-                    1 - (society_approval_rate_perc / 100))
+        average_prie_increase = math.ceil((dataframe_filter['Percentage Change'].mean() * 100) * (
+                    1 - (society_approval_rate_perc / 100)))
 
         table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
     except Exception as e:
@@ -481,31 +483,41 @@ def prepare_graph(**kwargs):
 def prepare_approval_data(**kwargs):
     print('prepare approval data ...')
     dataframe = kwargs.get('dataframe', False)
+    dataframe.iloc[:,1:] = dataframe.iloc[:,1:].apply(pd.to_numeric).apply(np.ceil)
     approval_rate = kwargs.get('society_approval_rate_perc', False)
 
     df_zero = {}
     for col in dataframe.columns:
         if col.find('-') != -1 and col.split('-')[0] == "N":
-            dataframe[col] = dataframe[col].apply(lambda x: (x * approval_rate) / 100)
             if col.split('-')[1] == "Number of Journals":
-                df_zero[col] = dataframe.drop(dataframe.index[-1]).loc[:, col].sum()
+                df_zero_df = dataframe.loc[dataframe['APC change %'] == 'Total', [col]].sum(axis = 0, skipna = True).apply(pd.to_numeric).apply(np.ceil)
 
-    if '0%' not in dataframe['APC change %']:
+            dataframe.loc[1:dataframe.index[-2],[col]] = dataframe[col].apply(lambda x: math.ceil((x * approval_rate) / 100))
+
+    df_zero = df_zero_df.to_dict()
+
+    if '0%' not in dataframe['APC change %'].unique():
         dataframe.loc[-1] = [0] * len(dataframe.columns)
         dataframe.index = dataframe.index + 1
         dataframe.sort_index(inplace=True)
         dataframe['APC change %'][0] = "0%"
         for key, value in df_zero.items():
             dataframe[key][0] = value
-            dataframe[key] = dataframe.apply(lambda x: dataframe.drop(dataframe.index[-1]).loc[:, key].sum()
+            dataframe[key] = dataframe[key].apply(lambda x: math.ceil(dataframe.drop(dataframe.index[-1]).loc[:, key].sum())
             if x['APC change %'] == "Total" else x[key], axis=1)
+    else:
+        for key, value in df_zero.items():
+            dataframe.loc[0:0,key] = dataframe[key].apply(
+                lambda x: math.ceil(value - dataframe.loc[1:dataframe.index[-2],[key]].sum()))
 
     for col in dataframe.columns:
         if col.find('Total') != -1:
             dataframe[col] = dataframe[[dif_col for dif_col in dataframe.columns
-                                        if
-                                        dif_col.find('-') != -1 and dif_col.split('-')[1] == col.split('-')[1]
-                                        and dif_col.find('Total') == -1]].sum(axis=1)
+                                        if dif_col.find('-') != -1 and dif_col.split('-')[1] == col.split('-')[1]
+                                        and dif_col.find('Total') == -1]].sum(axis=1).apply(pd.to_numeric).apply(np.ceil)
+
+
+    dataframe.loc[dataframe.index[-1],1:] = dataframe.iloc[0:-1,1:].sum(axis=0).apply(pd.to_numeric).apply(np.ceil)
 
     return dataframe
 
