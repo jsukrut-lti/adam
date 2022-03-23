@@ -171,7 +171,7 @@ class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
         if obj.calculator_id:
             import_csv_database(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
             prepare_csv_import_journal(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
-            create_sample_file(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
+            # create_sample_file(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
     change_actions = (
         "export_csv",
         "import_journal",
