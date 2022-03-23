@@ -198,7 +198,7 @@ def financial_analysis_view(request, **kwargs):
             ts = datetime.datetime.now() + datetime.timedelta(seconds=4)
             param.update({'end_time': {'value': ts.strftime("%Y-%m-%d %H:%M:%S.%f")}})
             param['apply-button-state'].update({'n_clicks': 1})
-            param.update({'sample': {'href': doc_rec.document.url}})
+            # param.update({'sample': {'href': doc_rec.document.url}})
         print ('papaapp ===',param)
         context = {'dash_input': param, }
         return render(request, 'calc/financial_analysis.html', context)
