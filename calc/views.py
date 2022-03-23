@@ -183,6 +183,7 @@ def financial_analysis_view(request, **kwargs):
         param = { 'user_id': {'value': request.user.id },
                   'calculator_id': {'value': calculator_id },
                 }
+        doc_rec = Document.objects.filter(calculator_id=int(calculator_id), name="Sample Document").last()
         if search_cond_dict:
             rate_analysis_obj = RateAnalysis.objects.get(id=search_cond_dict.get('rate_analysis_id'))
             load_param_dict = search_cond_dict
@@ -191,8 +192,13 @@ def financial_analysis_view(request, **kwargs):
             load_param_dict['avg_price_change_perc'] = rate_analysis_obj.avg_price_change_perc
             load_param_dict['description'] = rate_analysis_obj.description and rate_analysis_obj.description.strip() or 0
             load_param_dict['document_id'] = rate_analysis_obj.document_id and rate_analysis_obj.document_id.id or 0
-            for k,v in load_param_dict.items():
-                param.update({k : {'value': v}})
+            load_param_dict['apply-button-state'] = 1
+            for k, v in load_param_dict.items():
+                param.update({k: {'value': v}})
+            ts = datetime.datetime.now() + datetime.timedelta(seconds=4)
+            param.update({'end_time': {'value': ts.strftime("%Y-%m-%d %H:%M:%S.%f")}})
+            param['apply-button-state'].update({'n_clicks': 1})
+            param.update({'sample': {'href': doc_rec.document.url}})
         print ('papaapp ===',param)
         context = {'dash_input': param, }
         return render(request, 'calc/financial_analysis.html', context)

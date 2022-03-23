@@ -9,6 +9,7 @@ from calc.models import *
 import io
 import base64
 import itertools
+from datetime import datetime
 from django.shortcuts import render, redirect
 import dash_bootstrap_components as dbc
 from dash import dcc, html, callback_context, dash_table as dt
@@ -27,8 +28,7 @@ import math
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
-                        {'href': 'http://127.0.0.1:8000/static/calc/css/style.css', 'rel': 'stylesheet'},
-                        # dbc.themes.BOOTSTRAP
+                        {'href': '/static/calc/css/style.css', 'rel': 'stylesheet'},
                         ]
 app = DjangoDash('AnalysisApp', external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
 
@@ -36,8 +36,6 @@ colors = {
     'background': '#ffffff',
     'text': '#212529'
 }
-
-alert = dbc.Alert("Testing ... ", color="danger", dismissable=True)
 
 app.layout = html.Div([
     visdcc.Run_js(id='javascript'),
@@ -50,7 +48,8 @@ app.layout = html.Div([
             dcc.Input(id='rate_analysis_id', persistence=False, readOnly=True, value=0)], style={'display': 'none'}),
         html.Div([
             dcc.Input(id='document_id', persistence=False, readOnly=True, value=0)], style={'display': 'none'}),
-        # html.A('Download *SELECTED* Data',id='download-selection',href="",target="_blank"),
+        dcc.Input(id='start_time', value='', style={'display': 'none'}),
+        dcc.Input(id='end_time', value='', style={'display': 'none'}),
         html.Div([
             html.Div([
                 html.P('Select Scenario', className='fix_label',
@@ -83,17 +82,16 @@ app.layout = html.Div([
             id='confirm-danger',
             message='Are you sure you want to continue?',
         ),
-        html.Div(id="the_alert", children=[], style={'display': 'none'}),
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=90.00, required=True,
+            dcc.Input(id='filter_perc', type='number', value=20.00, required=True,
                       ),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=30.00, required=True,
+            dcc.Input(id='society_approval_rate_perc', type='number', value=50.00, required=True,
                       ),
         ], className='ml-0', id='title4'),
         html.Div([
@@ -123,8 +121,8 @@ app.layout = html.Div([
         ], className='ml-0', id='title000'),
     ], className='topSection'),
     html.Div([
-        html.Button(id='apply-button-state', className='btnApply', children="Apply Changes"),
-        html.Button(id='export-button-state', className='btnExport', children="Export"),
+        html.Button(id='apply-button-state', className='btnApply', n_clicks=0, children="Apply Changes"),
+        html.Button(id='export-button-state', className='btnExport', children="Export", style={'display': 'none'}),
         html.Button(id='submit-button-state', className='btnSubmit', children="Submit")
     ], className='btnContainer'),
     html.Div([
@@ -473,7 +471,7 @@ def prepare_graph(**kwargs):
                 side='right'
             ), legend=dict(y=-0.90, x=0.8))
         fig_layout = {
-            'data': [trace1, trace2, trace3, trc01, trc02, trc03],  # trace4
+            'data': [trace1, trace2, trace3, trc01, trc02, trc03],
             'layout': layout
         }
         return fig_layout
@@ -507,14 +505,10 @@ def prepare_approval_data(**kwargs):
         dataframe.index = dataframe.index + 1
         dataframe.sort_index(inplace=True)
         dataframe['APC change %'][0] = "0%"
-        for key, value in df_zero.items():
-            dataframe[key][0] = value
-            dataframe[key] = dataframe[key].apply(lambda x: math.ceil(dataframe.drop(dataframe.index[-1]).loc[:, key].sum())
-            if x['APC change %'] == "Total" else x[key], axis=1)
-    else:
-        for key, value in df_zero.items():
-            dataframe.loc[0:0,key] = dataframe[key].apply(
-                lambda x: math.ceil(value - dataframe.loc[1:dataframe.index[-2],[key]].sum()))
+
+    for key, value in df_zero.items():
+        dataframe.loc[0:0,key] = dataframe[key].apply(
+            lambda x: math.ceil(value - dataframe.loc[1:dataframe.index[-2],[key]].sum()))
 
     for col in dataframe.columns:
         if col.find('Total') != -1:
@@ -553,8 +547,25 @@ def update_scenario(user_id):
         return [{'label': i.get('name'), 'value': i.get('pk')} for i in scenario_list1], scenario_list1[0].get('pk')
     return [{}], ''
 
+@app.callback(Output('end_time', 'value'),
+              Output('submit-button-state', 'n_clicks'),
+              [Input('apply-button-state', 'n_clicks')])
+def apply_button(apply_btn):
+    if apply_btn == 0:
+        raise PreventUpdate
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), None
+
+@app.callback(Output('start_time', 'value'),
+              [Input('filter_perc', 'value'),
+              Input('society_approval_rate_perc', 'value')])
+def update_starttime(filter_perc,society_approval_rate_perc):
+    if filter_perc == 0 or society_approval_rate_perc == 0:
+        raise PreventUpdate
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
 @app.callback(Output('javascript', 'run'),
+              Input('start_time', 'value'),
+              Input('end_time', 'value'),
               Input('submit-button-state', 'n_clicks'),
               Input('scenario_id', 'value'),
               State('rate_analysis_id', 'value'),
@@ -569,7 +580,7 @@ def update_scenario(user_id):
               State('datatable', 'columns'),
               State('datatable-upload', 'contents'), State('datatable-upload', 'filename')
               )
-def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc,
+def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_id, user_id, calculator_id, filter_perc,
                   society_approval_rate_perc, avg_price_change_perc, remarks, description, datatable, datatable_column,
                   contents, filename):
     print('\n update_output ...')
@@ -589,9 +600,23 @@ def update_output(submit_btn, scenario_id, rate_analysis_id, user_id, calculator
         input_data['action'] = 'edit'
         input_data['rate_analysis_id'] = rate_analysis_id
     # update_rate_analysis(input_data = input_data)
-    if scenario_id != 0 and society_approval_rate_perc != 0 and avg_price_change_perc != 0 and submit_btn and datatable != [
-        [{}], []]:
+    if scenario_id != 0 and society_approval_rate_perc != 0 and avg_price_change_perc != 0 and \
+            submit_btn and datatable != [[{}], []]:
         print('\n yes')
+        from_datetime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
+        to_datetime = False
+        is_flag = False
+        if end_time != '':
+            to_datetime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+        if to_datetime < from_datetime:
+            is_flag = True
+        if submit_btn is None:
+            raise PreventUpdate
+        else:
+            if is_flag:
+                message_one = 'Click on Apply changes before proceed to submit'
+                res = 'alert("{}");'.format(message_one)
+                return res
         if rate_analysis_id > 0:
             reference_number = create_or_update_record(input_data=input_data)
             message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
@@ -658,15 +683,20 @@ def toggle_upload_option(document_id):
 @app.callback(Output('bar-scratter-graph', 'figure'),
               Output('datatable', 'data'),
               Output('avg_price_change_perc', 'value'),
-              [Input('society_approval_rate_perc', 'value'),
+              [Input('apply-button-state', 'n_clicks'),
+               Input('society_approval_rate_perc', 'value'),
                Input('scenario_id', 'value'),
                Input('document_id', 'value'),
                Input('datatable-upload', 'contents'),
                Input('datatable-upload', 'filename'),
                Input('filter_perc', 'value')])
-def update_datatable(society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
+def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
     print('update_datatable ...', scenario_id)
     print('update_datatable document_id ...', document_id)
+    if apply_btn == 0:
+        raise PreventUpdate
+    if society_approval_rate_perc is None or filter_perc is None:
+        raise PreventUpdate
     fig_layout = {}
     if not scenario_id:
         print('yes....')
