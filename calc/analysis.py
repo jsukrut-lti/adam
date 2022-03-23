@@ -66,16 +66,17 @@ app.layout = html.Div([
                     id='datatable-upload',
                     children=html.Div([
                         html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/upload.png',
+                            src='/static/calc/images/upload.png',
                         )
                     ], className='uploadImg'),
                 ),
                 html.Button([
-                    (html.Img(
-                        src='http://127.0.0.1:8000/static/calc/images/download1.png',
-                        )
+                    html.A([
+                        html.Img(
+                            src='/static/calc/images/download1.png',
+                        )], href="#", id='sample',
                     )
-                ], className='downloadBtn'),
+                ],'Sample_Document', className='downloadBtn'),
             ], className='ml-0', id='upload_file'),
         ], className='ddContainer'),
         dcc.ConfirmDialog(

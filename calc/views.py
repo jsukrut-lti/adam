@@ -183,8 +183,11 @@ def financial_analysis_view(request, **kwargs):
         param = { 'user_id': {'value': request.user.id },
                   'calculator_id': {'value': calculator_id },
                 }
-        doc_rec = Document.objects.filter(calculator_id=int(calculator_id), name="Sample Document").last()
+        doc_rec = Document.objects.filter(calculator_id=int(calculator_id), name="Sample_Document").last()
+        if doc_rec:
+            param.update({'sample': {'href': doc_rec.document.url}})
         if search_cond_dict:
+            print("Search condiation dict", search_cond_dict)
             rate_analysis_obj = RateAnalysis.objects.get(id=search_cond_dict.get('rate_analysis_id'))
             load_param_dict = search_cond_dict
             load_param_dict['filter_perc'] = rate_analysis_obj.filter_perc
@@ -198,8 +201,8 @@ def financial_analysis_view(request, **kwargs):
             ts = datetime.datetime.now() + datetime.timedelta(seconds=4)
             param.update({'end_time': {'value': ts.strftime("%Y-%m-%d %H:%M:%S.%f")}})
             param['apply-button-state'].update({'n_clicks': 1})
-            # param.update({'sample': {'href': doc_rec.document.url}})
-        print ('papaapp ===',param)
+            print("sample document", doc_rec.document.url)
+        print('papaapp ===',param)
         context = {'dash_input': param, }
         return render(request, 'calc/financial_analysis.html', context)
     return redirect('login')

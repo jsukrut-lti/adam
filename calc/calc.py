@@ -400,28 +400,28 @@ def import_csv_database(**kwargs):
         return True
     return False
 
-# def create_sample_file(**kwargs):
-#     filelocation = get_filelocation(**kwargs)
-#     calculator_id = kwargs.get('calculator_id')
-#     document_data = {}
-#     if calculator_id:
-#         calc_rec = CalculatorMaster.objects.filter(pk=int(calculator_id))
-#         calc_rec = calc_rec and list(calc_rec) or []
-#         calc_rec = calc_rec and calc_rec[0] or False
-#         print(calc_rec)
-#         document_dynamic_filepath = get_upload_to(calc_rec.directory_name, False)
-#         new_filepath = os.path.join(settings.MEDIA_ROOT, document_dynamic_filepath)
-#         print(new_filepath)
-#
-#     if os.path.exists(filelocation + "\Journal_Database.csv"):
-#         SampleDF = pd.read_csv(filelocation + "\Journal_Database.csv", nrows=5)
-#
-#         SampleDF.to_csv(new_filepath + "\Sample_Document.csv")
-#         document_data['calculator_id'] = calc_rec
-#         document_data['document'] = document_dynamic_filepath + "\Sample_Document.csv"
-#         document_data["name"] = "Sample Document"
-#         print(document_data)
-#         document_rec = Document.objects.create(**document_data)
+def create_sample_file(**kwargs):
+    filelocation = get_filelocation(**kwargs)
+    calculator_id = kwargs.get('calculator_id')
+    document_data = {}
+    if calculator_id:
+        calc_rec = CalculatorMaster.objects.filter(pk=int(calculator_id))
+        calc_rec = calc_rec and list(calc_rec) or []
+        calc_rec = calc_rec and calc_rec[0] or False
+        print(calc_rec)
+        document_dynamic_filepath = get_upload_to(calc_rec.directory_name, False)
+        new_filepath = os.path.join(settings.MEDIA_ROOT, document_dynamic_filepath)
+        print(new_filepath)
+
+    if os.path.exists(filelocation + "\Journal_Database.csv"):
+        SampleDF = pd.read_csv(filelocation + "\Journal_Database.csv", nrows=5)
+
+        SampleDF.to_csv(new_filepath + "\Sample_Document.csv")
+        document_data['calculator_id'] = calc_rec
+        document_data['document'] = document_dynamic_filepath + "\Sample_Document.csv"
+        document_data["name"] = "Sample_Document"
+        print(document_data)
+        document_rec = Document.objects.create(**document_data)
 ### Import CSV to Database Ends Here ###
 
 ##test
