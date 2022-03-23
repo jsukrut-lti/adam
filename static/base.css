@@ -1078,134 +1078,34 @@ thead tr {
   }
 }
 
-/* Not Found CSS Start Here... */
-.notFoundContainer h1, .notFoundContainer h3, .notFoundContainer p, .notFoundContainer .btn, .notFoundContainer span {
-  font-family: 'Fredoka', sans-serif;
+/* Wiley Calculator Iframe CSS Start */
+
+.mainsection .django-plotly-dash.card {
+  box-shadow: 1px 2px 5px darkgrey;
 }
 
-.notFoundContainer h1 {
-  font-weight: 600;
-  font-size: 100px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.notFoundContainer h1 span:nth-child(1) {
-  -webkit-animation: bounce 1s ease infinite;
-          animation: bounce 1s ease infinite;
-}
-
-.notFoundContainer h1 span:nth-child(2) {
-  -webkit-animation: bounce 1s ease infinite 0.1s;
-          animation: bounce 1s ease infinite 0.1s;
-}
-
-.notFoundContainer h1 span:nth-child(3) {
-  -webkit-animation: bounce 1s ease infinite 0.2s;
-          animation: bounce 1s ease infinite 0.2s;
-}
-
-.notFoundContainer h3 {
-  font-weight: 600;
-  font-size: 30px;
-  margin-bottom: 10px;
-}
-
-.notFoundContainer p {
-  margin-bottom: 10px;
-}
-
-.notFoundContainer p a {
-  color: #ed7d31;
-  text-decoration: none;
-  position: relative;
-}
-
-.notFoundContainer p a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  width: 0%;
-  background: #ed7d31;
-}
-
-.notFoundContainer p a:hover::after {
+.mainsection .django-plotly-dash.card > div {
   width: 100%;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+  padding-bottom: 80vh !important;
+}
+  
+.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card iframe {
+    right: 0;
 }
 
-.notFoundContainer .btn {
-  background: #0070c0;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
-.notFoundContainer .btn:hover {
-  background: #065085;
+::-webkit-scrollbar-thumb {
+  background: #708090;
+  border-radius: 0.5rem;
 }
 
-.notFoundContainer .notfound {
-  height: 100vh;
-  background-image: -webkit-gradient(linear, left top, right bottom, from(#0070c0), to(#ed7d31));
-  background-image: linear-gradient(to bottom right, #0070c0, #ed7d31);
-  color: #ffffff;
+::-webkit-scrollbar-track {
+  background: #d2d5d7;
+  border-radius: 0.25rem;
 }
 
-.notFoundContainer .notfound .notfoundcontent {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  max-width: 400px;
-  margin: 0 auto;
-  height: 100%;
-  padding: 0 15px;
-}
-
-.notFoundContainer .notfound .notfoundcontent .btn {
-  max-width: 200px;
-}
-
-@-webkit-keyframes bounce {
-  0% {
-    -webkit-transform: scale(1, 1) translateY(0);
-            transform: scale(1, 1) translateY(0);
-  }
-  50% {
-    -webkit-transform: scale(1, 1) translateY(-25px);
-            transform: scale(1, 1) translateY(-25px);
-  }
-  100% {
-    -webkit-transform: scale(1, 1) translateY(0);
-            transform: scale(1, 1) translateY(0);
-  }
-}
-
-@keyframes bounce {
-  0% {
-    -webkit-transform: scale(1, 1) translateY(0);
-            transform: scale(1, 1) translateY(0);
-  }
-  50% {
-    -webkit-transform: scale(1, 1) translateY(-25px);
-            transform: scale(1, 1) translateY(-25px);
-  }
-  100% {
-    -webkit-transform: scale(1, 1) translateY(0);
-            transform: scale(1, 1) translateY(0);
-  }
-}
+/* Wiley Calculator Iframe CSS End */
