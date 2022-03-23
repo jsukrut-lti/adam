@@ -4,15 +4,17 @@ from django.conf import settings
 from django.urls import reverse
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
-from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
+from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal, create_sample_file
 from django.shortcuts import redirect
 from django.db.models import F
 from django.contrib import messages
 from calc.views import financial_analysis_view
 # from calc.forms import JournalMasterAdminForm
+### Testing
 import os
 from calc.models import CurrencyMaster, CurrencyRateMaster, CalculatorMaster, \
-    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory
+    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory, \
+    get_upload_to
 
 # Register your models here.
 class CurrencyMasterAdmin(admin.ModelAdmin):
@@ -22,9 +24,15 @@ class CurrencyMasterAdmin(admin.ModelAdmin):
 admin.site.register(CurrencyMaster, CurrencyMasterAdmin)
 
 class CurrencyRateMasterAdmin(admin.ModelAdmin):
-    list_display = ("code", "name", "conversion_rate",)
-    search_fields = ['code','name','from_currency__code','to_currency__code']
-    list_filter = ('from_currency','to_currency')
+    readonly_fields = ['code']
+    list_display = ("code", "name", "effective_date", "conversion_rate",)
+    search_fields = ['code', 'name', 'from_currency__code', 'to_currency__code']
+    list_filter = ('from_currency', 'to_currency')
+
+    fieldsets = (('',
+                  {'fields': ('name', 'from_currency', 'to_currency', 'effective_date', 'conversion_rate', 'active'),
+                   'classes': ['wide']}),)
+
 
 admin.site.register(CurrencyRateMaster, CurrencyRateMasterAdmin)
 
@@ -105,7 +113,7 @@ class ScenarioAdmin(admin.ModelAdmin):
 admin.site.register(ScenarioMaster, ScenarioAdmin)
 
 class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
-    fieldsets = ( ('Basic Info', {'fields': ('calculator_id','name','scenario_id', 'document',), 'classes': ['wide']}),)
+    fieldsets = ( ('Basic Info', {'fields': ('calculator_id','name','document',), 'classes': ['wide']}),)
 
     def get_actions(self, request):
         actions = super().get_actions(request)
@@ -124,9 +132,9 @@ class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
                     [field.name for field in self.opts.local_many_to_many]))
         return readonly_fields
 
-    list_display = ("calculator_id", "name", "scenario_id", "uploaded_at",)
-    search_fields = ['calculator_id__name','name','scenario_id__name']
-    list_filter = ('calculator_id','scenario_id')
+    list_display = ("calculator_id", "name", "uploaded_at",)
+    search_fields = ['calculator_id__name','name']
+    list_filter = ('calculator_id',)
 
     def change_view(self, request, object_id, extra_context=None):
         ''' customize add/edit form '''
@@ -163,7 +171,7 @@ class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
         if obj.calculator_id:
             import_csv_database(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
             prepare_csv_import_journal(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
-
+            create_sample_file(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
     change_actions = (
         "export_csv",
         "import_journal",

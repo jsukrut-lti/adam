@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static "calc/css/style.css" %}">
+
+<section class="main-container">
+    <div class="container-md my-4">
+        <div class="rateAnalysisContainer bg-white p-3">
+            <h4 class="mb-2">Rate Analysis</h4>
+            <div class="table-responsive">
+                <table class="table" id="rateAnalysis">
+                    <thead>
+                        <tr>
+                            <th scope="col">Rate Analysis No</th>
+                            <th scope="col">Scenario</th>
+                            <th scope="col">Filter Percentage</th>
+                            <th scope="col">Society Approval Rate (%)</th>
+                            <th scope="col">Average Price Change (%)</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Approve/Reject Remarks</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for scenario in scenario_data %}
+                        <tr>
+                            <td><a href="{% url 'financial-analysis-view-form' scenario.rate_analysis_no %}">{{scenario.rate_analysis_no}}</a></td>
+                            <td>{{scenario.scenario_id}}</td>
+                            <td>{{scenario.filter_perc}}</td>
+                            <td>{{scenario.society_approval_rate_perc}}</td>
+                            <td>{{scenario.avg_price_change_perc}}</td>
+                            <td class="text-capitalize">{{scenario.status_verbose}}</td>
+                            <td>{{scenario.remarks}}</td>
+
+
+                            <td>
+                                <div class="crud">
+                                    {% if request.user.is_superuser %}
+                                        <a class="bi bi-pencil-square" href="#"></a>
+                                    {% else %}
+
+                                        {% if scenario.status == 'pending' %}
+                                            <a class="bi bi-pencil-square btn-edit" href="/financial-analysis/rate_analysis_id={{ scenario.id }}"
+                                            data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-check-square-fill btn-approve" data-value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
+                                            <a class="bi bi-x-square-fill btn-reject" data-value="{{ scenario.id }}" data-toggle="tooltip" data-placement="top"></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8"><span class="fw-bold">{{ scenario_data|length }} Total</span></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+          <div class="modal-dialog modal-md">
+            <div class="modal-content p-3">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Are you sure you want to <label id="button_lable" value=""></label> selected scenario?</h4>
+              </div>
+              <div class="modal-footer d-flex flex-sm-wrap flex-md-nowrap">
+                <button type="button" class="btn confirmBtn" id="modal-btn-si">Yes</button>
+                <button type="button" class="btn confirmBtn" id="modal-btn-no">No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<script src="{% static "calc/js/main.js" %}"></script>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+var status = ""
+$(document).ready(function () {
+    var modalConfirm = function(callback){
+
+    $(".btn-approve").on("click", function(){
+        $('#button_lable').html("Approve");
+        $('#button_lable').val($(this).data("value"));
+        $("#mi-modal").modal('show');
+        window.status = "A";
+    });
+
+    $(".btn-reject").on("click", function(){
+        $('#button_lable').html("Reject");
+        $('#button_lable').val($(this).data("value"));
+        $("#mi-modal").modal('show');
+        window.status = "R";
+    });
+
+  $("#modal-btn-si").on("click", function(){
+    callback(true);
+    $("#mi-modal").modal('hide');
+
+  });
+
+  $("#modal-btn-no").on("click", function(){
+    callback(false);
+    $("#mi-modal").modal('hide');
+  });
+};
+
+function update_scenario_status(status,scenario_id){
+    const url = "/update_scenario_status"
+    $.ajax({
+            url: url,
+            data: {
+                'scenario_id': scenario_id,
+                'status': status
+            },
+            beforeSend: function(){
+                $(".loader").show();
+            },
+            success: function (data) {
+                if(data.flag == 1){
+                    alert("status has been updated as " + data.status + " for scenario " + data.rate_analysis_no)
+                }
+            },
+            error: function () {
+                alert('Oops! Something went wrong. Please try back after later');
+            },
+            complete:function(data){
+                $(".loader").hide();
+                location.reload();
+            }
+        });
+}
+modalConfirm(function(confirm){
+  if(confirm){
+        var scenario_id = $("#button_lable").val();
+        update_scenario_status(window.status,scenario_id)
+        return false
+  }else{
+       return false
+  }
+});
+
+});
+</script>
+{% endblock %}

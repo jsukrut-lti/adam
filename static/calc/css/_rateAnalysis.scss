@@ -1,0 +1,519 @@
+/* Rate Analysis CSS Start */
+
+.rateAnalysisContainer,
+.rateAnalysisChangeContainer {
+    box-shadow: 1px 2px 5px darkgrey;
+    padding: 12px;
+
+    h5 {
+        padding: 12px;
+    }
+
+    .table {
+        margin-bottom: 0;
+        border-spacing: revert;
+
+        thead, tbody {
+            & > tr {
+                & > th,
+                & > td {
+                    padding: 12px 8px;
+                    color: #ffffff;
+                    font-weight: normal;
+                    width: 90px !important;
+                    font-family: 'Lora', serif;
+                    text-align: center;
+                }
+            }
+        }
+
+        tfoot {
+            tr {
+                td {
+                    padding: 12px 8px 12px 0;
+                    border-top: 1px solid #dee2e6;
+                    border-right: none;
+
+                    span {
+                        font-size: 14px;
+                        border: 1px solid #dee2e6;
+                        background: #dee2e6;
+                        border-radius: 5px;
+                        padding: 5px 10px;
+                    }
+                }
+            }
+        }
+
+        thead {
+            & > tr > th {
+                background: #0c1639;
+                border-right: none;
+                font-size: 12px;
+                white-space: normal;
+
+                &:first-child {
+                    .form-check-input {
+                        display: block;
+                        margin: 0 auto;
+                        padding: 10px;
+                        opacity: 1;
+                    }
+                }
+
+                &:last-child {
+                    // width: 25px !important;
+                }
+            }
+        }
+
+        tbody {
+            & > tr > td {
+                border-top: none;
+                background: #4599b3;
+                font-size: 11px;
+                word-break: break-all;
+                white-space: normal;
+
+                &:last-child {
+                    text-align: left;
+                }
+
+                &:first-child {
+                    .form-check-input {
+                        display: block;
+                        margin: 0 auto;
+                        padding: 10px;
+                        opacity: 1;
+                    }
+                }
+
+                &:last-child {
+                    // width: 25px !important;
+                }
+
+                a {
+                    color: #ffffff;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                .crud {
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    flex-wrap: wrap;
+
+                    a {
+                        cursor: pointer;
+                        font-size: 14px;
+                        border: 1px solid;
+                        padding: 5px;
+                        display: flex;
+                        align-items: center;
+
+                        &.btn-edit {
+                            background: #ffc107;
+                        }
+
+                        &.btn-approve {
+                            background: #198754;
+                        }
+
+                        &.btn-reject {
+                            background: #dc3545;
+                        }
+                    }
+
+                    i {
+                        cursor: pointer;
+
+                        &.bi-pencil-fill::before {
+                            color: #ffa500;
+                        }
+
+                        &.bi-trash3-fill::before {
+                            color: #ff0000;
+                        }
+
+                        &.bi-x-octagon-fill::before {
+                            color: #bff1f3;
+                        }
+                    }
+                }
+            }
+
+            td, th {
+                padding: 12px 8px;
+                border-right: none;
+            }
+        }
+    }
+}
+
+#rateAnalysis_wrapper,
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
+    margin-top: 15px;
+
+    #rateAnalysis_filter,
+    #rateAnalysisDetails_filter,
+    #rateAnalysisHistory_filter {
+        label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 15px;
+
+            input {
+                border: 1px solid darkgray;
+                box-shadow: 1px 2px 5px darkgrey;
+                padding: 10px;
+            }
+        }
+    }
+
+    #rateAnalysis_length,
+    #rateAnalysisDetails_length,
+    #rateAnalysisHistory_length {
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+
+            select {
+                border: 1px solid darkgray;
+                padding: 5px;
+            }
+        }
+    }
+
+    #rateAnalysis_info,
+    #rateAnalysisDetails_info,
+    #rateAnalysisHistory_info {
+        font-size: 15px;
+    }
+
+    #rateAnalysis_paginate,
+    #rateAnalysisDetails_paginate,
+    #rateAnalysisHistory_paginate {
+        font-size: 15px;
+        margin-bottom: 15px;
+
+        .paginate_button {
+            border: none;
+            background: #4599b3;
+            color: #ffffff !important;
+            opacity: 1;
+            padding: 10px 20px;
+            -webkit-transition: 0.3s ease;
+            transition: 0.3s ease;
+
+            &:hover {
+                background: #67a5b9;
+            }
+
+            &.current {
+                background: #0e1941;
+                color: #ffffff;
+            }
+
+            &.disabled {
+                background: #4599b3;
+                color: #ffffff;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    #rateAnalysisDetails_paginate,
+    #rateAnalysisHistory_paginate,
+    #rateAnalysisDetails_info,
+    #rateAnalysisHistory_info {
+        margin-top: 10px;
+    }
+
+    #rateAnalysisDetails_filter,
+    #rateAnalysisHistory_filter {
+        margin-bottom: 0;
+
+        label {
+            input {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
+    table.dataTable thead .sorting_asc {
+        background-image: url("../images/sort_asc.png");
+        background-repeat: no-repeat;
+        background-position: 30px 14px;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background-image: url("../images/sort_desc.png");
+        background-repeat: no-repeat;
+        background-position: 30px 14px;
+    }
+}
+
+#rateAnalysisHistory_wrapper {
+    width: 100vw;
+    position: relative;
+
+    #rateAnalysisHistory_filter,
+    #rateAnalysisHistory_paginate {
+        position: sticky;
+        right: 0;
+    }
+
+    #rateAnalysisHistory_length,
+    #rateAnalysisHistory_info {
+        position: sticky;
+        left: 0;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background-position: 5px 14px;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background-position: 5px 14px;
+    }
+}
+
+.rateAnalysisChangeContainer {
+    .btnContainerTop {
+        gap: 5px;
+
+        .btn {
+            border-radius: 5px;
+            // border-top-right-radius: 0;
+            // border-bottom-left-radius: 0;
+            background: #4599b3 !important;
+            transition: 0.3s ease;
+            opacity: 1;
+
+            &:hover {
+                background: #5fa2b7 !important;
+            }
+        }
+    }
+
+    input {
+        opacity: 1;
+    }
+
+    #crumbs ul li {
+        &:first-child a {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+
+            &::before {
+                display: none; 
+            }
+        }
+
+        &:last-child a {
+            padding-right: 15px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            margin-right: 0;
+
+            &::after {
+                display: none; 
+            }
+        }
+
+        a { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            background: #4599b3;
+            text-align: center;
+            padding: 5px 10px 5px 20px;
+            position: relative;
+            margin: 0 10px 0 0; 
+            font-size: 15px;
+            text-decoration: none;
+            color: #fff;
+    
+            &::after {
+                content: "";  
+                border-top: 22px solid transparent;
+                border-bottom: 22px solid transparent;
+                border-left: 10px solid #4599b3;
+                position: absolute;
+                right: -10px;
+                top: 0;
+            }
+    
+            &::before {
+                content: "";  
+                border-top: 22px solid transparent;
+                border-bottom: 22px solid transparent;
+                border-left: 10px solid white;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            &.selected_status {
+                background: #0e1941;
+
+                &::after {
+                    border-left-color: #0e1941;
+                }
+            }
+        }
+    }
+
+    select,
+    select option {
+        cursor: pointer;
+    }
+
+    .basicInfo,
+    .metricInfo,
+    .otherInfo {
+        // background: #4599b3;
+        // color: #ffffff;
+        // box-shadow: 1px 2px 5px #4599b3;
+        background: #ffffff;
+        color: #212529;
+        box-shadow: 1px 2px 5px darkgray;
+        border-radius: 5px;
+
+        h5 {
+            background: #4599b3;
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    }
+
+    .historyDetails {
+        box-shadow: 1px 2px 5px darkgray;
+        border-radius: 5px;
+
+        ul {
+            .nav-item {
+                .nav-link {
+                    background: #4599b3 !important;
+                    color: #ffffff;
+                    font-size: 16px;
+                    font-family: 'Lora', serif;
+
+                    &.active {
+                        background: #0e1941 !important;
+                    }
+                }
+            }
+        }
+
+        .table {
+            thead,
+            tbody {
+                & > tr {
+                    & > th,
+                    & > td {
+                        word-break: unset;
+    
+                        &:last-child {
+                            width: 90px !important;
+                            text-align: center;
+                        }
+                    }
+
+                    & > th {
+                        font-size: 14px;
+                    }
+
+                    & > td {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }   
+
+    .paginations {
+        .pagination {
+            .page-item {
+                a {
+                    background: #4599b3;
+                    color: #ffffff;
+                    opacity: 1;
+                    font-weight: bold;
+                    padding: 10px 20px;
+                    transition: 0.3s ease;
+
+                    &:hover {
+                        background: #67a5b9;
+                    }
+                }
+
+                &.active {
+                    a {
+                        background: #0e1941;
+                    }
+                }
+
+                &.disabled {
+                    a {
+                        background: #4599b3;
+                        color: #ffffff;
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modal {
+    .modal-dialog {
+        transform: translate(-50%, -50%) !important;
+        top: 50%;
+        left: 50%;
+        margin: 0 30px 0 0;
+    }
+    
+    .modal-header {
+        .modal-title {
+            font-size: 18px;
+        }
+    }
+
+    .modal-footer {
+        gap: 15px;
+
+        .confirmBtn {
+            // background: #4599b3 !important;
+            color: #ffffff;
+            opacity: 1;
+
+            &:hover {
+                // background: #67a5b9 !important;
+                opacity: 0.85;
+            }
+
+            &#modal-btn-si {
+                background: #198754 !important;
+            }
+
+            &#modal-btn-no {
+                background: #dc3545 !important;
+            }
+        }
+    }
+}

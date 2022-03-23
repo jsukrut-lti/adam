@@ -105,14 +105,30 @@
           <i class="bi bi-calculator-fill me-3"></i>
           <span class="menu-collapsed">Calculator</span>
       </a>
-      <a href="/financial-analysis" class="bg-dark">
+      <!-- <a href="/financial-analysis" class="bg-dark">
           <i class="bi bi-bar-chart-fill me-3"></i>
           <span class="menu-collapsed">Financial Model</span>
-      </a>
-      <a href="/analysis" class="bg-dark">
-          <i class="bi bi-search me-3"></i>
+      </a> -->
+      <!-- <a href="/analysis" class="bg-dark">
+          <i class="bi bi-people-fill me-3"></i>
           <span class="menu-collapsed">Analysis</span>
+      </a> -->
+      <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
+          class="bg-dark flex-column align-items-start adminSubMenu">
+            <i class="bi bi-people-fill me-3"></i>
+            <span class="menu-collapsed">Analysis</span>
+            <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
       </a>
+      <div id='submenu3' class="collapse sidebar-submenu">
+        <a href="/financial-analysis" class="list-group-item list-group-item-action bg-dark text-white">
+          <span class="menu-collapsed">Create Scenario</span>
+        </a>
+      </div>
+      <div id='submenu3' class="collapse sidebar-submenu">
+        <a href="/financial-analysis-report" class="list-group-item list-group-item-action bg-dark text-white">
+          <span class="menu-collapsed">Scenario Reports</span>
+        </a>
+      </div>
        {% if user.is_superuser %}
           <a href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
             class="bg-dark flex-column align-items-start adminSubMenu">

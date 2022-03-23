@@ -305,6 +305,138 @@ body.show::after {
   }
 }
 
+/* Not Found CSS Start Here... */
+.notFoundContainer h1, .notFoundContainer h3, .notFoundContainer p, .notFoundContainer .btn, .notFoundContainer span {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.notFoundContainer h1 {
+  font-weight: 600;
+  font-size: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.notFoundContainer h1 span:nth-child(1) {
+  -webkit-animation: bounce 1s ease infinite;
+          animation: bounce 1s ease infinite;
+}
+
+.notFoundContainer h1 span:nth-child(2) {
+  -webkit-animation: bounce 1s ease infinite 0.1s;
+          animation: bounce 1s ease infinite 0.1s;
+}
+
+.notFoundContainer h1 span:nth-child(3) {
+  -webkit-animation: bounce 1s ease infinite 0.2s;
+          animation: bounce 1s ease infinite 0.2s;
+}
+
+.notFoundContainer h3 {
+  font-weight: 600;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.notFoundContainer p {
+  margin-bottom: 10px;
+}
+
+.notFoundContainer p a {
+  color: #ed7d31;
+  text-decoration: none;
+  position: relative;
+}
+
+.notFoundContainer p a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: #ed7d31;
+}
+
+.notFoundContainer p a:hover::after {
+  width: 100%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.notFoundContainer .btn {
+  background: #0070c0;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.notFoundContainer .btn:hover {
+  background: #065085;
+}
+
+.notFoundContainer .notfound {
+  height: 100vh;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#0070c0), to(#ed7d31));
+  background-image: linear-gradient(to bottom right, #0070c0, #ed7d31);
+  color: #ffffff;
+}
+
+.notFoundContainer .notfound .notfoundcontent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 15px;
+}
+
+.notFoundContainer .notfound .notfoundcontent .btn {
+  max-width: 200px;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    -webkit-transform: scale(1, 1) translateY(-25px);
+            transform: scale(1, 1) translateY(-25px);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    -webkit-transform: scale(1, 1) translateY(-25px);
+            transform: scale(1, 1) translateY(-25px);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+
 /* Analysis CSS Start Here... */
 .analysisContainer {
   font-size: 12px;
@@ -404,7 +536,11 @@ body.show::after {
 #react-entry-point #mainContainer #approval_rate,
 #react-entry-point #mainContainer #avg_price_increase,
 #react-entry-point #mainContainer #comb_avg_price_increase,
-#react-entry-point #mainContainer #fig_dropdown .Select-control {
+#react-entry-point #mainContainer #avg_price_change_perc,
+#react-entry-point #mainContainer #society_approval_rate_perc,
+#react-entry-point #mainContainer #filter_perc,
+#react-entry-point #mainContainer #fig_dropdown .Select-control,
+#react-entry-point #mainContainer #description {
   width: 100%;
   height: 36px;
 }
@@ -453,7 +589,6 @@ body.show::after {
 }
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file {
-  cursor: pointer;
   padding: 2px;
 }
 
@@ -472,6 +607,11 @@ body.show::after {
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg img {
   height: 30px;
   width: 30px;
+  cursor: pointer;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg img:last-child {
+  margin-left: 15px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-fill-width .cell table {
@@ -480,6 +620,10 @@ body.show::after {
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-freeze-top, .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-freeze-left, .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-virtualized {
   overflow-x: auto !important;
+}
+
+.create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr {
+  font-size: 12px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr:nth-child(2) th {
@@ -503,6 +647,7 @@ body.show::after {
   width: 16.6%;
   border-top: none !important;
   border-bottom: none !important;
+  font-size: 11px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td.cell--selected.focused {
@@ -567,7 +712,8 @@ body.show::after {
 }
 
 .btnContainer .btnSubmit,
-.btnContainer .btnExport {
+.btnContainer .btnExport,
+.btnContainer .btnApply {
   padding: 0 30px;
   font-size: 14px;
   display: -webkit-box;
@@ -585,15 +731,26 @@ body.show::after {
   border-radius: 15px;
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
+  text-transform: capitalize;
 }
 
 .btnContainer .btnSubmit:hover,
-.btnContainer .btnExport:hover {
+.btnContainer .btnExport:hover,
+.btnContainer .btnApply:hover {
   background: #5fa2b7;
 }
 
 .tableContainer {
   overflow-x: auto;
+}
+
+@media (max-width: 576px) {
+  #react-entry-point #mainContainer .btnContainer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+  }
 }
 
 @media (max-width: 992px) {
@@ -673,11 +830,6 @@ body.show::after {
   opacity: 1;
 }
 
-.rateAnalysisContainer .table thead > tr > th:last-child,
-.rateAnalysisChangeContainer .table thead > tr > th:last-child {
-  width: 25px !important;
-}
-
 .rateAnalysisContainer .table tbody > tr > td,
 .rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
@@ -700,11 +852,6 @@ body.show::after {
   opacity: 1;
 }
 
-.rateAnalysisContainer .table tbody > tr > td:last-child,
-.rateAnalysisChangeContainer .table tbody > tr > td:last-child {
-  width: 25px !important;
-}
-
 .rateAnalysisContainer .table tbody > tr > td a,
 .rateAnalysisChangeContainer .table tbody > tr > td a {
   color: #ffffff;
@@ -724,6 +871,38 @@ body.show::after {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  gap: 5px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a {
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-edit {
+  background: #ffc107;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-approve,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-approve {
+  background: #198754;
+}
+
+.rateAnalysisContainer .table tbody > tr > td .crud a.btn-reject,
+.rateAnalysisChangeContainer .table tbody > tr > td .crud a.btn-reject {
+  background: #dc3545;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud i,
@@ -753,13 +932,21 @@ body.show::after {
   border-right: none;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper {
+#rateAnalysis_wrapper,
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
   margin-top: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label {
+#rateAnalysis_wrapper #rateAnalysis_filter label,
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysis_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysis_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -770,16 +957,30 @@ body.show::after {
   font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label input,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label input {
+#rateAnalysis_wrapper #rateAnalysis_filter label input,
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysis_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysis_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label input {
   border: 1px solid darkgray;
   -webkit-box-shadow: 1px 2px 5px darkgrey;
           box-shadow: 1px 2px 5px darkgrey;
   padding: 10px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_length label,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_length label {
+#rateAnalysis_wrapper #rateAnalysis_length label,
+#rateAnalysis_wrapper #rateAnalysisDetails_length label,
+#rateAnalysis_wrapper #rateAnalysisHistory_length label,
+#rateAnalysisDetails_wrapper #rateAnalysis_length label,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_length label,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_length label,
+#rateAnalysisHistory_wrapper #rateAnalysis_length label,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_length label,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -790,25 +991,53 @@ body.show::after {
   font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_length label select,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_length label select {
+#rateAnalysis_wrapper #rateAnalysis_length label select,
+#rateAnalysis_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysis_wrapper #rateAnalysisHistory_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysis_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysis_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length label select {
   border: 1px solid darkgray;
   padding: 5px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_info,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_info {
+#rateAnalysis_wrapper #rateAnalysis_info,
+#rateAnalysis_wrapper #rateAnalysisDetails_info,
+#rateAnalysis_wrapper #rateAnalysisHistory_info,
+#rateAnalysisDetails_wrapper #rateAnalysis_info,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_info,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_info,
+#rateAnalysisHistory_wrapper #rateAnalysis_info,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_info,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
   font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate {
+#rateAnalysis_wrapper #rateAnalysis_paginate,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate {
   font-size: 15px;
   margin-bottom: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button {
   border: none;
   background: #4599b3;
   color: #ffffff !important;
@@ -818,32 +1047,126 @@ body.show::after {
   transition: 0.3s ease;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button:hover {
   background: #67a5b9;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button.current {
   background: #0e1941;
   color: #ffffff;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled {
   background: #4599b3;
   color: #ffffff;
   opacity: 0.7;
 }
 
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysis_wrapper #rateAnalysisDetails_info,
+#rateAnalysis_wrapper #rateAnalysisHistory_info,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_info,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_info,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_info,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
+  margin-top: 10px;
+}
+
+#rateAnalysis_wrapper #rateAnalysisDetails_filter,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter {
+  margin-bottom: 0;
+}
+
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#rateAnalysisDetails_wrapper table.dataTable thead .sorting_asc,
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_asc {
+  background-image: url("../images/sort_asc.png");
+  background-repeat: no-repeat;
+  background-position: 30px 14px;
+}
+
+#rateAnalysisDetails_wrapper table.dataTable thead .sorting_desc,
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_desc {
+  background-image: url("../images/sort_desc.png");
+  background-repeat: no-repeat;
+  background-position: 30px 14px;
+}
+
+#rateAnalysisHistory_wrapper {
+  width: 100vw;
+  position: relative;
+}
+
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+}
+
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+}
+
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_asc {
+  background-position: 5px 14px;
+}
+
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_desc {
+  background-position: 5px 14px;
+}
+
 .rateAnalysisChangeContainer .btnContainerTop {
-  gap: 15px;
+  gap: 5px;
 }
 
 .rateAnalysisChangeContainer .btnContainerTop .btn {
-  border-radius: 15px;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 5px;
   background: #4599b3 !important;
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
@@ -871,6 +1194,7 @@ body.show::after {
   padding-right: 15px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  margin-right: 0;
 }
 
 .rateAnalysisChangeContainer #crumbs ul li:last-child a::after {
@@ -918,37 +1242,12 @@ body.show::after {
   top: 0;
 }
 
-/* Dynamic status highlight starts */
 .rateAnalysisChangeContainer #crumbs ul li a.selected_status {
-  background: #d9534f;
+  background: #0e1941;
 }
+
 .rateAnalysisChangeContainer #crumbs ul li a.selected_status::after {
-  border-left-color: #d9534f;
-}
-/* Dynamic status highlight ends */
-
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress {
-  background: #f0ad4e;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress::after {
-  border-left-color: #f0ad4e;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.reject {
-  background: #d9534f;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.reject::after {
-  border-left-color: #d9534f;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.approve {
-  background: #5cb85c;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.approve::after {
-  border-left-color: #5cb85c;
+  border-left-color: #0e1941;
 }
 
 .rateAnalysisChangeContainer select,
@@ -972,6 +1271,7 @@ body.show::after {
   background: #4599b3;
   color: #ffffff;
   border-radius: 5px;
+  font-size: 18px;
 }
 
 .rateAnalysisChangeContainer .historyDetails {
@@ -1039,56 +1339,135 @@ body.show::after {
   color: #ffffff;
   opacity: 0.7;
 }
+
+.modal .modal-dialog {
+  -webkit-transform: translate(-50%, -50%) !important;
+          transform: translate(-50%, -50%) !important;
+  top: 50%;
+  left: 50%;
+  margin: 0 30px 0 0;
+}
+
+.modal .modal-header .modal-title {
+  font-size: 18px;
+}
+
+.modal .modal-footer {
+  gap: 15px;
+}
+
+.modal .modal-footer .confirmBtn {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.modal .modal-footer .confirmBtn:hover {
+  opacity: 0.85;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-si {
+  background: #198754 !important;
+}
+
+.modal .modal-footer .confirmBtn#modal-btn-no {
+  background: #dc3545 !important;
+}
 /*# sourceMappingURL=style.css.map */
-
-
 /* ### Datatable Export css ### */
-div button.export {background:url('http://127.0.0.1:8000/static/calc/images/export.png');}
-div button.export {
+div button.export {background:url('/static/calc/images/export.png');}div
+button.export
+{
 color: transparent;
 border: none;
 background-repeat: no-repeat;
-}
-.export::after {
-    content: 'Download Result ';
-    background-color: #0c1639;
-    display: none;
-    position: absolute;
-    width: 200px;
-    height: 35px;
-    z-index: 999;
-    color: white;
-    margin-left: 12px;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: capitalize;
-    padding: 2px 15px;
-    position: absolute;
-    margin-top: -40px;
-}
-.export::before {
-    background-color: #0c1639;
-    display: none;
-    position: absolute;
-    width: 200px;
-    height: 35px;
-    z-index: 999;
-    color: white;
-    margin-left: 12px;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: capitalize;
-}
-.export:hover::after {
+}.export::after
+{
+content: 'Download Result ';
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+padding: 2px 15px;
+position: absolute;
+margin-top: -40px;
+}.export::before
+{
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+}.export:hover::after
+{
 display: block;
-}
-.export:hover::before {
+}.export:hover::before {display: block;}
+/* ### Datatable Export css ### */
+/*# sourceMappingURL=style.css.map */
+/* ### Datatable Export css ### */
+div button.export {background:url('/static/calc/images/export.png');}div
+button.export
+{
+color: transparent;
+border: none;
+background-repeat: no-repeat;
+}.export::after
+{
+content: 'Download Result ';
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+padding: 2px 15px;
+position: absolute;
+margin-top: -40px;
+}.export::before
+{
+background-color: #0c1639;
+display: none;
+position: absolute;
+width: 200px;
+height: 35px;
+z-index: 999;
+color: white;
+margin-left: 12px;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+line-height: 38px;
+letter-spacing: .1rem;
+text-transform: capitalize;
+}.export:hover::after
+{
 display: block;
-}
+}.export:hover::before 
+{display: block;}
 /* ### Datatable Export css ### */
