@@ -4,7 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
-from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
+from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal, create_sample_file
 from django.shortcuts import redirect
 from django.db.models import F
 from django.contrib import messages
@@ -170,7 +170,7 @@ class DocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
         if obj.calculator_id:
             import_csv_database(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
             prepare_csv_import_journal(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
-            # create_sample_file(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
+            create_sample_file(calculator_id=obj.calculator_id.id,calculator_directory=obj.calculator_id.directory_name)
     change_actions = (
         "export_csv",
         "import_journal",
