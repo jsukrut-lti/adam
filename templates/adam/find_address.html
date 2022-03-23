@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<link rel="stylesheet" href="{% static "calc/css/style.css" %}">
   <style>
     .calculation-box {
       height: 93px;
@@ -48,7 +48,7 @@
       background-color : #f9fafb!important
     }
   </style>
-
+<section class="main-container">
   <div class="container">
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
@@ -56,7 +56,7 @@
 
         </div>
         <div class="col-4 text-center">
-          <a class="blog-header-logo text-dark text-decoration-none" href="#"> PANEL </a>
+          <a class="blog-header-logo text-dark text-decoration-none" href="#"> SEARCH PANEL </a>
         </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
 
@@ -75,6 +75,29 @@
         <div id="calculated-area"></div>
       </div>
 
+    <div class="container-md my-4">
+		<div class="rateAnalysisContainer bg-white" style="display:none">
+		  <div class="table-responsive">
+			<table class="table" id="rateAnalysis">
+				<thead>
+					<tr>
+					    <th scope="col">Panel No</th>
+						<th scope="col">Co ordinates</th>
+						<th scope="col">City </th>
+						<th scope="col">Market</th>
+						<th scope="col">Media Type</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+		  </div>
+		</div>
+    </div>
+
       <table id="yourLabelId" class="table table-bordered" style="display:none">
         <thead>
           <tr>
@@ -92,10 +115,11 @@
 
 
   </main>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ </section>
+<script src="{% static "calc/js/main.js" %}"></script>
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"-->
+<!--    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="-->
+<!--    crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 
   <script>
 
@@ -104,7 +128,7 @@
     const map = new mapboxgl.Map({
       container: 'map', // container ID
       style: 'mapbox://styles/mapbox/streets-v11', // style URL
-      center: [77.75016552885222, 12.96832211908719], // starting position [lng, lat]
+      center: [-79.93607251349562,32.78408479152766], // starting position [lng, lat]
       zoom: 7 // starting zoom
     });
 
@@ -116,11 +140,13 @@
     );
     check_lng = []
     check_lat = []
+    final_cods = []
     map.on('click', function (e) {
       var eventLngLat = [e.lngLat.lng, e.lngLat.lat];
       check_lng.push(e.lngLat.lng)
       check_lat.push(e.lngLat.lat)
-      console.log(eventLngLat)
+      final_cods.push(eventLngLat)
+      //console.log(eventLngLat)
     });
 
     const draw = new MapboxDraw({
@@ -142,7 +168,7 @@
     map.addControl(new mapboxgl.NavigationControl());
     function updateArea(e) {
       const data = draw.getAll();
-      console.log(draw)
+      //console.log(draw)
       const answer = document.getElementById('calculated-area');
       if (data.features.length > 0) {
         const area = turf.area(data);
@@ -167,13 +193,29 @@
     }
     function makeRadius(lngLatArray, radiusInMeters) {
       var point = turf.point(lngLatArray);
-      console.log(point)
+      //console.log(point)
       var buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
       return buffered;
     }
 
+    function uniqueArray2(arr) {
+        var a = [];
+        for (var i=0, l=arr.length; i<l; i++)
+            if (a.indexOf(arr[i]) === -1 && arr[i] !== '')
+                a.push(arr[i]);
+        return a;
+    }
     function check_area_details(max_lng,min_lng,max_lat,min_lat){
-        data = {"min_lng":min_lng,"max_lng":max_lng, "min_lat":min_lat, "max_lat":max_lat}
+        cods = uniqueArray2(final_cods)
+        new_cods = []
+        $.each(cods, function(i,val){
+            console.log(val[0])
+            console.log(val[1])
+            new_cods.push('(' +val[0]+ "," +val[1]+ ')')
+        })
+        console.log(new_cods)
+        data = {"min_lng":min_lng,"max_lng":max_lng, "min_lat":min_lat,
+                "max_lat":max_lat,"cods":JSON.stringify(cods),"length":cods.length}
         $.ajax({
             type:"POST",
             async: false,
@@ -181,22 +223,45 @@
             data: data,
             dataType: 'json',
             success: function(res){
-                console.log(res)
+                //console.log(res)
                 data = res['data']
-                console.log(data.length)
-                $("#yourLabelId").show()
+                //console.log(data.length)
+                //$("#yourLabelId").show()
+                $(".rateAnalysisContainer").show()
+                $(".dataTables_empty").remove()
                 html = ''
+                html1 = ''
                 $.each(data, function(i,v){
                     //console.log(v['longitude'])
                     //console.log(v['latitude'])
-                  const marker1 = new mapboxgl.Marker({ "color": "#198754" })
-                  .setLngLat([v['longitude'], v['latitude']])
-                  .addTo(map);
                   latlng = v['longitude'] +","+v['latitude']
-                  address = v['city'] +","+ v['state'] +","+ v['country']
+                  panel = v['panel']
+                  city = 'charleston'
+                  market = v['market']
+                  mediatype = v['mediatype']
+                  if(mediatype == 'Poster'){
+                    color = "yellow"
+                  }else if(mediatype == 'Bulletin'){
+                    color = "red"
+                  }else{
+                    color = "#198754"
+                  }
+
+                  const marker1 = new mapboxgl.Marker({ "color": color })
+                  .setLngLat([v['longitude'], v['latitude']])
+                  .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+market+'</p><p>'+mediatype+'</p></div>'))
+                  .addTo(map);
+                  //marker1.togglePopup();
+
+                  //address = 'v['city'] +","+ v['state'] +","+ v['country']'
+                  address = 'N. Charleston'
                   html += '<tr><td>'+latlng+'</td><td>'+address+'</td></tr>'
+                  html1 += '<tr><td>'+panel+'</td><td>'+latlng+'</td><td>'+city+'</td><td>'+market+'</td><td>'+mediatype+'</td></tr>'
+
                 })
-                $("#yourLabelId tbody").append(html)
+                //$("#yourLabelId tbody").append(html)
+                $("#rateAnalysis tbody").append(html1)
+
             }
         })
 
