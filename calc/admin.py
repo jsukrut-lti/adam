@@ -4,7 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
-from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal, create_sample_file
+from .calc import excel_to_csv, import_csv_database, prepare_csv_import_journal
 from django.shortcuts import redirect
 from django.db.models import F
 from django.contrib import messages
@@ -13,8 +13,7 @@ from calc.views import financial_analysis_view
 ### Testing
 import os
 from calc.models import CurrencyMaster, CurrencyRateMaster, CalculatorMaster, \
-    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory, \
-    get_upload_to
+    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory
 
 # Register your models here.
 class CurrencyMasterAdmin(admin.ModelAdmin):
