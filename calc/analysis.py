@@ -68,12 +68,15 @@ app.layout = html.Div([
                     children=html.Div([
                         html.Img(
                             src='http://127.0.0.1:8000/static/calc/images/upload.png',
-                        ),
-                        html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/download1.png',
                         )
                     ], className='uploadImg'),
                 ),
+                html.Button([
+                    (html.Img(
+                        src='http://127.0.0.1:8000/static/calc/images/download1.png',
+                        )
+                    )
+                ], className='downloadBtn'),
             ], className='ml-0', id='upload_file'),
         ], className='ddContainer'),
         dcc.ConfirmDialog(
