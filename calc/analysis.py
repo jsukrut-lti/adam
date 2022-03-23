@@ -363,6 +363,10 @@ def prepare_pivot(**kwargs):
         else:
             dataframe_filter = dataframe
 
+        print(dataframe)
+        print(filter_perc)
+        print(dataframe_filter)
+
         table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
                                index=['% category'],
@@ -548,9 +552,10 @@ def update_scenario(user_id):
               Output('submit-button-state', 'n_clicks'),
               [Input('apply-button-state', 'n_clicks')])
 def apply_button(apply_btn):
+    print('apply_btn...')
     if apply_btn == 0:
         raise PreventUpdate
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), None
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), 0
 
 @app.callback(Output('start_time', 'value'),
               [Input('filter_perc', 'value'),
@@ -670,7 +675,6 @@ def style_export_button(data):
               [Input('document_id', 'value')])
 def toggle_upload_option(document_id):
     print('toggle_upload_option ....')
-    print('document_id ===', document_id)
     if document_id is None or document_id <= 0:
         return {'display': 'block'}, {'display': 'block'}
     else:
@@ -680,16 +684,18 @@ def toggle_upload_option(document_id):
 @app.callback(Output('bar-scratter-graph', 'figure'),
               Output('datatable', 'data'),
               Output('avg_price_change_perc', 'value'),
+              Output('apply-button-state', 'value'),
               [Input('apply-button-state', 'n_clicks'),
+              Input('start_time', 'value'),
+              Input('end_time', 'value'),
                Input('society_approval_rate_perc', 'value'),
                Input('scenario_id', 'value'),
                Input('document_id', 'value'),
                Input('datatable-upload', 'contents'),
                Input('datatable-upload', 'filename'),
                Input('filter_perc', 'value')])
-def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
-    print('update_datatable ...', scenario_id)
-    print('update_datatable document_id ...', document_id)
+def update_datatable(apply_btn, start_time, end_time, society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
+    print('update_datatable ...')
     if apply_btn == 0:
         raise PreventUpdate
     if society_approval_rate_perc is None or filter_perc is None:
@@ -699,15 +705,25 @@ def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, documen
         print('yes....')
     else:
         print('no ...')
+
+    from_datetime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
+    to_datetime = False
+    is_flag = False
+    if end_time != '':
+        to_datetime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+    if to_datetime < from_datetime:
+        is_flag = True
+    if is_flag:
+        raise PreventUpdate
     df = pd.DataFrame()
     if document_id > 0 and contents is None:
         df = get_rate_analysis_dataframe(document_id=document_id)
         fig_layout = prepare_graph(dataframe=df, filter_perc=filter_perc)
     elif contents is None and document_id == 0:
-        return fig_layout, [{}], 0.00
+        return fig_layout, [{}], 0.00, 0
     else:
         if not scenario_id:
-            return fig_layout, [{}], 0.00
+            return fig_layout, [{}], 0.00, 0
         file_data = {'contents': contents,
                      'filename': filename,
                      }
@@ -718,5 +734,5 @@ def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, documen
                                                       filter_perc=filter_perc)
     print('----end-------')
     if not data_table.empty:
-        return fig_layout, data_table.to_dict('records'), average_prie_increase
-    return fig_layout, [{}], 0.00
+        return fig_layout, data_table.to_dict('records'), average_prie_increase, 0
+    return fig_layout, [{}], 0.00, 0
