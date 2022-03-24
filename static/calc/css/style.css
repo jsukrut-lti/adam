@@ -590,6 +590,28 @@ body.show::after {
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file {
   padding: 2px;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn {
+  padding: 0;
+  border: none;
+  height: 30px;
+  width: 30px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn img {
+  height: 30px;
+  width: 30px;
 }
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg {
@@ -610,10 +632,6 @@ body.show::after {
   cursor: pointer;
 }
 
-#react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg img:last-child {
-  margin-left: 15px;
-}
-
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-fill-width .cell table {
   border-collapse: separate;
 }
@@ -623,7 +641,7 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr:nth-child(2) th {
@@ -647,7 +665,7 @@ body.show::after {
   width: 16.6%;
   border-top: none !important;
   border-bottom: none !important;
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td.cell--selected.focused {
@@ -818,7 +836,7 @@ body.show::after {
 .rateAnalysisChangeContainer .table thead > tr > th {
   background: #0c1639;
   border-right: none;
-  font-size: 14px;
+  font-size: 12px;
   white-space: normal;
 }
 
@@ -834,7 +852,8 @@ body.show::after {
 .rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
   background: #4599b3;
-  font-size: 13px;
+  font-size: 11px;
+  word-break: break-all;
   white-space: normal;
 }
 
@@ -1119,7 +1138,6 @@ body.show::after {
   margin-bottom: 0;
 }
 
-#rateAnalysis_wrapper table.dataTable thead .sorting_asc,
 #rateAnalysisDetails_wrapper table.dataTable thead .sorting_asc,
 #rateAnalysisHistory_wrapper table.dataTable thead .sorting_asc {
   background-image: url("../images/sort_asc.png");
@@ -1127,17 +1145,11 @@ body.show::after {
   background-position: 30px 14px;
 }
 
-#rateAnalysis_wrapper table.dataTable thead .sorting_desc,
 #rateAnalysisDetails_wrapper table.dataTable thead .sorting_desc,
 #rateAnalysisHistory_wrapper table.dataTable thead .sorting_desc {
   background-image: url("../images/sort_desc.png");
   background-repeat: no-repeat;
   background-position: 30px 14px;
-}
-
-#rateAnalysis_wrapper table.dataTable thead .sorting_asc,
-#rateAnalysis_wrapper table.dataTable thead .sorting_desc {
-  background-position: 5px 14px;
 }
 
 #rateAnalysisHistory_wrapper {
@@ -1254,10 +1266,6 @@ body.show::after {
 
 .rateAnalysisChangeContainer #crumbs ul li a.selected_status::after {
   border-left-color: #0e1941;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.selected_status#cancel {
-  background: #0dcaf0;
 }
 
 .rateAnalysisChangeContainer select,
@@ -1382,102 +1390,74 @@ body.show::after {
 .modal .modal-footer .confirmBtn#modal-btn-no {
   background: #dc3545 !important;
 }
+
+.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card > div {
+  padding-bottom: 80vh !important;
+}
+
+@media (max-width: 767px) {
+  #rateAnalysisHistory_wrapper {
+    width: auto;
+  }
+}
+
+/* ### Datatable Export css ### */
+div button.export {
+  background: url("/static/calc/images/export.png");
+}
+
+div
+button.export {
+  color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+}
+
+.export::after {
+  content: 'Download Result ';
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+  padding: 2px 15px;
+  position: absolute;
+  margin-top: -40px;
+}
+
+.export::before {
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+}
+
+.export:hover::after {
+  display: block;
+}
+
+.export:hover::before {
+  display: block;
+}
+
+/* ### Datatable Export css ### */
 /*# sourceMappingURL=style.css.map */
-/* ### Datatable Export css ### */
-div button.export {background:url('/static/calc/images/export.png');}div
-button.export
-{
-color: transparent;
-border: none;
-background-repeat: no-repeat;
-}.export::after
-{
-content: 'Download Result ';
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-padding: 2px 15px;
-position: absolute;
-margin-top: -40px;
-}.export::before
-{
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-}.export:hover::after
-{
-display: block;
-}.export:hover::before {display: block;}
-/* ### Datatable Export css ### */
-/*# sourceMappingURL=style.css.map */
-/* ### Datatable Export css ### */
-div button.export {background:url('/static/calc/images/export.png');}div
-button.export
-{
-color: transparent;
-border: none;
-background-repeat: no-repeat;
-}.export::after
-{
-content: 'Download Result ';
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-padding: 2px 15px;
-position: absolute;
-margin-top: -40px;
-}.export::before
-{
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-}.export:hover::after
-{
-display: block;
-}.export:hover::before 
-{display: block;}
-/* ### Datatable Export css ### */

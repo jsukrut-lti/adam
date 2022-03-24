@@ -49,7 +49,7 @@
             & > tr > th {
                 background: #0c1639;
                 border-right: none;
-                font-size: 14px;
+                font-size: 12px;
                 white-space: normal;
 
                 &:first-child {
@@ -71,8 +71,8 @@
             & > tr > td {
                 border-top: none;
                 background: #4599b3;
-                font-size: 13px;
-                // word-break: break-word;
+                font-size: 11px;
+                word-break: break-all;
                 white-space: normal;
 
                 &:last-child {
@@ -250,7 +250,6 @@
     }
 }
 
-#rateAnalysis_wrapper,
 #rateAnalysisDetails_wrapper,
 #rateAnalysisHistory_wrapper {
     table.dataTable thead .sorting_asc {
@@ -263,13 +262,6 @@
         background-image: url("../images/sort_desc.png");
         background-repeat: no-repeat;
         background-position: 30px 14px;
-    }
-}
-
-#rateAnalysis_wrapper {
-    table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc {
-        background-position: 5px 14px;
     }
 }
 
@@ -381,10 +373,6 @@
                 &::after {
                     border-left-color: #0e1941;
                 }
-            }
-
-            &.selected_status#cancel {
-                background: #0dcaf0;
             }
         }
     }
