@@ -313,6 +313,8 @@ $(document).ready( function () {
     })();
 
     $("#journal_code").change(function () {
+        $(".mainsection").addClass("show");
+        $("body").addClass("show");
         const url = $("#dataForm").attr("data-calc-url");
         const calculator_id = $("#calculator_view_id").val();
         const journalCode = $(this).val();
@@ -326,7 +328,9 @@ $(document).ready( function () {
                 'calculator_id': calculator_id
             },
             beforeSend: function(){
-                $(".loader").show();
+                // $(".loader").show();
+                $(".mainsection").addClass("show");
+                $("body").addClass("show");
             },
             success: function (data) {
                 var data_string = JSON.stringify(data);
@@ -440,6 +444,5 @@ $("#dd_calculator").change(function () {
     const calculator_id = $(this).val();
 //    calculator_data_load(calculator_id);
 });
-
 
 // Project Code Ends Here
