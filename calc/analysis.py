@@ -100,13 +100,13 @@ app.layout = html.Div([
             dcc.Input(id='avg_price_change_perc', type='number', value=0.00, readOnly=True,
                       ),
         ], className='ml-0', id='title6'),
-        html.Div([
-            html.P('Combined average price increase (Gold + Hybrid) %',
-                   className='fix_label', style={'color': colors['text']},
-                   ),
-            dcc.Input(id='comb_avg_price_increase', type='number', value=0.00, readOnly=True,
-                      ),
-        ], className='ml-0', id='title7'),
+        # html.Div([
+        #     html.P('Combined average price increase (Gold + Hybrid) %',
+        #            className='fix_label', style={'color': colors['text']},
+        #            ),
+        #     dcc.Input(id='comb_avg_price_increase', type='number', value=0.00, readOnly=True,
+        #               ),
+        # ], className='ml-0', id='title7'),
         html.Div([
             html.P('Notes', className='fix_label',
                    style={'color': colors['text']}),
