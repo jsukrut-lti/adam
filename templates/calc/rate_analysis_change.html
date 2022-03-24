@@ -184,7 +184,7 @@
                                         {% if scenario_history_data %}
                                         {% for loop in scenario_history_data %}
                                         <tr>
-                                            <td>{{loop.created_at|date:"d-m-Y H:i:s"}}</td>
+                                            <td>{{loop.created_at|date:'d-m-Y H:i:s'}}</td>
                                             <td>{{loop.created_by.username|capfirst}}</td>
                                             <td>{{loop.action_verbose}}</td>
                                             <td>{{loop.filter_perc|floatformat:'2'}}</td>

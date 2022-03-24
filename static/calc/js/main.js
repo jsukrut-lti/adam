@@ -1,5 +1,12 @@
 $(document).ready( function () {
 
+    $('#rateAnalysis').DataTable({
+        paging: true,
+        searching: true,
+        info : true,
+        order: []
+    });
+
     $('#bauMax20').DataTable({
         "pageLength": 5,
         // ordering: false,
@@ -110,20 +117,12 @@ $(document).ready( function () {
         }
     });
 
-    $('#rateAnalysis, #rateAnalysisDetails').DataTable({
+    $('#rateAnalysisDetails, #rateAnalysisHistory').DataTable({
         "pageLength": 10,
         paging: true,
         searching: true,
         info : true,
         order: [0,'asc']
-    });
-
-    $('#rateAnalysisHistory').DataTable({
-        "pageLength": 10,
-        paging: true,
-        searching: true,
-        info : true,
-        "ordering": false
     });
 
 // Project Code Starts Here

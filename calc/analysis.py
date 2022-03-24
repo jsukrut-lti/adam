@@ -24,7 +24,7 @@ import numpy as np
 import visdcc
 import logging
 import math
-
+### Testing
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
@@ -75,7 +75,7 @@ app.layout = html.Div([
                     html.A([
                         html.Img(
                             src='/static/calc/images/download1.png',
-                        )], href="#", id='sample',
+                        )], href="#", id='sample', title='Download Sample Document'
                     )
                 ],'Sample_Document', className='downloadBtn'),
             ], className='ml-0', id='upload_file'),
@@ -100,7 +100,7 @@ app.layout = html.Div([
             html.P('Combined average price increase (Gold + Hybrid) %',
                    className='fix_label', style={'color': colors['text']},
                    ),
-            dcc.Input(id='comb_avg_price_increase', type='number', value=0.00, readOnly=True,
+            dcc.Input(id='comb_avg_price_increase', type='number', value=None, readOnly=True,
                       ),
         ], className='ml-0', id='title7'),
         html.Div([
