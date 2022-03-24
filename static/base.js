@@ -37,3 +37,9 @@ function openNav() {
   $('#sideNav').toggleClass('sideNavWidth');
   $('body').toggleClass('hidden');
 }
+
+$("#calculator_tags li").click(function() {
+  $(this).addClass('activeLI').siblings().removeClass('activeLI');
+  let valueEle = $(this).children().text();
+  $('#main_calculator_id').val(valueEle);
+})
