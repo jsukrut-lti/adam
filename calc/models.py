@@ -256,6 +256,7 @@ class RateAnalysis(RateAnalysisAbstract):
             if filtered_diff:
                 if filtered_diff != [()]:
                     filtered_diff_data = filtered_diff and dict(filtered_diff) or []
+                    filtered_diff_data = old_instance[0]  ## Assign old data to history
         if filtered_diff_data:
             data['rate_analysis_id'] = self
             data['created_by'] = self.modified_by

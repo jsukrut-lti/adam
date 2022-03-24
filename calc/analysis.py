@@ -28,6 +28,7 @@ import math
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
+                        'https://codepen.io/chriddyp/pen/brPBPO.css',
                         {'href': '/static/calc/css/style.css', 'rel': 'stylesheet'},
                         ]
 app = DjangoDash('AnalysisApp', external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
@@ -79,21 +80,15 @@ app.layout = html.Div([
                 ],'Sample_Document', className='downloadBtn'),
             ], className='ml-0', id='upload_file'),
         ], className='ddContainer'),
-        dcc.ConfirmDialog(
-            id='confirm-danger',
-            message='Are you sure you want to continue?',
-        ),
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=20.00, required=True,
-                      ),
+            dcc.Input(id='filter_perc', type='number', value=0,  required=True, step=1, min=0, max=100,),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=50.00, required=True,
-                      ),
+            dcc.Input(id='society_approval_rate_perc', type='number', value=0, required=True, step=1, min=0, max=100,),
         ], className='ml-0', id='title4'),
         html.Div([
             html.P('Average Price Increase (%)', className='fix_label',
@@ -124,7 +119,7 @@ app.layout = html.Div([
     html.Div([
         html.Button(id='apply-button-state', className='btnApply', n_clicks=0, children="Apply Changes"),
         html.Button(id='export-button-state', className='btnExport', children="Export", style={'display': 'none'}),
-        html.Button(id='submit-button-state', className='btnSubmit', children="Submit")
+        html.Button(id='submit-button-state', className='btnSubmit', children="Submit", style={'display': 'none'}),html.Div(id='output-fullscreen'),
     ], className='btnContainer'),
     html.Div([
         html.Div([
@@ -252,6 +247,7 @@ def create_or_update_record(save=True, **kwargs):
                     parent_data.pop(key, None)
                 else:
                     history_data[key] = value
+                    history_data.update(rate_analysis_rec_data)  ## Assign old data to history
         parent_data.update({
             'modified_by': user_obj
         })
@@ -550,21 +546,24 @@ def update_scenario(user_id):
 
 @app.callback(Output('end_time', 'value'),
               Output('submit-button-state', 'n_clicks'),
+              Output('submit-button-state', 'style'),
               [Input('apply-button-state', 'n_clicks')])
 def apply_button(apply_btn):
     if apply_btn == 0:
         raise PreventUpdate
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), None
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), None, {'display': 'block'}
 
 @app.callback(Output('start_time', 'value'),
               [Input('filter_perc', 'value'),
               Input('society_approval_rate_perc', 'value')])
 def update_starttime(filter_perc,society_approval_rate_perc):
-    if filter_perc == 0 or society_approval_rate_perc == 0:
+    print('update_starttime ...')
+    if filter_perc is None or society_approval_rate_perc is None:
         raise PreventUpdate
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
 @app.callback(Output('javascript', 'run'),
+              Output('output-fullscreen', 'children'),
               Input('start_time', 'value'),
               Input('end_time', 'value'),
               Input('submit-button-state', 'n_clicks'),
@@ -604,6 +603,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
     if scenario_id != 0 and society_approval_rate_perc != 0 and avg_price_change_perc != 0 and \
             submit_btn and datatable != [[{}], []]:
         print('\n yes')
+        ### Code written to restrict redundancy on apply changes (button action)
         from_datetime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
         to_datetime = False
         is_flag = False
@@ -617,7 +617,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
             if is_flag:
                 message_one = 'Click on Apply changes before proceed to submit'
                 res = 'alert("{}");'.format(message_one)
-                return res
+                return res, ''
         if rate_analysis_id > 0:
             reference_number = create_or_update_record(input_data=input_data)
             message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
@@ -625,7 +625,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
             message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
             res = 'alert("{}");'.format(message_two)
             res = '{}{}'.format(res, message_three)
-            return res
+            return res, ''
         else:
             calculator_directory = get_calculator_directory(user_id=input_data.get('user_id', 0),
                                                             calculator_id=input_data.get('calculator_id', 0))
@@ -644,7 +644,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
                 message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
                 res = 'alert("{}");'.format(message_two)
                 res = '{}{}'.format(res, message_three)
-                return res
+                return res, ''
     raise PreventUpdate
 
 
@@ -676,7 +676,7 @@ def toggle_upload_option(document_id):
     print('toggle_upload_option ....')
     print('document_id ===', document_id)
     if document_id is None or document_id <= 0:
-        return {'display': 'block'}, {'display': 'block'}
+        return {'display': 'flex'}, {'display': 'block'}
     else:
         return {'pointer-events': 'none', 'display': 'none'}, {'pointer-events': 'none'}
 
@@ -685,13 +685,15 @@ def toggle_upload_option(document_id):
               Output('datatable', 'data'),
               Output('avg_price_change_perc', 'value'),
               [Input('apply-button-state', 'n_clicks'),
+               Input('start_time', 'value'),
+               Input('end_time', 'value'),
                Input('society_approval_rate_perc', 'value'),
                Input('scenario_id', 'value'),
                Input('document_id', 'value'),
                Input('datatable-upload', 'contents'),
                Input('datatable-upload', 'filename'),
                Input('filter_perc', 'value')])
-def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
+def update_datatable(apply_btn, start_time, end_time, society_approval_rate_perc, scenario_id, document_id, contents, filename, filter_perc):
     print('update_datatable ...', scenario_id)
     print('update_datatable document_id ...', document_id)
     if apply_btn == 0:
@@ -703,6 +705,16 @@ def update_datatable(apply_btn, society_approval_rate_perc, scenario_id, documen
         print('yes....')
     else:
         print('no ...')
+    ### Code written to restrict redundancy on apply changes (button action)
+    from_datetime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
+    to_datetime = False
+    is_flag = False
+    if end_time != '':
+        to_datetime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+    if to_datetime < from_datetime:
+        is_flag = True
+    if is_flag:
+        raise PreventUpdate
     df = pd.DataFrame()
     if document_id > 0 and contents is None:
         df = get_rate_analysis_dataframe(document_id=document_id)
