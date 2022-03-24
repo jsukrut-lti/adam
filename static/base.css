@@ -967,6 +967,19 @@ thead tr {
   background: #4599b3;
   border: none;
 }
+
+.headerContainer .dropdown ul.dropdown-menu li.activeLI {
+  background: #054c62;
+}
+
+.headerContainer .dropdown ul.dropdown-menu li.activeLI a {
+  padding-left: 20px;
+}
+
+.headerContainer .dropdown ul.dropdown-menu li.activeLI:hover a {
+  background: #054c62;
+  border-radius: unset;
+}
 /* .headerContainer .dropdown .btn.show i.bi-calculator-fill {
   position: relative;
 } */

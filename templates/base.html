@@ -68,7 +68,7 @@
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
               {% if calculator_option %}
                 {% for loop in calculator_option %}
-                    <li><a class="dropdown-item select" href="#" onClick="return tag_calculator({{loop.id}});" id="{{loop.id}}">{{loop.name}}</a></li>
+                    <li><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
                 {% endfor %}
               {% endif %}
               </ul>
