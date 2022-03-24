@@ -66,15 +66,15 @@ app.layout = html.Div([
                     id='datatable-upload',
                     children=html.Div([
                         html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/upload.png',
+                            src='/static/calc/images/upload.png',
                         )
                     ], className='uploadImg'),
                 ),
                 html.Button([
                     html.A([
                             html.Img(
-                            src='http://127.0.0.1:8000/static/calc/images/download1.png',
-                        )],href="#"
+                            src='/static/calc/images/download1.png',
+                        )], href="#", id='sample',
                     )
                 ], className='downloadBtn'),
             ], className='ml-0', id='upload_file'),
@@ -676,7 +676,7 @@ def toggle_upload_option(document_id):
     print('toggle_upload_option ....')
     print('document_id ===', document_id)
     if document_id is None or document_id <= 0:
-        return {'display': 'block'}, {'display': 'block'}
+        return {'display': 'flex'}, {'display': 'block'}
     else:
         return {'pointer-events': 'none', 'display': 'none'}, {'pointer-events': 'none'}
 
