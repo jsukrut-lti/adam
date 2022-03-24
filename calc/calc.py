@@ -416,10 +416,10 @@ def create_sample_file(**kwargs):
     if os.path.exists(filelocation + "\Journal_Database.csv"):
         SampleDF = pd.read_csv(filelocation + "\Journal_Database.csv", nrows=5)
 
-        SampleDF.to_csv(new_filepath + "\Sample_Document.csv")
+        SampleDF.to_csv(new_filepath + "\Sample_Document.csv", index=False)
         document_data['calculator_id'] = calc_rec
         document_data['document'] = document_dynamic_filepath + "\Sample_Document.csv"
-        document_data["name"] = "Sample Document"
+        document_data["name"] = "Sample_Document"
         print(document_data)
         document_rec = Document.objects.create(**document_data)
 ### Import CSV to Database Ends Here ###

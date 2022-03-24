@@ -590,6 +590,28 @@ body.show::after {
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file {
   padding: 2px;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn {
+  padding: 0;
+  border: none;
+  height: 30px;
+  width: 30px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn img {
+  height: 30px;
+  width: 30px;
 }
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg {
@@ -608,10 +630,6 @@ body.show::after {
   height: 30px;
   width: 30px;
   cursor: pointer;
-}
-
-#react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg img:last-child {
-  margin-left: 15px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-fill-width .cell table {
@@ -1372,102 +1390,74 @@ body.show::after {
 .modal .modal-footer .confirmBtn#modal-btn-no {
   background: #dc3545 !important;
 }
+
+.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card > div {
+  padding-bottom: 80vh !important;
+}
+
+@media (max-width: 767px) {
+  #rateAnalysisHistory_wrapper {
+    width: auto;
+  }
+}
+
+/* ### Datatable Export css ### */
+div button.export {
+  background: url("/static/calc/images/export.png");
+}
+
+div
+button.export {
+  color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+}
+
+.export::after {
+  content: 'Download Result ';
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+  padding: 2px 15px;
+  position: absolute;
+  margin-top: -40px;
+}
+
+.export::before {
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+}
+
+.export:hover::after {
+  display: block;
+}
+
+.export:hover::before {
+  display: block;
+}
+
+/* ### Datatable Export css ### */
 /*# sourceMappingURL=style.css.map */
-/* ### Datatable Export css ### */
-div button.export {background:url('/static/calc/images/export.png');}div
-button.export
-{
-color: transparent;
-border: none;
-background-repeat: no-repeat;
-}.export::after
-{
-content: 'Download Result ';
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-padding: 2px 15px;
-position: absolute;
-margin-top: -40px;
-}.export::before
-{
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-}.export:hover::after
-{
-display: block;
-}.export:hover::before {display: block;}
-/* ### Datatable Export css ### */
-/*# sourceMappingURL=style.css.map */
-/* ### Datatable Export css ### */
-div button.export {background:url('/static/calc/images/export.png');}div
-button.export
-{
-color: transparent;
-border: none;
-background-repeat: no-repeat;
-}.export::after
-{
-content: 'Download Result ';
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-padding: 2px 15px;
-position: absolute;
-margin-top: -40px;
-}.export::before
-{
-background-color: #0c1639;
-display: none;
-position: absolute;
-width: 200px;
-height: 35px;
-z-index: 999;
-color: white;
-margin-left: 12px;
-font-size: 14px;
-text-align: center;
-font-weight: 600;
-line-height: 38px;
-letter-spacing: .1rem;
-text-transform: capitalize;
-}.export:hover::after
-{
-display: block;
-}.export:hover::before 
-{display: block;}
-/* ### Datatable Export css ### */

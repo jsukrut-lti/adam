@@ -13,8 +13,7 @@ from calc.views import financial_analysis_view
 ### Testing
 import os
 from calc.models import CurrencyMaster, CurrencyRateMaster, CalculatorMaster, \
-    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory, \
-    get_upload_to
+    JournalMaster, Profile, Document, ScenarioMaster, RateAnalysis, RateAnalysisDetails, RateAnalysisHistory
 
 # Register your models here.
 class CurrencyMasterAdmin(admin.ModelAdmin):
