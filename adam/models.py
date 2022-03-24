@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.geos import GEOSGeometry
 import os
 import datetime
 from django.conf import settings
-from .adam import *
+from .adam import excel_to_csv
 # Create your models here.
 
 class PanelAbstract(models.Model):
@@ -59,6 +61,16 @@ class PanelMaster(PanelAbstract):
 
     class Meta:
         verbose_name_plural = '    Panel Master'
+
+    def save(self, *args, **kwargs):
+        obj = super(PanelMaster, self).save(*args, **kwargs)
+        # point = GEOSGeometry('POINT ({} {})'.format(self.longitude, self.latitude),srid=4326)
+        from django.contrib.gis.geos.point import Point
+        point = Point( (self.longitude, self.latitude), srid=4326 )
+        s = SpatialPoint.objects.create(points=point, panelmaster=self)
+        s.save()
+        return obj
+
 
 class PanelStaticDetails(PanelAbstract,PanelDetailAbstract):
 
@@ -146,3 +158,22 @@ class Address(models.Model):
 
     def __str__(self):
         return str(self.address_title)
+
+
+class SpatialPoint(gis_models.Model):
+    id = gis_models.BigAutoField(primary_key=True)
+    points = gis_models.PointField()
+    panelmaster = gis_models.ForeignKey(PanelMaster, on_delete=gis_models.CASCADE, related_name='panel_id', null=True)
+
+    # def __str__(self):
+    #     return self.points
+
+
+
+class SpatialPolygon(gis_models.Model):
+    poly = gis_models.PolygonField()
+
+    def __str__(self):
+        return self.poly
+
+#script for converting existing points

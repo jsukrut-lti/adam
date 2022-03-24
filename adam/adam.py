@@ -8,10 +8,12 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
-from adam.models import *
+from .models import SpatialPoint, PanelMaster
 import datetime
 import itertools
 from django.shortcuts import render,redirect
+from django.db import connection
+cursor = connection.cursor()
 
 
 def file_config(**kwargs):
@@ -111,7 +113,16 @@ def excel_to_csv(excelfile,**kwargs):
             port = connection.settings_dict['PORT']
             engine = create_engine(f'{dialect}://{user}:{pwd}@{host}:{port}/{db_name}')
             Session = sessionmaker(bind=engine)
-            with Session() as session:
-                df.to_sql(tablename, con=engine, if_exists='append', index=False)
+            # with Session() as session:
+            #     df.to_sql(tablename, con=engine, if_exists='append', index=False)
+            from django.contrib.gis.geos.point import Point
+            if sheet == 'All_Panels':
+                q = '''select panel.id, panel.latitude, panel.longitude from adam_panelmaster as panel left join adam_spatialpoint as point on panel.id = point.panelmaster_id'''
+                cursor.execute(q)
+                for c in cursor.fetchall():
+                    point = Point((c[2], c[1]), srid=4326)
+                    s = SpatialPoint.objects.create(points=point, panelmaster=PanelMaster.objects.get(id=c[0]))
+                    s.save()
+
             ### Ends Here ###
     return True
