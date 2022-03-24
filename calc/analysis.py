@@ -363,9 +363,11 @@ def prepare_pivot(**kwargs):
         else:
             dataframe_filter = dataframe
 
-        print(dataframe)
-        print(filter_perc)
-        print(dataframe_filter)
+        # print(dataframe)
+        # print(filter_perc)
+        # print(dataframe.groupby('% category').mean())
+        # print(dataframe_filter)
+        # print(dataframe_filter.groupby('% category').mean())
 
         table = pd.pivot_table(data=dataframe_filter,
                                values=['Journal Code', 'Revenue change', 'Percentage Change'],
@@ -392,6 +394,8 @@ def prepare_pivot(**kwargs):
         average_prie_increase = math.ceil((dataframe_filter['Percentage Change'].mean() * 100) * (
                     1 - (society_approval_rate_perc / 100)))
 
+        # print(table)
+        # print(table.groupby('% category').mean())
         table = prepare_approval_data(dataframe=table, society_approval_rate_perc=society_approval_rate_perc)
     except Exception as e:
         print('\n Exception args ... ', e.args)
