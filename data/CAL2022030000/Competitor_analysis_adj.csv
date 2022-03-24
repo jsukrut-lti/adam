@@ -1,5 +1,0 @@
-name,score,desc
-No direct competitors,0,Do not adjust recommended price
-Equal or better with overlap,0,Do not adjust recommended price
-Worse score with overlap,0,Do not exceed $500 higher than competitor
-Worse with partial overlap,0,Do not exceed $1000 higher than competitor
