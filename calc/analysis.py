@@ -24,7 +24,7 @@ import numpy as np
 import visdcc
 import logging
 import math
-### Testing 01
+
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
