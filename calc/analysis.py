@@ -72,7 +72,7 @@ app.layout = html.Div([
                 ),
                 html.Button([
                     html.A([
-                            html.Img(
+                        html.Img(
                             src='/static/calc/images/download1.png',
                         )], href="#", id='sample',
                     )
