@@ -107,7 +107,7 @@
                     <div class="row">
                         <div class="col-md-6 col-lg-3">
                             <label for="createdDate" class="form-label">Created Date</label>
-                            <input type="text" id="createdDate" readonly value="{{scenario_data.created_at|date:'d-m-Y H:m:s'}}" class="form-control m-0">
+                            <input type="text" id="createdDate" readonly value="{{scenario_data.created_at|date:'d-m-Y H:i:s'}}" class="form-control m-0">
                         </div>
                         <div class="col-md-6 col-lg-3">
                             <label for="createdBy" class="form-label">Created By</label>
@@ -116,7 +116,7 @@
                         {% if scenario_data.modified_by%}
                             <div class="col-md-6 col-lg-3">
                                 <label for="modifiedDate" class="form-label">Modified Date</label>
-                                <input type="text" id="modifiedDate" readonly value="{{scenario_data.modified_at|date:'d-m-Y H:m:s'}}" class="form-control m-0">
+                                <input type="text" id="modifiedDate" readonly value="{{scenario_data.modified_at|date:'d-m-Y H:i:s'}}" class="form-control m-0">
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <label for="modifiedBy" class="form-label">Modified By</label>
@@ -184,7 +184,7 @@
                                         {% if scenario_history_data %}
                                         {% for loop in scenario_history_data %}
                                         <tr>
-                                            <td>{{loop.created_at|date:"d-m-Y H:m:s"}}</td>
+                                            <td>{{loop.created_at|date:"d-m-Y H:i:s"}}</td>
                                             <td>{{loop.created_by.username|capfirst}}</td>
                                             <td>{{loop.action_verbose}}</td>
                                             <td>{{loop.filter_perc|floatformat:'2'}}</td>
@@ -226,4 +226,9 @@
     </div>
 </section>
 <script src="{% static "calc/js/main.js" %}"></script>
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
 {% endblock %}

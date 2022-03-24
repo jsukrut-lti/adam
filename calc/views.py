@@ -263,7 +263,7 @@ def financial_analysis_view_form(request, key):
         if rate_analysis_rec:
             rate_analysis_detail_rec = RateAnalysisDetails.objects.filter(rate_analysis_id=rate_analysis_rec.id)
             rate_analysis_detail_rec = rate_analysis_detail_rec and list(rate_analysis_detail_rec) or []
-            rate_analysis_history_rec = RateAnalysisHistory.objects.filter(rate_analysis_id=rate_analysis_rec.id)
+            rate_analysis_history_rec = RateAnalysisHistory.objects.filter(rate_analysis_id=rate_analysis_rec.id).order_by('-id')
             rate_analysis_history_rec = rate_analysis_history_rec and list(rate_analysis_history_rec) or []
             context = {
                 'user_id': request.user.id,
