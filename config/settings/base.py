@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_object_actions',
     'rest_framework',
-    'adam'
+    'adam',
+    'django.contrib.gis'
 ]
 
 MIDDLEWARE = [
@@ -174,3 +175,6 @@ MEDIA_ROOT = os.path.join(DATA_FILE_DIR, 'scripts')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+GDAL_LIBRARY_PATH = r'C:\Program Files\PostgreSQL\14\bin\libgdal-29.dll'
+GEOS_LIBRARY_PATH = r'C:\Program Files\PostgreSQL\14\bin\libgeos_c.dll'
