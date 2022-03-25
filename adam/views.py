@@ -1,6 +1,6 @@
 import json
 import re
-# from shapely.geometry import Point, Polygon
+from shapely.geometry import Point, Polygon
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from rest_framework.views import APIView
@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import AddressSerializers
 from .models import PanelMaster, SpatialPolygon
-# from geojson import Polygon
+from geojson import Polygon
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 cursor = connection.cursor()
@@ -62,7 +62,7 @@ def view_address(request):
         query = '''select panel.panel_no,panel_st.player_no,panel.latitude,panel.longitude,panel.market_name,
                     panel_st.submarket,panel_st.media_type,panel_st.unit_type,
                     panel.status,panel_st.description,panel_st.code,
-                    panel_st.city,panel_st.site,panel_st.wk4_imp,
+                    panel_st.city,panel_st.site,panel_st.wk4_imp,panel_st.media_type,
                     translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code
                     from adam_panelstaticdetails panel_st
                     join adam_panelmaster panel
@@ -80,6 +80,7 @@ def view_address(request):
                 record['latitude'] = row[2]
                 record['description'] = row[9]
                 record['city'] = row[11]
+                record['media_type'] = row[6]
 
                 address_data.append(record)
 
@@ -125,6 +126,28 @@ def create_address(request):
 @csrf_exempt
 def check_area(request):
     if request.method == 'POST' and request.is_ajax():
+        # res = Polygon([[(-81.27058013661991, 35.294380959284894), (-81.19077879693572, 35.32694110417019), (-81.13713456303682, 35.30306494604871), (-81.2262460590176, 35.28026749345226)]])
+        # print("*************", res)
+        # cods = request.POST.get('cods')
+        # min_lng = request.POST.get('min_lng')
+        # max_lng = request.POST.get('max_lng')
+        # min_lat = request.POST.get('min_lat')
+        # max_lat = request.POST.get('max_lat')
+        # print(min_lng, max_lng)
+        # result = PanelMaster.objects.filter(longitude__range=(min_lng, max_lng)
+        #                                 # latitude__range=(min_lat, max_lat)
+        #                                 ).values('longitude', 'latitude', 'city', 'state', 'country')
+        # # print(list(result))
+        # data = [{'longitude': '-79.955272', 'latitude': '32.837121', 'panel': '10710', 'market': 'charleston',
+        #          'mediatype': 'Bulletin'},
+        #         {'longitude': '-79.978316', 'latitude': '32.851848', 'panel': '11520', 'market': 'charleston',
+        #          'mediatype': 'Poster'},
+        #         {'longitude': '-79.986786', 'latitude': '32.847946', 'panel': 'P3716', 'market': 'charleston',
+        #          'mediatype': 'Poster'},
+        #         {'longitude': '-79.967356', 'latitude': '32.841073', 'panel': '1245', 'market': 'charleston',
+        #          'mediatype': 'Bulletin'},
+        #         {'longitude': '-79.944102', 'latitude': '32.797972', 'panel': '1012', 'market': 'charleston',
+        #         'mediatype': 'Bulletin'}]
         cods = request.POST.get('cods')
         cods = json.loads(cods)
         # geo_polygon = Polygon(( (0.0, 0.0), (0.0, 50.0), (50.0, 50.0), (50.0, 0.0), (0.0, 0.0) ))
@@ -143,20 +166,59 @@ def check_area(request):
         # query = SpatialPanel.objects.filter(points__contains=geo_polygon)
         # query = SpatialPanel.objects.all()
         query = '''SELECT ST_X(point.points) AS x,
-                    ST_Y(point.points) AS y,
-                    ST_AsText(point.points) AS xy 
-                    FROM public."adam_spatialpoint" point, public."adam_spatialpolygon" polygon
-                    WHERE ST_Contains(polygon.poly, point.points) and polygon.id = {}
-                '''.format(poly.id)
+                            ST_Y(point.points) AS y,
+                            ST_AsText(point.points) AS xy, 
+                            point.panelmaster_id AS id
+                            FROM public."adam_spatialpoint" point, public."adam_spatialpolygon" polygon
+                            WHERE ST_Contains(polygon.poly, point.points) and polygon.id = {}
+                        '''.format(poly.id)
         cursor.execute(query)
 
         res = list()
+        lng = list()
+        lat = list()
+        panel_id = list()
         for q in cursor.fetchall():
             co = dict()
             co['longitude'] = q[0]
             co['latitude'] = q[1]
             res.append(co)
-        return HttpResponse(json.dumps({'status': "success", "data": res}), content_type="application/json")
+            lng.append(q[0])
+            lat.append(q[1])
+            panel_id.append(q[3])
+        # print(panel_id)
+        # lng = lng[1:5]
+        # lat = lat[1:5]
+        # str1 = ','.join(str(e) for e in lng)
+        # str2 = ','.join(str(e) for e in lat)
+        pid = ','.join(str(e) for e in panel_id)
+        query = '''select panel.panel_no,panel_st.player_no,panel.latitude,panel.longitude,panel.market_name,
+                            panel_st.submarket,panel_st.media_type,panel_st.unit_type,
+                            panel.status,panel_st.description,panel_st.code,
+                            panel_st.city,panel_st.site,panel_st.wk4_imp,panel_st.media_type,
+                            translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code
+                            from adam_panelstaticdetails panel_st
+                            join adam_panelmaster panel
+                            on panel.panel_no = translate(panel_st.player_no,panel_st.code||'-','')
+                            and panel.id in (
+                            select unnest(string_to_array('{}', ',')):: numeric)
+                        '''.format(pid)
+        cursor.execute(query)
+        address_data = []
+        if (cursor.rowcount > 0):
+            for row in cursor.fetchall():
+                record = {}
+                record['panel_no'] = row[0]
+                record['player_no'] = row[1]
+                record['market_name'] = row[4]
+                record['longitude'] = row[3]
+                record['latitude'] = row[2]
+                record['description'] = row[9]
+                record['city'] = row[11]
+                record['media_type'] = row[6]
+
+                address_data.append(record)
+        return HttpResponse(json.dumps({'status': "success", "data": list(address_data)}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
 

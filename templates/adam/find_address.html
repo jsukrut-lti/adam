@@ -47,6 +47,11 @@
     .mapboxgl-ctrl button{
       background-color : #f9fafb!important
     }
+    .mapboxgl-popup-content {
+        min-width:200px;
+    }
+
+
   </style>
 <section class="main-container">
   <div class="container">
@@ -69,7 +74,7 @@
   <main class="container">
     <div class="col-md-10">
       <div class="pt-3">
-      <div id="map" class="map mb-3" style='height: 500px;'></div>
+      <div id="map" class="map mb-3" style='height: 500px; margin:0 auto;'></div>
       <div class="calculation-box" style="display:none">
         <p>Click the map to draw a polygon.</p>
         <div id="calculated-area"></div>
@@ -82,11 +87,10 @@
 				<thead>
 					<tr>
 					    <th scope="col">Panel No</th>
-						<th scope="col">Player No</th>
-						<th scope="col">Market </th>
 						<th scope="col">Co ordinates</th>
-						<th scope="col">Description</th>
-						<th scope="col">City</th>
+						<th scope="col">City </th>
+						<th scope="col">Market</th>
+						<th scope="col">Media Type</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -230,19 +234,47 @@
                 //$("#yourLabelId").show()
                 $(".rateAnalysisContainer").show()
                 $(".dataTables_empty").remove()
+                color_arry = {
+                    "Bulletin":"#fcb103",
+                    "Custom Bulletin":"#ebfc03",
+                    "Jr Poster":"#03fcb1",
+                    "Kiosk":"#8c8cbf",
+                    "Managed Digital":"#fc03ba",
+                    "Parking Deck Display":"#351d6e",
+                    "Poster":"#8c1921"
+                }
                 html = ''
                 html1 = ''
                 $.each(data, function(i,v){
                     //console.log(v['longitude'])
                     //console.log(v['latitude'])
-                  const marker1 = new mapboxgl.Marker({ "color": "#198754" })
-                  .setLngLat([v['longitude'], v['latitude']])
-                  .addTo(map);
                   latlng = v['longitude'] +","+v['latitude']
+                  panel = v['panel_no']
+                  city = v['city']
+                  market = v['market_name']
+                  mediatype = v['media_type']
+                  if(mediatype == 'Poster'){
+                    color = "yellow"
+                  }else if(mediatype == 'Bulletin'){
+                    color = "red"
+                  }else{
+                    color = "#198754"
+                  }
+<!--                  if(color_array[mediatype]){-->
+<!--                     color = color_array[mediatype]-->
+<!--                  }else{-->
+<!--                    color = "#198754"-->
+<!--                  }-->
+                  const marker1 = new mapboxgl.Marker({ "color": color })
+                  .setLngLat([v['longitude'], v['latitude']])
+                  .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+market+'</p><p>'+mediatype+'</p></div>'))
+                  .addTo(map);
+                  //marker1.togglePopup();
+
                   //address = 'v['city'] +","+ v['state'] +","+ v['country']'
                   address = 'N. Charleston'
                   html += '<tr><td>'+latlng+'</td><td>'+address+'</td></tr>'
-                  html1 += '<tr><td>'+latlng+'</td><td>'+latlng+'</td><td>'+latlng+'</td><td>'+latlng+'</td><td>'+latlng+'</td><td>'+latlng+'</td></tr>'
+                  html1 += '<tr><td>'+panel+'</td><td>'+latlng+'</td><td>'+city+'</td><td>'+market+'</td><td>'+mediatype+'</td></tr>'
 
                 })
                 //$("#yourLabelId tbody").append(html)

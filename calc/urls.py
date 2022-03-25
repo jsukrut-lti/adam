@@ -23,7 +23,7 @@ from calc import analysis , analysis01
 
 urlpatterns=[
   path('',views.index),
-  path('home/', views.page_index, name = 'home'),
+  path('home/', views.get_profile, name = 'home'),
   path('calculator/', views.calculator_view, name = 'calculator'),
   path('analysis/', views.analysis_view, name = 'analysis'),
   path('financial-analysis/', views.financial_analysis_view, name = 'financial_analysis'),
