@@ -43,3 +43,13 @@ $("#calculator_tags li").click(function() {
   let valueEle = $(this).children().text();
   $('#main_calculator_id').val(valueEle);
 })
+
+// $('.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card').each(
+//   function(){
+//     if ($(this).has('_dash-loading-callback')){
+//         $(this).addClass('dashLoader');
+//     }
+//     setTimeout(function() {
+//         $('.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card').removeClass('dashLoader');
+//     }, 3000);
+// });

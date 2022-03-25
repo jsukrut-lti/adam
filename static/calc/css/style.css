@@ -560,6 +560,7 @@ body.show::after {
   row-gap: 30px;
   gap: 30px;
   margin-bottom: 30px;
+  font-size: 16px;
 }
 
 #react-entry-point #mainContainer .topSection > div {
@@ -641,7 +642,7 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr:nth-child(2) th {
@@ -658,18 +659,18 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td {
-  background: #4599b3;
+  background: #efeff0;
   text-align: center;
-  color: #ffffff;
-  font-size: 14px;
+  color: #212228;
   width: 16.6%;
   border-top: none !important;
   border-bottom: none !important;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td.cell--selected.focused {
-  background: #4599b3 !important;
+  background: #efeff0 !important;
   border-top: none !important;
   border-bottom: none !important;
 }
@@ -680,7 +681,7 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
-  background: #0c1639;
+  background: #005274;
   color: #ffffff;
   text-align: center;
   text-transform: capitalize;
@@ -762,6 +763,96 @@ body.show::after {
   overflow-x: auto;
 }
 
+#react-entry-point ._dash-loading-callback {
+  cursor: progress;
+  padding-top: 0;
+  color: #005274;
+  background-color: transparent;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: dashLoader 1.3s infinite linear;
+}
+
+@-webkit-keyframes dashLoader {
+  0%,
+  100% {
+    -webkit-box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+            box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    -webkit-box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    -webkit-box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    -webkit-box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+            box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    -webkit-box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+            box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
+@keyframes dashLoader {
+  0%,
+  100% {
+    -webkit-box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+            box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    -webkit-box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    -webkit-box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    -webkit-box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+            box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    -webkit-box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+            box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
 @media (max-width: 576px) {
   #react-entry-point #mainContainer .btnContainer {
     -webkit-box-orient: vertical;
@@ -779,6 +870,15 @@ body.show::after {
   }
   #react-entry-point #mainContainer .topSection .ddContainer #title13 {
     width: 100%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .rateAnalysisChangeContainer .historyDetails #rateAnalysisDetails_wrapper .table thead > tr > th {
+    width: 250px !important;
+  }
+  .rateAnalysisChangeContainer .historyDetails #rateAnalysisHistory_wrapper .table thead > tr > th {
+    width: 143px !important;
   }
 }
 
@@ -834,10 +934,16 @@ body.show::after {
 
 .rateAnalysisContainer .table thead > tr > th,
 .rateAnalysisChangeContainer .table thead > tr > th {
-  background: #0c1639;
+  background: #005274;
   border-right: none;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
   white-space: normal;
+}
+
+.rateAnalysisContainer .table thead > tr > th.avgPrice,
+.rateAnalysisChangeContainer .table thead > tr > th.avgPrice {
+  width: 117px !important;
 }
 
 .rateAnalysisContainer .table thead > tr > th:first-child .form-check-input,
@@ -851,10 +957,12 @@ body.show::after {
 .rateAnalysisContainer .table tbody > tr > td,
 .rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
-  background: #4599b3;
-  font-size: 11px;
-  word-break: break-all;
+  background: #efeff0;
+  color: #212228;
+  font-size: 13px;
+  word-break: break-word;
   white-space: normal;
+  font-weight: bold;
 }
 
 .rateAnalysisContainer .table tbody > tr > td:last-child,
@@ -872,7 +980,7 @@ body.show::after {
 
 .rateAnalysisContainer .table tbody > tr > td a,
 .rateAnalysisChangeContainer .table tbody > tr > td a {
-  color: #ffffff;
+  color: #212228;
   text-decoration: none;
 }
 
@@ -897,7 +1005,7 @@ body.show::after {
 .rateAnalysisContainer .table tbody > tr > td .crud a,
 .rateAnalysisChangeContainer .table tbody > tr > td .crud a {
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   border: 1px solid;
   padding: 5px;
   display: -webkit-box;
@@ -906,6 +1014,8 @@ body.show::after {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
@@ -948,6 +1058,11 @@ body.show::after {
 .rateAnalysisChangeContainer .table tbody th {
   padding: 12px 8px;
   border-right: none;
+}
+
+.rateAnalysisContainer .table.no-footer,
+.rateAnalysisChangeContainer .table.no-footer {
+  border-bottom: none;
 }
 
 #rateAnalysis_wrapper,
@@ -1086,8 +1201,9 @@ body.show::after {
 #rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button.current,
 #rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
 #rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button.current {
-  background: #0e1941;
+  background: #005274;
   color: #ffffff;
+  cursor: default;
 }
 
 #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled,
@@ -1307,6 +1423,22 @@ body.show::after {
 
 .rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active {
   background: #0e1941 !important;
+  position: relative;
+}
+
+.rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-bottom: 30px solid #0e1941;
+  border-right: 30px solid transparent;
+  -webkit-transform: translateX(-50%) rotate(-45deg);
+          transform: translateX(-50%) rotate(-45deg);
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
@@ -1327,11 +1459,13 @@ body.show::after {
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
 .rateAnalysisChangeContainer .historyDetails .table tbody > tr > th {
   font-size: 14px;
+  font-weight: 600;
 }
 
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > td,
 .rateAnalysisChangeContainer .historyDetails .table tbody > tr > td {
   font-size: 13px;
+  font-weight: bold;
 }
 
 .rateAnalysisChangeContainer .paginations .pagination .page-item a {
@@ -1398,6 +1532,12 @@ body.show::after {
 @media (max-width: 767px) {
   #rateAnalysisHistory_wrapper {
     width: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .historyDetails ul .nav-item .nav-link.active::after {
+    display: none;
   }
 }
 

@@ -47,10 +47,15 @@
 
         thead {
             & > tr > th {
-                background: #0c1639;
+                background: $thead;
                 border-right: none;
-                font-size: 12px;
+                font-size: 14px;
+                font-weight: 600;
                 white-space: normal;
+
+                &.avgPrice {
+                    width: 117px !important;
+                }
 
                 &:first-child {
                     .form-check-input {
@@ -70,10 +75,12 @@
         tbody {
             & > tr > td {
                 border-top: none;
-                background: #4599b3;
-                font-size: 11px;
-                word-break: break-all;
+                background: $tbody;
+                color: $tbodyText;
+                font-size: 13px;
+                word-break: break-word;
                 white-space: normal;
+                font-weight: bold;
 
                 &:last-child {
                     text-align: left;
@@ -93,7 +100,7 @@
                 }
 
                 a {
-                    color: #ffffff;
+                    color: $tbodyText;
                     text-decoration: none;
 
                     &:hover {
@@ -109,11 +116,13 @@
 
                     a {
                         cursor: pointer;
-                        font-size: 14px;
+                        font-size: 16px;
                         border: 1px solid;
                         padding: 5px;
                         display: flex;
                         align-items: center;
+                        text-decoration: none;
+                        color: #ffffff;
 
                         &.btn-edit {
                             background: #ffc107;
@@ -150,6 +159,10 @@
                 padding: 12px 8px;
                 border-right: none;
             }
+        }
+
+        &.no-footer {
+            border-bottom: none;
         }
     }
 }
@@ -218,8 +231,9 @@
             }
 
             &.current {
-                background: #0e1941;
+                background: $thead;
                 color: #ffffff;
+                cursor: default;
             }
 
             &.disabled {
@@ -415,6 +429,20 @@
 
                     &.active {
                         background: #0e1941 !important;
+                        position: relative;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            bottom: -15px;
+                            left: 50%;
+                            width: 0;
+                            height: 0;
+                            border-bottom: 30px solid #0e1941;
+                            border-right: 30px solid transparent;
+                            transform: translateX(-50%) rotate(-45deg);
+                            transition: 0.2s ease;
+                        }
                     }
                 }
             }
@@ -436,10 +464,12 @@
 
                     & > th {
                         font-size: 14px;
+                        font-weight: 600;
                     }
 
                     & > td {
                         font-size: 13px;
+                        font-weight: bold;
                     }
                 }
             }
@@ -526,4 +556,20 @@
     #rateAnalysisHistory_wrapper {
         width: auto;
     }
+}
+
+@media (max-width: 576px) {
+    .historyDetails {
+        ul {
+            .nav-item {
+                .nav-link {
+                    &.active {
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }   
 }
