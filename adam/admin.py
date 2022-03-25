@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PanelMaster, PanelStaticDetails, PanelPlayerDetails,PanelDocument
+from .models import PanelMaster, PanelStaticDetails, PanelPlayerDetails,PanelDocument, SpatialPoint, SpatialPolygon
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
 from .adam import excel_to_csv
@@ -97,3 +97,4 @@ class PanelDocumentAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(PanelDocument, PanelDocumentAdmin)
+admin.site.register(SpatialPoint)

@@ -3,6 +3,12 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static "calc/css/style.css" %}">
+<style>
+    .mapboxgl-popup-content {
+    min-width:200px;
+    }
+    .btn-close { background-color: transparent !important; }
+</style>
 <section class="main-container">
     <div class="container-md my-4">
         <div class="rateAnalysisContainer bg-white">
@@ -17,24 +23,26 @@
                             <th scope="col">Co ordinates</th>
                             <th scope="col">Description</th>
                             <th scope="col">City</th>
-<!--                            <th scope="col">Actions</th>-->
+                            <th scope="col">Media Type</th>
                         </tr>
                     </thead>
                     <tbody>
                        {% for add in address_data %}
                         <tr>
-                            <td>{{add.panel_no}}</td>
+                            <td >{{add.panel_no}}</td>
                             <td>{{add.player_no}}</td>
                             <td>{{add.market_name}}</td>
                             <td>
                                 <a href="#" class="map-btn button" data-bs-toggle="modal" data-bs-target="#myModal"
                                    style="background: transparent;text-decoration: underline;"
-                                   data-latLng="{{add.longitude}},{{add.latitude}}">
+                                   data-latLng="{{add.longitude}},{{add.latitude}}" data-panel="{{add.panel_no}}"
+                                data-player_no="{{add.player_no}}" data-market_name="{{add.market_name}}">
                                     {{add.longitude}},{{add.latitude}}
                                 </a>
                             </td>
                             <td>{{add.description}}</td>
                             <td>{{add.city}}</td>
+                            <td>{{add.media_type}}</td>
 
 
 <!--                            <td>-->
@@ -116,6 +124,9 @@
         $(document).on("click", ".button", function (e) {
             e.preventDefault();
             var latLng = $(this).attr("data-latLng");
+            var panel = $(this).attr("data-panel");
+            var player = $(this).attr("data-player_no");
+            var market = $(this).attr("data-market_name");
             let newLat = latLng.split(',');
             let long = parseFloat(newLat[0]);
             let lat = parseFloat(newLat[1]);
@@ -134,10 +145,14 @@
             // Create a default Marker and add it to the map.
             const marker1 = new mapboxgl.Marker()
                 .setLngLat([long, lat])
+                .setPopup(new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: false,
+                    closeOnMove: true,
+                    maxWidth: "auto"
+                }).setHTML('<h5 class="mb-0">'+long+' '+lat+'</h5><h5 class="mb-0">'+panel+'</h5><h5 class="mb-0">'+player+'</h5><h5 class="mb-0">'+market+'</h5>'))
                 .addTo(map);
-
-
-
+            marker1.togglePopup();
         });
     </script>
 <!--<script src="{% static "calc/js/main.js" %}"></script>-->

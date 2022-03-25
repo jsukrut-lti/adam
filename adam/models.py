@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.geos import GEOSGeometry
 import os
 import datetime
 from django.conf import settings
-from .adam import *
+# from .adam import *
 # Create your models here.
 
 class PanelAbstract(models.Model):
@@ -60,6 +62,15 @@ class PanelMaster(PanelAbstract):
     class Meta:
         verbose_name_plural = '    Panel Master'
 
+    def save(self, *args, **kwargs):
+        obj = super(PanelMaster, self).save(*args, **kwargs)
+        # point = GEOSGeometry('POINT ({} {})'.format(self.longitude, self.latitude),srid=4326)
+        from django.contrib.gis.geos.point import Point
+        point = Point((self.longitude, self.latitude), srid=4326)
+        s = SpatialPoint.objects.create(points=point, panelmaster=self)
+        s.save()
+        return obj
+
 class PanelStaticDetails(PanelAbstract,PanelDetailAbstract):
 
     media_type = models.CharField(max_length=100,verbose_name=u"Media Type", null=True, blank=True)
@@ -114,21 +125,21 @@ class PanelDocument(models.Model):
             raise ValidationError("Something went wrong!")
         super(PanelDocument, self).clean()
 
-    def save(self, *args, **kwargs):
-        print('panel document save .....')
-        old_instance = False
-        new_instance = False
-        obj = super(PanelDocument, self).save(*args, **kwargs)
-        if self.id:
-            new_instance = PanelDocument.objects.get(id=self.id)
-            print('new_instance ====', new_instance.document)
-            print('excel ....')
-            if settings.DATA_FILE_DIR and new_instance.document:
-                excelfile = settings.DATA_FILE_DIR + new_instance.document.url
-                excelfile = excelfile.replace("/", "\\")
-                print('\n excel file =======')
-                excel_to_csv(excelfile)
-        return obj
+    # def save(self, *args, **kwargs):
+    #     print('panel document save .....')
+    #     old_instance = False
+    #     new_instance = False
+    #     obj = super(PanelDocument, self).save(*args, **kwargs)
+    #     if self.id:
+    #         new_instance = PanelDocument.objects.get(id=self.id)
+    #         print('new_instance ====', new_instance.document)
+    #         print('excel ....')
+    #         if settings.DATA_FILE_DIR and new_instance.document:
+    #             excelfile = settings.DATA_FILE_DIR + new_instance.document.url
+    #             excelfile = excelfile.replace("/", "\\")
+    #             print('\n excel file =======')
+    #             excel_to_csv(excelfile)
+    #     return obj
 
 class Address(models.Model):
     address_title = models.CharField(max_length=40)
@@ -146,3 +157,23 @@ class Address(models.Model):
 
     def __str__(self):
         return str(self.address_title)
+
+
+
+class SpatialPoint(gis_models.Model):
+    id = gis_models.BigAutoField(primary_key=True)
+    points = gis_models.PointField()
+    panelmaster = gis_models.ForeignKey(PanelMaster, on_delete=gis_models.CASCADE, related_name='panel_id', null=True)
+
+    # def __str__(self):
+    #     return self.points
+
+
+
+class SpatialPolygon(gis_models.Model):
+    poly = gis_models.PolygonField()
+
+    def __str__(self):
+        return self.poly
+
+#script for converting existing points
