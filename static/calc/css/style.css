@@ -764,15 +764,21 @@ body.show::after {
 }
 
 #react-entry-point ._dash-loading-callback {
+  background-color: rgba(153, 150, 150, 0.7) !important;
+  z-index: 1;
   cursor: progress;
   padding-top: 0;
-  color: #005274;
   background-color: transparent;
+}
+
+#react-entry-point ._dash-loading-callback::after {
+  color: #005274;
   font-size: 10px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   position: absolute;
+  content: '';
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -851,6 +857,22 @@ body.show::after {
     -webkit-box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
             box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
   }
+}
+
+#output-fullscreen + div {
+  background-color: rgba(153, 150, 150, 0.7) !important;
+}
+
+#output-fullscreen + div .spinner-grow {
+  color: #005274 !important;
+  background-color: transparent;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 1;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: dashLoader 1.3s infinite linear;
 }
 
 @media (max-width: 576px) {

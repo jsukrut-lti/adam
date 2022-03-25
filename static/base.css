@@ -962,22 +962,48 @@ thead tr {
 .headerContainer .dropdown ul.dropdown-menu {
   padding: 0;
   font-size: 15px;
-  margin-top: 5px;
-  left: -127px;
+  margin-top: 10px;
+  left: -125px;
   background: #4599b3;
   border: none;
 }
+.headerContainer .dropdown {
+  position: relative;
+}
 
-.headerContainer .dropdown ul.dropdown-menu li.activeLI {
-  background: #054c62;
+.headerContainer .dropdown ul.dropdown-menu.show::after {
+  content: "";
+    position: absolute;
+    top: -10px;
+    right: 3%;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid #4599b3;
+    border-right: 20px solid transparent;
+    -webkit-transform: translateX(-50%) rotate(-45deg);
+    transform: translateX(-50%) rotate(135deg);
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+
+.headerContainer .dropdown ul.dropdown-menu li {
+  box-shadow: 0px 2px #0e1941;
+}
+
+.headerContainer .dropdown ul.dropdown-menu li:last-child {
+  box-shadow: none;
 }
 
 .headerContainer .dropdown ul.dropdown-menu li.activeLI a {
+  /* background: #054c62; */
+  /* color: #054c62; */
+  font-weight: bold;
   padding-left: 20px;
+  cursor: default;
 }
 
 .headerContainer .dropdown ul.dropdown-menu li.activeLI:hover a {
-  background: #054c62;
+  background: transparent;
   border-radius: unset;
 }
 /* .headerContainer .dropdown .btn.show i.bi-calculator-fill {
@@ -1007,7 +1033,7 @@ thead tr {
   font-size: 16px;
 }
 .headerContainer .dropdown ul.dropdown-menu .dropdown-item:hover {
-  background: #5fa2b7;
+  background: transparent;
   padding-left: 20px;
   border-radius: 5px;
 }
