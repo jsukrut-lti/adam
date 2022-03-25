@@ -570,7 +570,7 @@ def update_starttime(filter_perc,society_approval_rate_perc):
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
 
 @app.callback(Output('javascript', 'run'),
-              Output('output-fullscreen', 'children'),
+              #Output('output-fullscreen', 'children'),
               Input('start_time', 'value'),
               Input('end_time', 'value'),
               Input('submit-button-state', 'n_clicks'),
@@ -624,7 +624,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
             if is_flag:
                 message_one = 'Click on Apply changes before proceed to submit'
                 res = 'alert("{}");'.format(message_one)
-                return res, ''
+                return res #, ''
         if rate_analysis_id > 0:
             reference_number = create_or_update_record(input_data=input_data)
             message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
@@ -632,7 +632,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
             message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
             res = 'alert("{}");'.format(message_two)
             res = '{}{}'.format(res, message_three)
-            return res, ''
+            return res #, ''
         else:
             calculator_directory = get_calculator_directory(user_id=input_data.get('user_id', 0),
                                                             calculator_id=input_data.get('calculator_id', 0))
@@ -651,7 +651,7 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
                 message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
                 res = 'alert("{}");'.format(message_two)
                 res = '{}{}'.format(res, message_three)
-                return res, ''
+                return res #, ''
     raise PreventUpdate
 
 
