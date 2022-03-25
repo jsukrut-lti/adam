@@ -8,10 +8,45 @@
     min-width:200px;
     }
     .btn-close { background-color: transparent !important; }
+
+     .adam_style  .table thead > tr > th {
+      background: #d92632 !important;
+    }
+    .adam_style .table tbody > tr > td {
+      background: #fff !important;
+      color: #000 !important;
+    border-bottom: 1px solid #ccc;
+    }
+    /* .adam_style .table tr{
+      border: 1px solid;
+    } */
+    .adam_style table.dataTable thead th, table.dataTable thead td {
+      border-bottom: none;
+    }
+    .adam_style .table, .adam_style .table thead th {
+      border-spacing: 0;
+      border-width:1px;
+    }
+    .adam_style .table tbody > tr > td:last-child
+     { border-right: 1px solid #ccc; }
+     .adam_style .table tbody > tr > td a  {
+      border-right: 1px solid #ccc;
+     }
+     .adam_style .table tbody > tr > td a {
+       color: #000;
+     }
+     .adam_style #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled
+        {
+       background: #54b4f0;
+     }
+     .adam_style #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button
+     {
+      background: #54b4f0;
+     }
 </style>
 <section class="main-container">
     <div class="container-md my-4">
-        <div class="rateAnalysisContainer bg-white">
+        <div class="rateAnalysisContainer bg-white adam_style">
             <h5>View Panel</h5>
             <div class="table-responsive">
                 <table class="table" id="rateAnalysis">

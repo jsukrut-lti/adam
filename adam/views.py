@@ -206,6 +206,7 @@ def check_area(request):
         cursor.execute(query)
         address_data = []
         if (cursor.rowcount > 0):
+            count = cursor.rowcount
             for row in cursor.fetchall():
                 record = {}
                 record['panel_no'] = row[0]
@@ -218,7 +219,9 @@ def check_area(request):
                 record['media_type'] = row[6]
 
                 address_data.append(record)
-        return HttpResponse(json.dumps({'status': "success", "data": list(address_data)}), content_type="application/json")
+        else:
+            count = 0
+        return HttpResponse(json.dumps({'status': "success", "data": list(address_data), "count": count}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
 
