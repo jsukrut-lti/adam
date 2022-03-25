@@ -28,7 +28,7 @@ import math
 logger = logging.getLogger(__file__)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css',
-                        # dbc.themes.LUMEN,
+                        dbc.themes.LUMEN,
                         'https://codepen.io/chriddyp/pen/brPBPO.css',
                         {'href': '/static/calc/css/style.css', 'rel': 'stylesheet'},
                         ]
@@ -121,10 +121,8 @@ app.layout = html.Div([
         html.Button(id='apply-button-state', className='btnApply', n_clicks=0, children="Apply Changes"),
         html.Button(id='export-button-state', className='btnExport', children="Export", style={'display': 'none'}),
         html.Button(id='submit-button-state', className='btnSubmit', children="Submit", style={'display': 'none'}),
-        
-        # dbc.Row(dbc.Spinner(html.P('', id='output-fullscreen'), fullscreen=True)),
-        # dbc.Row(dbc.Spinner(html.P('', id='output-fullscreen'),color='red', type='grow', fullscreen=True)),
 
+        dbc.Row(dbc.Spinner(html.P('', id='output-fullscreen'),color='red', type='grow', fullscreen=True)),
         # html.Div(id='output-fullscreen'),
 
     ], className='btnContainer'),
