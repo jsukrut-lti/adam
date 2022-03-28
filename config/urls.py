@@ -33,7 +33,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('home/', views.page_index, name='home'),
     path('calculator/', views.calculator_view, name='calculator'),
-    path('analysis/', views.analysis_view, name='analysis'),
     url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.get_profile, name='profile'),
@@ -44,7 +43,8 @@ urlpatterns = [
          name='financial-analysis-view-form'),
     path('ajax/load-data/<str:key>/', views.load_data, name='ajax_load_data'),
     path('get_calculator_data/', views.get_calculator_data, name='get_calculator_data'),
-    path('update_scenario_status/', views.update_scenario_status, name='update_scenario_status')
+    path('update_scenario_status/', views.update_scenario_status, name='update_scenario_status'),
+    path('get_calculator_version/', views.get_calculator_version, name='get_calculator_version')
 ]
 
 if settings.DEBUG:

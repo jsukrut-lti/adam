@@ -39,7 +39,27 @@ function openNav() {
 }
 
 $("#calculator_tags li").click(function() {
-  $(this).addClass('activeLI').siblings().removeClass('activeLI');
-  let valueEle = $(this).children().text();
-  $('#main_calculator_id').val(valueEle);
+    let calculator_id = $(this).children().attr("id");
+    const url = "/get_calculator_version"
+    $.ajax({
+        type : 'GET',
+        url: url,
+        data: {
+            'calculator_id': calculator_id
+        },
+        beforeSend: function(){
+            return confirm("Warning !! \n Changing the Calculator version will unsave your changes. Are you sure you want to proceed?");
+        },
+        success: function (data) {
+            alert('success !!!!',data);
+            let valueEle = $(this).children().text();
+            $(this).addClass('activeLI').siblings().removeClass('activeLI');
+            $('#main_calculator_id').val(valueEle);
+            location.reload();
+        },
+            error: function () {
+            alert('Oops!!!!! Something went wrong. Please try back after later');
+        },
+    });
+
 })

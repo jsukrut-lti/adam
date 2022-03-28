@@ -1,0 +1,32 @@
+{% extends "admin/change_form.html" %}
+{% load add_preserved_filters from admin_urls %}
+
+{% block object-tools-items %}
+  {% for tool in objectactions %}
+    <li class="objectaction-item" data-tool-name="{{ tool.name }}" id="{{ tool.name }}">
+      {% url tools_view_name pk=object_id tool=tool.name as action_url %}
+      {% if original.is_auto %}
+      {% else %}
+        {% if tool.name == 'export_csv' and original.status == 'draft' %}
+            <a href="{% add_preserved_filters action_url %}" title="{{ tool.standard_attrs.title }}"
+               {% for k, v in tool.custom_attrs.items %}
+                 {{ k }}="{{ v }}"
+               {% endfor %}
+               class="{{ tool.standard_attrs.class }}">
+            {{ tool.label|capfirst }}
+            </a>
+        {% elif tool.name == 'import_journal' and original.status == 'export_csv' %}
+            <a href="{% add_preserved_filters action_url %}" title="{{ tool.standard_attrs.title }}"
+               {% for k, v in tool.custom_attrs.items %}
+                 {{ k }}="{{ v }}"
+               {% endfor %}
+               class="{{ tool.standard_attrs.class }}">
+            {{ tool.label|capfirst }}
+            </a>
+        {% else %}
+        {% endif %}
+      {% endif %}
+    </li>
+  {% endfor %}
+  {{ block.super }}
+{% endblock %}

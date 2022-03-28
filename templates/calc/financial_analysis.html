@@ -2,13 +2,40 @@
 {% block content %}
 {% load static %}
 {% load plotly_dash %}
-
-<div class="financialAnalysis container-md my-4">
+<input type="hidden" id="calculator_id" value="{{calculator_id}}" />
+<div class="financialAnalysis container-md my-4 d-none" id="plotly_div">
     <div class="{% plotly_class name='AnalysisApp' %} card">
         {% plotly_app name='AnalysisApp' initial_arguments=dash_input ratio=0.70 %}
     </div>
-</div><br>
 {{ request | safe }}
+</div><br>
+<div class="row mt-3 p-5 d-none" id="user_message">
+    {% if user.is_superuser %}
+    <h4 class="welcome">
+        <span> Hi {{ user.username | title }}, no calculator versions are published. Please </span>
+        <a href="/admin/calc/calculatormaster/"> click here </a>
+        <span> to configure the application.</span>
+    </h4>
+    {% else %}
+    <h4 class="welcome"> Hi {{ user.username | title }}, Your account does not have access to this application. Contact an administrator for assistance.</h4>
+    {% endif %}
+</div>
+<script>
+$(document).ready( function () {
+    let calculator_id = $("#calculator_id").val();
+    console.log('financial analysis calculator_id ... ',calculator_id);
+    if(calculator_id > 0) {
+        console.log('greater 0');
+        $('#user_message').addClass('d-none');
+        $('#plotly_div').removeClass('d-none');
+    }
+    else {
+        console.log('remove');
+        $('#user_message').removeClass('d-none');
+        $('#plotly_div').addClass('d-none');
+    }
+});
+</script>
 {% endblock %}
 
 <!--initial_arguments='{"target_id": {"value": "67"}}'-->

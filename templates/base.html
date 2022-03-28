@@ -68,7 +68,11 @@
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
               {% if calculator_option %}
                 {% for loop in calculator_option %}
-                    <li><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
+                    {% if request.session.calculator_id %}
+                        <li aria-atomic="false" class="{% if request.session.calculator_id == loop.id %} activeLI{% endif %}"><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
+                    {% else %}
+                        <li aria-atomic="true" class="{% if forloop.counter == 0 %} activeLI{% endif %}"><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
+                    {% endif %}
                 {% endfor %}
               {% endif %}
               </ul>
