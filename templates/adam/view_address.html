@@ -8,14 +8,32 @@
     min-width:200px;
     }
     .btn-close { background-color: transparent !important; }
-
-     .adam_style  .table thead > tr > th {
-      background: #d92632 !important;
+    .adam_style  .table thead > tr > th {
+      background: #54b4f0 !important;
+      font-size: 13px;
+      font-weight: 600;
+    }
+     .adam_style table.dataTable thead .sorting {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_both.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_asc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_asc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_desc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_desc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
     }
     .adam_style .table tbody > tr > td {
-      background: #fff !important;
+      background: #efeff0 !important;
       color: #000 !important;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 13px;
     }
     /* .adam_style .table tr{
       border: 1px solid;
@@ -59,6 +77,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">City</th>
                             <th scope="col">Media Type</th>
+                            <th scope="col">Sub Market</th>
+                            <th scope="col">Unit Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,7 +98,8 @@
                             <td>{{add.description}}</td>
                             <td>{{add.city}}</td>
                             <td>{{add.media_type}}</td>
-
+                            <td>{{add.sub_market}}</td>
+                            <td>{{add.unit_type}}</td>
 
 <!--                            <td>-->
 <!--                                <div class="crud">-->

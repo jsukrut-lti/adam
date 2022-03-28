@@ -82,12 +82,31 @@
     }
 
      .adam_style  .table thead > tr > th {
-      background: #d92632 !important;
+      background: #54b4f0 !important;
+      font-size: 13px;
+      font-weight: 600;
     }
     .adam_style .table tbody > tr > td {
-      background: #fff !important;
+      background: #efeff0 !important;
       color: #000 !important;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 13px;
+    }
+    .adam_style table.dataTable thead .sorting {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_both.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_asc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_asc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_desc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_desc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
     }
     /* .adam_style .table tr{
       border: 1px solid;
@@ -115,9 +134,29 @@
      {
       background: #54b4f0;
      }
+     #menu {
+        position: relative;
+        font-family: 'Open Sans', sans-serif;
+        z-index: 1;
+        display: inline;
+        top: 29px;
+        text-align: left;
+        padding: 3px 5px;
+        margin-left: 47px;
+        background: #fff;
+        color: #000;
+    }
+
+    #menu input {
+      width: 2%;
+    }
+     .legend-scale table td {
+    padding: 2px;
+        vertical-align: middle!important;
+    }
   </style>
-<section class="main-container">
-  <div class="container">
+<section class="main-container p-0 m-0">
+  <div class="container p-0 m-0">
     <header class="blog-header py-3">
       <div class="row flex-nowrap justify-content-between align-items-center">
         <div class="col-4 pt-1">
@@ -134,52 +173,25 @@
 
 
   </div>
-  <main class="container">
+  <main class="container p-0 m-0">
       <div class="row">
     <div class="col-md-9">
-      <div class="pt-3">
+      <div class="pt-0">
+      <div id="menu">
+            <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" >
+            <!-- See a list of Mapbox-hosted public styles at -->
+            <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+            <label for="satellite-v9">satellite</label>
+            <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+            <label for="dark-v10">dark</label>
+            <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+            <label for="streets-v11">streets</label>
+      </div>
       <div id="map" class="map mb-3" style='height: 500px; margin:0 auto;'></div>
       <div class="calculation-box" style="display:none">
         <p>Click the map to draw a polygon.</p>
         <div id="calculated-area"></div>
       </div>
-
-    <div class="container-md my-4">
-		<div class="rateAnalysisContainer bg-white adam_style" style="display:none">
-		  <div class="table-responsive">
-			<table class="table" id="rateAnalysis">
-				<thead>
-					<tr>
-					    <th scope="col">Panel No</th>
-                        <th scope="col">Player No</th>
-						<th scope="col">Co ordinates</th>
-						<th scope="col">City </th>
-						<th scope="col">Market</th>
-						<th scope="col">Media Type</th>
-					</tr>
-				</thead>
-				<tbody>
-
-				</tbody>
-				<tfoot>
-				</tfoot>
-			</table>
-		  </div>
-		</div>
-    </div>
-
-      <table id="yourLabelId" class="table table-bordered" style="display:none">
-        <thead>
-          <tr>
-            <th> Co ordinates</th>
-            <th> Locations</th>
-          </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
-        <button type="button" class="btn btn-primary submitbtn" style="display:block;">Reset</button>
       </div>
     </div>
 
@@ -187,29 +199,69 @@
         <div class='my-legend'>
         <div class='legend-title'>Panel Media Type</div>
         <div class='legend-scale'>
-          <ul class='legend-labels'>
-            <li><span style='background:#fcb103;'></span>Bulletin</li>
-            <li><span style='background:#ebfc03;'></span>Custom Bulletin</li>
-            <li><span style='background:#03fcb1;'></span>Jr Poster</li>
-            <li><span style='background:#8c8cbf;'></span>Kiosk</li>
-            <li><span style='background:#fc03ba;'></span>Managed Digital</li>
-            <li><span style='background:#351d6e;'></span>Parking Deck Display</li>
-            <li><span style='background:#8c1921;'></span>Poster</li>
-          </ul>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #fcb103"></i></td>
+                <td>Bulletin </td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #ebfc03"></i></td>
+                <td> Custom Bulletin </td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #03fcb1"></i></td>
+                <td>Jr Poster</td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #8c8cbf"></i></td>
+                <td>Kiosk</td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #fc03ba"></i></td>
+                <td>Managed Digital</td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #351d6e"></i></td>
+                <td>Parking Deck Display</td>
+              </tr>
+              <tr>
+                <td scope="row"><i class="fa fa-map-marker fa-2x align-middle mr-2" aria-hidden="true" style="color: #8c1921"></i></td>
+                <td>Poster</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         </div>
     </div>
       </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-md my-4">
+		<div class="rateAnalysisContainer bg-white adam_style" style="display:none">
+		  <div class="table-responsive">
+            <table class="table" id="polygon_data">
+                <thead>
+                        <tr>
+                            <th scope="col">Panel No</th>
+                            <th scope="col">Player No</th>
+                            <th scope="col">Co ordinates</th>
+                            <th scope="col">City </th>
+                            <th scope="col">Market</th>
+                            <th scope="col">Media Type</th>
+                        </tr>
+                </thead>
+            </table>
+		  </div>
+		</div>
+    </div>
+        <button type="button" class="btn btn-primary submitbtn" style="display:block;">Reset</button>
+      </div>
+    </div>
   </main>
  </section>
 <script src="{% static "calc/js/main.js" %}"></script>
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"-->
-<!--    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="-->
-<!--    crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
-
-  <script>
-
-
+<script>
     mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdmVlbmxrdW1hciIsImEiOiJjbDBncnp6MGcwMHBkM29vMjE2YjB5ZXJ2In0.luURpRwktZMoOvxihp_J_A';
     const map = new mapboxgl.Map({
       container: 'map', // container ID
@@ -217,6 +269,16 @@
       center: [-101.82219812898614, 40.139548654849946], // starting position [lng, lat]
       zoom: 3 // starting zoom
     });
+
+    const layerList = document.getElementById('menu');
+    const inputs = layerList.getElementsByTagName('input');
+
+    for (const input of inputs) {
+        input.onclick = (layer) => {
+        const layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+        };
+    }
 
     map.addControl(
       new MapboxGeocoder({
@@ -254,12 +316,20 @@
     map.addControl(new mapboxgl.NavigationControl());
     function updateArea(e) {
       const data = draw.getAll();
+      polygon_len = final_cods.length
+      if(polygon_len < 5){
+        alert("Kindly draw the polygon only Five points are needed")
+        return false
+      }else if(polygon_len > 5){
+        alert("Kindly draw the polygon only Five points are needed")
+        return false
+      }
       //console.log(draw)
       const answer = document.getElementById('calculated-area');
       if (data.features.length > 0) {
         const area = turf.area(data);
         //console.log(turf)
-        console.log(check_lng)
+        //console.log(check_lng)
         max_lng=Math.max.apply(Math,check_lng)
         min_lng=Math.min.apply(Math,check_lng)
         max_lat=Math.max.apply(Math,check_lat)
@@ -295,11 +365,11 @@
         cods = uniqueArray2(final_cods)
         new_cods = []
         $.each(cods, function(i,val){
-            console.log(val[0])
-            console.log(val[1])
+            //console.log(val[0])
+            //console.log(val[1])
             new_cods.push('(' +val[0]+ "," +val[1]+ ')')
         })
-        console.log(new_cods)
+        //console.log(new_cods)
         data = {"min_lng":min_lng,"max_lng":max_lng, "min_lat":min_lat,
                 "max_lat":max_lat,"cods":JSON.stringify(cods),"length":cods.length}
         $.ajax({
@@ -309,12 +379,9 @@
             data: data,
             dataType: 'json',
             success: function(res){
-                //console.log(res)
                 data = res['data']
                 count = res['count']
-                console.log(count)
                 if(count > 0){
-                    //console.log(data.length)
                     //$("#yourLabelId").show()
                     $(".rateAnalysisContainer").show()
                     $(".dataTables_empty").remove()
@@ -327,17 +394,26 @@
                         "Parking Deck Display":"#351d6e",
                         "Poster":"#8c1921"
                     }
+
                     html = ''
                     html1 = ''
+                    data_response = []
                     $.each(data, function(i,v){
-                        //console.log(v['longitude'])
-                        //console.log(v['latitude'])
                       latlng = v['longitude'] +","+v['latitude']
                       panel = v['panel_no']
                       player = v['player_no']
                       city = v['city']
                       market = v['market_name']
                       mediatype = v['media_type']
+                      data_table = {
+                        "Panel No": panel,
+                        "Player No": player,
+                        "Co ordinates": latlng,
+                        "City": city,
+                        "Market": market,
+                        "Media Type": mediatype
+                      }
+                      data_response.push(data_table)
                       if(color_array[mediatype]){
                          color = color_array[mediatype]
                       }else{
@@ -345,18 +421,31 @@
                       }
                       const marker1 = new mapboxgl.Marker({ "color": color })
                       .setLngLat([v['longitude'], v['latitude']])
-                      .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+market+'</p><p>'+mediatype+'</p></div>'))
+                      .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+player+'</p><p>'+market+'</p><p>'+mediatype+'</p></div>'))
                       .addTo(map);
                       //marker1.togglePopup();
 
                       //address = 'v['city'] +","+ v['state'] +","+ v['country']'
                       address = 'N. Charleston'
-                      html += '<tr><td>'+latlng+'</td><td>'+address+'</td></tr>'
-                      html1 += '<tr><td>'+panel+'</td><td>'+player+'</td><td>'+latlng+'</td><td>'+city+'</td><td>'+market+'</td><td>'+mediatype+'</td></tr>'
-
+                      //html += '<tr><td>'+latlng+'</td><td>'+address+'</td></tr>'
+                      //html1 += '<tr><td>'+panel+'</td><td>'+player+'</td><td>'+latlng+'</td><td>'+city+'</td><td>'+market+'</td><td>'+mediatype+'</td></tr>'
                     })
                     //$("#yourLabelId tbody").append(html)
-                    $("#rateAnalysis tbody").append(html1)
+                    //$("#rateAnalysis tbody").append(html1)
+                    $('#polygon_data').dataTable( {
+                        data : data_response,
+                        //data : response,
+                        columns: [
+                                  {"data" : "Panel No"},
+                                  {"data" : "Player No"},
+                                  {"data" : "Co ordinates"},
+                                  {"data" : "City"},
+                                  {"data" : "Market"},
+                                  {"data" : "Media Type"},
+                                  ],
+                        searching : true
+                    });
+
                 }else{
                     alert("Panel Not available in the Polygon Area")
                 }

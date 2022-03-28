@@ -66,8 +66,7 @@ def view_address(request):
                     translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code
                     from adam_panelstaticdetails panel_st
                     join adam_panelmaster panel
-                    on panel.panel_no = translate(panel_st.player_no,panel_st.code||'-','') 
-                    and panel_st.city = 'N. Charleston' limit 100
+                    on panel.panel_no = translate(panel_st.player_no,panel_st.code||'-','') limit 500 
                 '''
         cursor.execute(query)
         if (cursor.rowcount > 0):
@@ -81,6 +80,8 @@ def view_address(request):
                 record['description'] = row[9]
                 record['city'] = row[11]
                 record['media_type'] = row[6]
+                record['sub_market'] = row[5]
+                record['unit_type'] = row[7]
 
                 address_data.append(record)
 
