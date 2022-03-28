@@ -51,7 +51,11 @@ $("#calculator_tags li").click(function() {
             return confirm("Warning !! \n Changing the Calculator version will unsave your changes. Are you sure you want to proceed?");
         },
         success: function (data) {
-            alert('success !!!!',data);
+            var msg = 'Version changed';
+            if (data.length > 0) {
+                msg = 'Version changed to ' + data[0]
+            }
+            alert(msg);
             let valueEle = $(this).children().text();
             $(this).addClass('activeLI').siblings().removeClass('activeLI');
             $('#main_calculator_id').val(valueEle);

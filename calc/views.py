@@ -339,6 +339,12 @@ def sub_calculator_data(request, calculator_id):
 
 # JS-AJAX Call
 def get_calculator_version(request):
+    output_data = []
     calculator_id = request.GET.get('calculator_id', False)
     sub_calculator_data(request,calculator_id)
-    return HttpResponse(json.dumps({}), content_type='application/json')
+    calc_rec = CalculatorMaster.objects.filter(pk = eval(calculator_id))
+    calc_rec = calc_rec and list(calc_rec) or False
+    calc_rec = calc_rec and calc_rec[0] or False
+    if calc_rec:
+        output_data.append(calc_rec.name)
+    return HttpResponse(json.dumps(output_data), content_type='application/json')
