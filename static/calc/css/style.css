@@ -591,9 +591,9 @@ body.show::after {
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file {
   padding: 2px;
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

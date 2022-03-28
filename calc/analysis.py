@@ -84,12 +84,12 @@ app.layout = html.Div([
         html.Div([
             html.P('Filter Percentage', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='filter_perc', type='number', value=0,  required=True, step=1, min=0, max=100,),
+            dcc.Input(id='filter_perc', type='number', value=0, debounce=True, required=True, step=1, min=0, max=100,),
         ], className='ml-0', id='title0'),
         html.Div([
             html.P('Society Approval Rate (%)', className='fix_label',
                    style={'color': colors['text']}),
-            dcc.Input(id='society_approval_rate_perc', type='number', value=0, required=True, step=1, min=0, max=100,),
+            dcc.Input(id='society_approval_rate_perc', type='number', value=0, debounce=True, required=True, step=1, min=0, max=100,),
         ], className='ml-0', id='title4'),
         html.Div([
             html.P('Average Price Increase (%)', className='fix_label',
@@ -97,13 +97,6 @@ app.layout = html.Div([
             dcc.Input(id='avg_price_change_perc', type='number', value=0.00, readOnly=True,
                       ),
         ], className='ml-0', id='title6'),
-        # html.Div([
-        #     html.P('Combined average price increase (Gold + Hybrid) %',
-        #            className='fix_label', style={'color': colors['text']},
-        #            ),
-        #     dcc.Input(id='comb_avg_price_increase', type='number', value=None, readOnly=True,
-        #               ),
-        # ], className='ml-0', id='title7'),
         html.Div([
             html.P('Notes', className='fix_label',
                    style={'color': colors['text']}),
@@ -123,7 +116,6 @@ app.layout = html.Div([
         html.Button(id='submit-button-state', className='btnSubmit', children="Submit", style={'display': 'none'}),
 
         dbc.Row(dbc.Spinner(html.P('', id='output-fullscreen'),color='red', type='grow', fullscreen=True)),
-        # html.Div(id='output-fullscreen'),
 
     ], className='btnContainer'),
     html.Div([
@@ -177,7 +169,6 @@ app.layout = html.Div([
                                   group=','
                               )},
                          ],
-                         # virtualization=True,
                          export_format="xlsx",
                          export_headers="display",
                          style_cell={},
@@ -217,10 +208,12 @@ def create_or_update_record(save=True, **kwargs):
     user_obj = User.objects.get(pk=int(input_data.get('user_id')))
     calculator_obj = CalculatorMaster.objects.get(pk=int(input_data.get('calculator_id')))
     scenario_obj = ScenarioMaster.objects.get(pk=int(input_data.get('scenario_id')))
+    name_ref = 'Auto entry of Rate Analysis Scenario {}'.format(scenario_obj.name)
     if input_data.get('action') == 'create':
         document_data = {'calculator_id': calculator_obj,
                          'scenario_id': scenario_obj,
-                         'name': 'Auto entry from Rate Analysis holds user input document',
+                         'name': name_ref,
+                         'is_auto': True,
                          'document': input_data.get('filename', False)}
         document_rec = Document.objects.create(**document_data)
     parent_data = {'calculator_id': calculator_obj,
@@ -540,13 +533,17 @@ def get_calculator_directory(**kwargs):
 
 @app.callback(Output('scenario_id', 'options'),
               Output('scenario_id', 'value'),
-              [Input('user_id', 'value')])
-def update_scenario(user_id):
+              [Input('user_id', 'value'),
+               Input('scenario_id', 'value')])
+def update_scenario(user_id,scenario_id):
     print('update_scenario ...')
     scenario_obj1 = ScenarioMaster.objects.values('pk', 'name')
     scenario_list1 = scenario_obj1 and list(scenario_obj1) or []
     if scenario_obj1:
-        return [{'label': i.get('name'), 'value': i.get('pk')} for i in scenario_list1], scenario_list1[0].get('pk')
+        if scenario_id != '':
+            return [{'label': i.get('name'), 'value': i.get('pk')} for i in scenario_list1], scenario_id
+        else:
+            return [{'label': i.get('name'), 'value': i.get('pk')} for i in scenario_list1], scenario_list1[0].get('pk')
     return [{}], ''
 
 @app.callback(Output('end_time', 'value'),
@@ -566,6 +563,22 @@ def update_starttime(filter_perc,society_approval_rate_perc):
     if filter_perc is None or society_approval_rate_perc is None:
         raise PreventUpdate
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+def get_input_data(**kwargs):
+    input_data = kwargs.get('input_data',{})
+    input_data.update({'scenario_id': kwargs.get('scenario_id',False),
+                       'calculator_id': kwargs.get('calculator_id',False),
+                       'user_id': kwargs.get('user_id',False),
+                       'filter_perc': kwargs.get('filter_perc',False),
+                       'society_approval_rate_perc': kwargs.get('society_approval_rate_perc',False),
+                       'avg_price_change_perc': kwargs.get('avg_price_change_perc',False),
+                       'remarks': kwargs.get('remarks',False),
+                       'description': kwargs.get('description',False),
+                       'datatable': kwargs.get('datatable',False),
+                       'filename': kwargs.get('filename',False),
+                       'action': 'create'
+                       })
+    return input_data
 
 @app.callback(Output('javascript', 'run'),
               #Output('output-fullscreen', 'children'),
@@ -589,25 +602,24 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
                   society_approval_rate_perc, avg_price_change_perc, remarks, description, datatable, datatable_column,
                   contents, filename):
     print('\n update_output ...')
-    input_data = {'scenario_id': scenario_id,
-                  'calculator_id': calculator_id,
-                  'user_id': user_id,
-                  'filter_perc': filter_perc,
-                  'society_approval_rate_perc': society_approval_rate_perc,
-                  'avg_price_change_perc': avg_price_change_perc,
-                  'remarks': remarks,
-                  'description': description,
-                  'datatable': datatable,
-                  'filename': filename,
-                  'action': 'create'
-                  }
+    input_data = {}
     if rate_analysis_id > 0:
+        input_data = get_input_data(scenario_id=scenario_id, calculator_id=calculator_id, user_id=user_id,
+                                    filter_perc=filter_perc, society_approval_rate_perc=society_approval_rate_perc,
+                                    avg_price_change_perc=avg_price_change_perc, remarks=remarks,
+                                    description=description, datatable=datatable, filename=filename,
+                                    input_data=input_data)
         input_data['action'] = 'edit'
         input_data['rate_analysis_id'] = rate_analysis_id
     # update_rate_analysis(input_data = input_data)
     if scenario_id != 0 and society_approval_rate_perc != 0 and avg_price_change_perc != 0 and \
             submit_btn and datatable != [[{}], []]:
         print('\n yes')
+        input_data = get_input_data(scenario_id=scenario_id, calculator_id=calculator_id, user_id=user_id,
+                                    filter_perc=filter_perc, society_approval_rate_perc=society_approval_rate_perc,
+                                    avg_price_change_perc=avg_price_change_perc, remarks=remarks,
+                                    description=description, datatable=datatable, filename=filename,
+                                    input_data=input_data)
         ### Code written to restrict redundancy on apply changes (button action)
         from_datetime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
         to_datetime = False
@@ -624,25 +636,9 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
                 res = 'alert("{}");'.format(message_one)
                 return res #, ''
         if rate_analysis_id > 0:
-            reference_number = create_or_update_record(input_data=input_data)
-            message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
-            message_two = '{} : {}'.format(message_one, reference_number)
-            message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
-            res = 'alert("{}");'.format(message_two)
-            res = '{}{}'.format(res, message_three)
-            return res #, ''
-        else:
-            calculator_directory = get_calculator_directory(user_id=input_data.get('user_id', 0),
-                                                            calculator_id=input_data.get('calculator_id', 0))
-            if calculator_directory:
-                document_dynamic_filepath = get_upload_to(calculator_directory, False)
-                file_data = {'contents': contents,
-                             'filename': filename,
-                             'action': True,
-                             'document_dynamic_filepath': document_dynamic_filepath
-                             }
-                document_filepath = parse_contents(file_data=file_data)
-                input_data['filename'] = document_filepath
+            input_data['action'] = 'edit'
+            input_data['rate_analysis_id'] = rate_analysis_id
+            try:
                 reference_number = create_or_update_record(input_data=input_data)
                 message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
                 message_two = '{} : {}'.format(message_one, reference_number)
@@ -650,6 +646,39 @@ def update_output(start_time, end_time, submit_btn, scenario_id, rate_analysis_i
                 res = 'alert("{}");'.format(message_two)
                 res = '{}{}'.format(res, message_three)
                 return res #, ''
+            except Exception as e:
+                print('\n Exception creation error args ... ', e.args)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                message_one = 'Oops!!!!! Something went wrong. Please try back after later'
+                res = 'alert("{}");'.format(message_one)
+                return res #, ''
+        else:
+            calculator_directory = get_calculator_directory(user_id=input_data.get('user_id', 0),
+                                                            calculator_id=input_data.get('calculator_id', 0))
+            if calculator_directory:
+                try:
+                    document_dynamic_filepath = get_upload_to(calculator_directory, False)
+                    file_data = {'contents': contents,
+                                 'filename': filename,
+                                 'action': True,
+                                 'document_dynamic_filepath': document_dynamic_filepath
+                                 }
+                    document_filepath = parse_contents(file_data=file_data)
+                    input_data['filename'] = document_filepath
+                    reference_number = create_or_update_record(input_data=input_data)
+                    message_one = 'Your request was successfully submitted for processing. To view the status, use the Reference ID'
+                    message_two = '{} : {}'.format(message_one, reference_number)
+                    message_three = 'window.open("{}","_parent");'.format('/financial-analysis-report')
+                    res = 'alert("{}");'.format(message_two)
+                    res = '{}{}'.format(res, message_three)
+                    return res #, ''
+                except Exception as e:
+                    print('\n Exception creation error args ... ', e.args)
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    message_one = 'Oops!!!!! Something went wrong. Please try back after later'
+                    res = 'alert("{}");'.format(message_one)
+                    return res #, ''
+    print('update_output raise preventupdate')
     raise PreventUpdate
 
 
