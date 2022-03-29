@@ -38,12 +38,13 @@ function openNav() {
   $('body').toggleClass('hidden');
 }
 
-$("#calculator_tags li").click(function() {
+// $("#calculator_tags li").click(function() {
 //   $(this).addClass('activeLI').siblings().removeClass('activeLI');
 //   let valueEle = $(this).children().text();
 //   $('#main_calculator_id').val(valueEle);
 // })
-    
+
+$("#calculator_tags li").click(function() {
   let calculator_id = $(this).children().attr("id");
   const url = "/get_calculator_version"
   $.ajax({
@@ -71,7 +72,6 @@ $("#calculator_tags li").click(function() {
       },
   });
 });
-
 // Change Header Text Dynamically
 $('.list-group-item').on('click', function(e) {
   var el = $(this);
