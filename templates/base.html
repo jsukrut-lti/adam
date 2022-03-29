@@ -118,24 +118,24 @@
           <span class="menu-collapsed">Analysis</span>
       </a> -->
       <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
-          class="bg-dark flex-column align-items-start adminSubMenu">
+          class="submenuParent bg-dark flex-column align-items-start adminSubMenu">
             <i class="bi bi-people-fill me-3"></i>
             <span class="menu-collapsed">Analysis</span>
             <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
       </a>
       <div id='submenu3' class="collapse sidebar-submenu">
-        <a href="/financial-analysis" class="list-group-item list-group-item-action bg-dark text-white">
+        <a href="/financial-analysis" id="createSce" class="list-group-item list-group-item-action bg-dark text-white">
           <span class="menu-collapsed">Create Scenario</span>
         </a>
       </div>
       <div id='submenu3' class="collapse sidebar-submenu">
-        <a href="/financial-analysis-report" class="list-group-item list-group-item-action bg-dark text-white">
+        <a href="/financial-analysis-report" id="createSceRepo" class="list-group-item list-group-item-action bg-dark text-white">
           <span class="menu-collapsed">Scenario Reports</span>
         </a>
       </div>
        {% if user.is_superuser %}
           <a href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
-            class="bg-dark flex-column align-items-start adminSubMenu">
+            class="submenuParent2 bg-dark flex-column align-items-start adminSubMenu">
               <i class="bi bi-people-fill me-3"></i>
               <span class="menu-collapsed">Admin</span>
               <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
@@ -143,7 +143,7 @@
 
           <!-- Submenu content -->
           <div id='submenu2' class="collapse sidebar-submenu">
-            <a href="/admin" class="bg-dark text-white">
+            <a href="/admin" id="admin"  class="bg-dark text-white list-group-item">
               <span class="menu-collapsed">Admin</span>
             </a>
           </div>
@@ -183,7 +183,7 @@
                   </div>
                 </a> -->
 
-                <a href="/profile" class="bg-dark list-group-item list-group-item-action">
+                <a href="/profile" id="prof" class="bg-dark list-group-item list-group-item-action">
                   <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="bi bi-person-fill me-3"></i>
                     <span class="menu-collapsed">Profile</span>
@@ -196,14 +196,14 @@
 <!--                  </div>-->
 <!--                </a>-->
 
-                <a href="/calculator" class="bg-dark list-group-item list-group-item-action">
+                <a href="/calculator" id="calc" class="bg-dark list-group-item list-group-item-action">
                   <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="bi bi-calculator-fill me-3"></i>
                     <span class="menu-collapsed">Calculator</span>
                   </div>
                 </a>
                 <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
-                      class="bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
+                      class="submenuParent bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
                       <div class="d-flex w-100 justify-content-start align-items-center">
                         <!-- <span class="fa fa-users fa-fw me-3"></span> -->
                         <i class="bi bi-people-fill me-3"></i>
@@ -212,13 +212,13 @@
                       </div>
                     </a>
                 <div id='submenu3' class="collapse sidebar-submenu">
-                      <a href="/financial-analysis" class="list-group-item list-group-item-action bg-dark text-white">
+                      <a href="/financial-analysis" id="createSce" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">Create Scenario</span>
                       </a>
 
                     </div>
                 <div id='submenu3' class="collapse sidebar-submenu">
-                      <a href="/financial-analysis-report" class="list-group-item list-group-item-action bg-dark text-white">
+                      <a href="/financial-analysis-report" id="createSceRepo" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">Scenario Reports</span>
                       </a>
                     </div>
@@ -259,7 +259,7 @@
 <!--                </a>-->
                  {% if user.is_superuser %}
                     <a href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
-                      class="bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
+                      class="submenuParent2 bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
                       <div class="d-flex w-100 justify-content-start align-items-center">
                         <!-- <span class="fa fa-users fa-fw me-3"></span> -->
                         <i class="bi bi-people-fill me-3"></i>
@@ -270,7 +270,7 @@
 
                     <!-- Submenu content -->
                     <div id='submenu2' class="collapse sidebar-submenu">
-                      <a href="/admin" class="list-group-item list-group-item-action bg-dark text-white">
+                      <a href="/admin" id="admin" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">Admin</span>
                       </a>
 <!--                      <a href="/admin" class="list-group-item list-group-item-action bg-dark text-white">-->
