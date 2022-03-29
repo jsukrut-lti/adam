@@ -62,8 +62,8 @@ class CalculatorMaster(models.Model):
     calculator_seq_no = models.CharField(max_length=20, default=increment_calculator_seq_no, editable=False)
     primary_currency_id = models.ForeignKey(CurrencyMaster, verbose_name=u"Primary Currency", on_delete=models.CASCADE, related_name='primary_currency_id')
     currency_ids = models.ManyToManyField(CurrencyMaster, verbose_name=u"Secondary Currency", related_name="currency_ids", blank=True)
-    active = models.BooleanField(verbose_name=u"Active",default=True)
-    is_published = models.BooleanField(verbose_name=u"Is Published",)
+    active = models.BooleanField(verbose_name=u"Active", editable=False, default=True)
+    is_published = models.BooleanField(verbose_name=u"Is Published", editable=False, default=False)
 
     def currency_ids_(self):
         return ', '.join([t.name for t in self.currency_ids.all()])
@@ -74,6 +74,7 @@ class CalculatorMaster(models.Model):
     class Meta:
         db_table = 'calculator_master'
         verbose_name_plural = '   Calculator Master'
+        ordering = ['id']
 
 class JournalMaster(models.Model):
     code = models.CharField(max_length=10, verbose_name=u"Journal Code", unique=True)
@@ -121,12 +122,22 @@ class ScenarioMaster(models.Model):
         verbose_name_plural = '     Scenario Master'
 
 class Document(models.Model):
+
+    STATUS = [
+    ('draft','Draft'),
+    ('export_csv','Export CSV'),
+    ('import_journal','Import Journal'),
+    ]
+
     name = models.CharField(max_length=255, verbose_name=u"Description", blank=True)
     uploaded_at = models.DateTimeField(verbose_name=u"Uploaded at",auto_now_add=True)
     document = models.FileField(verbose_name=u"Document", upload_to=get_upload_to)
     calculator_id = models.ForeignKey(CalculatorMaster, verbose_name=u"Tag Calculator", on_delete=models.CASCADE, related_name='calc_id')
     scenario_id = models.ForeignKey(ScenarioMaster, on_delete=models.CASCADE, related_name='scenario_id',
                                     verbose_name=u"Tag Scenario", null=True, blank=True)
+    is_auto = models.BooleanField(verbose_name=u"Is Auto", editable=False, default=False)
+    status = models.CharField(max_length=20, verbose_name=u"Status", choices=STATUS, default='draft', null=True, blank=True)
+
 
     def __str__(self):
         return self.name
