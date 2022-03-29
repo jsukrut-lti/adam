@@ -43,3 +43,18 @@ $("#calculator_tags li").click(function() {
   let valueEle = $(this).children().text();
   $('#main_calculator_id').val(valueEle);
 })
+
+// Change Header Text Dynamically
+$('.list-group-item').on('click', function(e) {
+  var el = $(this);
+  sessionStorage.navItem = el.text();
+});
+
+$('.headerContainerLeft h3').text(sessionStorage.navItem);
+
+let nvText = document.querySelector('.headerContainerLeft h3').innerText;
+
+if(nvText == "Admin" || nvText == "admin") {
+  $('.headerContainerLeft h3').text('Calculator');
+  // sessionStorage.navItem = 'Calculator';
+}

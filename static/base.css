@@ -8,6 +8,7 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
+      /* font-family: 'Lora', serif; */
       background-color: #eee;
     }
 
@@ -38,7 +39,9 @@
       display: inline-block;
       line-height: 20px;
       text-decoration: none;
-      font-family: Verdana, sans-serif;
+      /* font-family: Verdana, sans-serif; */
+      /* font-family: 'Lora', serif; */
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 15px;
       /* remove underline from anchors */
     }
@@ -60,7 +63,9 @@
       border: none;
       border-radius: 4px;
       background-color: #ffffff;
-      font-family: Verdana, sans-serif;
+      /* font-family: Verdana, sans-serif; */
+      /* font-family: 'Lora', serif; */
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 15px;
     }
 
@@ -73,7 +78,9 @@
       border-radius: 4px;
       background-color: #f8f8f8;
       resize: none;
-      font-family: Verdana, sans-serif;
+      /* font-family: Verdana, sans-serif; */
+      /* font-family: 'Lora', serif; */
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 15px;
     }
 
@@ -207,11 +214,15 @@
     }
 
     /* Menu item*/
-    #sidebar-container .list-group a {
+    #sidebar-container .list-group a,
+    #analysisMenu .accordion-button {
       height: 50px;
       color: white;
-      font-size: 15px;
+      font-size: 16px;
       display: flex;
+      letter-spacing: 1px;
+      /* font-family: 'Lora', serif; */
+      font-family: Arial, Helvetica, sans-serif;
     }
     #sidebar-container .list-group a:first-child {
       border-top-left-radius: 0;
@@ -222,9 +233,22 @@
     /* Submenu item*/
     #sidebar-container .list-group .sidebar-submenu a {
       height: auto;
-      padding: 14px 16px;
-      font-size: 13px;
+      padding: 14px 5px 14px 48px;
+      font-size: 14px;
       text-align: left;
+      text-decoration: none;
+    }
+
+    #sidebar-container .list-group .sidebar-submenu a.activeMenu {
+      background-color: rgb(69 188 229) !important;
+    }
+
+    #analysisMenu .accordion-button::after {
+      display: none;
+    }
+
+    #analysisMenu.accordion-flush .accordion-item .accordion-button {
+       border-radius: unset;
     }
 
     .sidebar-submenu {
@@ -277,6 +301,10 @@
       display: inline;
       text-align: right;
       padding-left: 10px;
+    }
+
+    #analysisMenu .accordion-button:not(.collapsed) .subMenuIcon::before {
+      transform: rotate(90deg);
     }
 
     /* TABLES */
@@ -626,6 +654,7 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
+      /* font-family: 'Lora', serif; */
     }
 
     .f14 {
@@ -669,16 +698,14 @@
 
     .logout-text {
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
       text-decoration: none;
+      letter-spacing: 0.5px;
     }
 
     .logout-text:hover {
       color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
     }
 
     .m-95 {
@@ -986,18 +1013,21 @@ thead tr {
     transition: 0.2s ease;
 }
 
-.headerContainer .dropdown ul.dropdown-menu li {
-  box-shadow: 0px 2px #0e1941;
+.headerContainer .dropdown ul.dropdown-menu li.activeLI {
+  position: relative;
+  background-image: linear-gradient(to right, #4599b3, #0e1941);
 }
 
-.headerContainer .dropdown ul.dropdown-menu li:last-child {
-  box-shadow: none;
+.headerContainer .dropdown ul.dropdown-menu li.activeLI::before {
+  /* content: '';
+  position: absolute;
+  height: 100%;
+  width: 3px;
+  background-color: #005274; */
 }
 
 .headerContainer .dropdown ul.dropdown-menu li.activeLI a {
-  /* background: #054c62; */
-  /* color: #054c62; */
-  font-weight: bold;
+  font-size: 18px;
   padding-left: 20px;
   cursor: default;
 }
@@ -1029,7 +1059,8 @@ thead tr {
 .headerContainer .dropdown ul.dropdown-menu .dropdown-item {
   padding: 8px 15px;
   color: #ffffff;
-  font-family: 'Lora', serif;
+  /* font-family: 'Lora', serif; */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 .headerContainer .dropdown ul.dropdown-menu .dropdown-item:hover {

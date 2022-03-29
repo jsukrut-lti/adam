@@ -37,7 +37,7 @@
                             <td>
                                 <div class="crud">
                                     {% if request.user.is_superuser %}
-                                        <a class="bi bi-pencil-square" href="#"></a>
+                                        <a class="bi bi-pencil-square btn-edit" href="#"></a>
                                     {% else %}
 
                                         {% if scenario.status == 'pending' %}

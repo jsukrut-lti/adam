@@ -21,7 +21,8 @@
                     color: #ffffff;
                     font-weight: normal;
                     width: 90px !important;
-                    font-family: 'Lora', serif;
+                    // font-family: 'Lora', serif;
+                    font-family: Arial, Helvetica, sans-serif;
                     text-align: center;
                 }
             }
@@ -425,7 +426,8 @@
                     background: #4599b3 !important;
                     color: #ffffff;
                     font-size: 16px;
-                    font-family: 'Lora', serif;
+                    // font-family: 'Lora', serif;
+                    font-family: Arial, Helvetica, sans-serif;
 
                     &.active {
                         background: #0e1941 !important;

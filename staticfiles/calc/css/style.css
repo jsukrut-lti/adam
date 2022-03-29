@@ -4,19 +4,11 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
-}
-
-#sidebar-container .list-group .list-group-item[aria-expanded="true"] .subMenuIcon::before {
-    transform: rotate(90deg);
-}
-
-#sidebar-container .list-group .list-group-item[aria-expanded="false"] .subMenuIcon::before {
-    transform: rotate(0deg);
 }
 
 /* Calculator CSS Start Here... */
@@ -247,105 +239,5 @@ h1, h2, h3, h4, h5, h6 {
 .analysisContainer #combineAvg_wrapper #combineAvg thead select option {
   background: #646363;
   color: #ffffff;
-}
-
-.loader {
-
-    border: 16px solid #f3f3f3;
-
-    border-radius: 50%;
-
-    border-top: 12px solid #3498db;
-
-    width: 120px;
-
-    height: 120px;
-
-    -webkit-animation: spin 2s linear infinite;
-
-    animation: spin 2s linear infinite;
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    z-index: 100;
-
-}
-
-@-webkit-keyframes spin {
-
-    0% {
-
-        -webkit-transform: rotate(0deg);
-
-        border-top-color: #0070c0;
-
-    }
-
-    25% {
-
-        -webkit-transform: rotate(90deg);
-
-        border-top-color: #009e6d;
-
-    }
-
-    50% {
-
-        -webkit-transform: rotate(180deg);
-
-        border-top-color: #ffc000;
-
-    }
-
-    100% {
-
-        -webkit-transform: rotate(360deg);
-
-        border-top-color: #ed7d31;
-
-    }
-
-}
-
-@keyframes spin {
-
-    0% {
-
-        transform: rotate(0deg);
-
-        border-top-color: #0070c0;
-
-    }
-
-    25% {
-
-        transform: rotate(90deg);
-
-        border-top-color: #009e6d;
-
-    }
-
-    50% {
-
-        transform: rotate(180deg);
-
-        border-top-color: #ffc000;
-
-    }
-
-    100% {
-
-        transform: rotate(360deg);
-
-        border-top-color: #ed7d31;
-
-    }
-
 }
 /*# sourceMappingURL=style.css.map */
