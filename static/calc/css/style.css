@@ -5,15 +5,15 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-input, select, .btn, ul, li, a {
-  font-family: 'Lora', serif;
+input, select, .btn, ul, li, a, button {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -934,7 +934,7 @@ body.show::after {
   color: #ffffff;
   font-weight: normal;
   width: 90px !important;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
@@ -1440,7 +1440,7 @@ body.show::after {
   background: #4599b3 !important;
   color: #ffffff;
   font-size: 16px;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active {
