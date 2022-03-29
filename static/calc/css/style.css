@@ -1144,6 +1144,7 @@ body.show::after {
           align-items: center;
   gap: 10px;
   font-size: 15px;
+  margin-top: 12px;
 }
 
 #rateAnalysis_wrapper #rateAnalysis_length label select,

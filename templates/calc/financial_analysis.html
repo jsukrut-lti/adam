@@ -3,7 +3,7 @@
 {% load static %}
 {% load plotly_dash %}
 <input type="hidden" id="calculator_id" value="{{calculator_id}}" />
-<div class="financialAnalysis container-md my-4 d-none" id="plotly_div">
+<div class="financialAnalysis container-md my-5 d-none" id="plotly_div">
     <div class="{% plotly_class name='AnalysisApp' %} card">
         {% plotly_app name='AnalysisApp' initial_arguments=dash_input ratio=0.70 %}
     </div>

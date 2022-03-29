@@ -303,6 +303,10 @@
       padding-left: 10px;
     }
 
+    #sidebar-container .list-group-item.sideActive {
+      background-color: rgb(69 188 229) !important;
+    }
+
     #analysisMenu .accordion-button:not(.collapsed) .subMenuIcon::before {
       transform: rotate(90deg);
     }
@@ -1145,6 +1149,9 @@ thead tr {
     display: inline;
     text-align: right;
     padding-left: 10px;
+  }
+  .overlay .list-group-item.sideActive {
+    background-color: rgb(69 188 229) !important;
   }
 }
 
