@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.gis import admin as gis_admin
 from .models import PanelMaster, PanelStaticDetails, PanelPlayerDetails,PanelDocument, SpatialPoint, SpatialPolygon
 from django_object_actions import DjangoObjectActions
 from django.core.exceptions import ValidationError
@@ -97,4 +98,12 @@ class PanelDocumentAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(PanelDocument, PanelDocumentAdmin)
-admin.site.register(SpatialPoint)
+
+
+class SecureOSM(gis_admin.GeoModelAdmin):
+    openlayers_url = 'https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js'
+# @gis_admin.register(SpatialPoint)
+# class SpatialPointAdmin(gis_admin.OSMGeoAdmin):
+#     # gis_widget = OSMWidget
+#     list_display = ('points', 'panelmaster_id')
+gis_admin.site.register(SpatialPoint, SecureOSM)

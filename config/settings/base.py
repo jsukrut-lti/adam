@@ -177,4 +177,5 @@ MEDIA_ROOT = os.path.join(DATA_FILE_DIR, 'scripts')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 GDAL_LIBRARY_PATH = r'C:\Program Files\PostgreSQL\14\bin\libgdal-29.dll'
+
 GEOS_LIBRARY_PATH = r'C:\Program Files\PostgreSQL\14\bin\libgeos_c.dll'

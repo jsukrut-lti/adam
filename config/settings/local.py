@@ -7,7 +7,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'wiley',
+        'NAME': 'adamWiley',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
