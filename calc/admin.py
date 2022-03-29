@@ -29,9 +29,9 @@ admin.site.register(CurrencyMaster, CurrencyMasterAdmin)
 
 class CurrencyRateMasterAdmin(admin.ModelAdmin):
     readonly_fields = ['code']
-    list_display = ("code", "name", "effective_date", "conversion_rate",)
+    list_display = ("code", "name", "effective_date", "conversion_rate","active",)
     search_fields = ['code', 'name', 'from_currency__code', 'to_currency__code']
-    list_filter = ('from_currency', 'to_currency')
+    list_filter = ('from_currency', 'to_currency', 'active')
 
     fieldsets = (('',
                   {'fields': ('name', 'from_currency', 'to_currency', 'effective_date', 'conversion_rate', 'active'),
@@ -137,23 +137,6 @@ class CalculatorMasterAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     def seconday_Currency(self, obj):
         return ", ".join([str(p) for p in obj.currency_ids.all()])
-
-    def changelist_view(self, request, extra_context=None):
-        default_filter = False
-        try:
-            ref = request.META['HTTP_REFERER']
-            pinfo = request.META['PATH_INFO']
-            qstr = ref.split(pinfo)
-            if len(qstr) < 2:
-                default_filter = True
-        except:
-            default_filter = True
-        if default_filter:
-            q = request.GET.copy()
-            q['active__exact'] = True
-            request.GET = q
-            request.META['QUERY_STRING'] = request.GET.urlencode()
-        return super(CalculatorMasterAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def save_related(self, request, form, formsets, change):
         super(CalculatorMasterAdmin, self).save_related(request, form, formsets, change)
