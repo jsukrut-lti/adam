@@ -92,6 +92,11 @@ if(nvText == "Admin" || nvText == "admin") {
 let createSec = $('#createSce');
 let sceRepo = $('#createSceRepo');
 let admin = $('#admin');
+
+let createSecMob = $('#createSceMob');
+let sceRepoMob = $('#createSceRepoMob');
+let adminMob = $('#adminMob');
+
 let subMenuParent = $('.submenuParent');
 let subMenuParent2 = $('.submenuParent2')
 
@@ -114,19 +119,25 @@ $(document).ready(function() {
   });
 
   function addShow() {
-    if(createSec.hasClass('sideActive') || sceRepo.hasClass('sideActive')) {
+    if(createSec.hasClass('sideActive') || sceRepo.hasClass('sideActive') || createSecMob.hasClass('sideActive') || sceRepoMob.hasClass('sideActive')) {
       createSec.parent().addClass('show');
       sceRepo.parent().addClass('show');
+      createSecMob.parent().addClass('show');
+      sceRepoMob.parent().addClass('show');
       subMenuParent.attr('aria-expanded','true');
       admin.parent().removeClass('show');
+      adminMob.parent().removeClass('show');
       subMenuParent2.attr('aria-expanded','false');
     }
 
-    else if(admin.hasClass('sideActive')) {
+    else if(admin.hasClass('sideActive') || adminMob.hasClass('sideActive')) {
       admin.parent().addClass('show');
+      adminMob.parent().addClass('show');
       subMenuParent2.attr('aria-expanded','true');
       createSec.parent().removeClass('show');
       sceRepo.parent().removeClass('show');
+      createSecMob.parent().removeClass('show');
+      sceRepoMob.parent().removeClass('show');
       subMenuParent.attr('aria-expanded','false');
     }
   }
