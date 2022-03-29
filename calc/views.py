@@ -98,8 +98,13 @@ def get_calculator_data(request, **kwargs):
         output_data = calculator('#', is_inflation=0, is_bypass=1,
                                  calculator_directory=calculator_rec.get('directory_name', False))
         currency_rec = currency_ids and CurrencyMaster.objects.filter(pk__in=currency_ids).values() or []
-        currency_rate_rec = currency_ids and CurrencyRateMaster.objects.filter(
-            from_currency__in=[primary_currency_obj.pk], to_currency__in=currency_ids).values() or []
+        currency_rate_rec = currency_ids and CurrencyRateMaster.objects.filter(active=True,
+                                                                               effective_date__lte=datetime.datetime.now().date(),
+                                                                               from_currency__in=[
+                                                                                   primary_currency_obj.pk],
+                                                                               to_currency__in=currency_ids).order_by(
+            '-effective_date', '-to_currency')[:len(currency_ids)].values() or []
+        print(currency_rate_rec)
         currency_rate_rec = currency_rate_rec and list(currency_rate_rec) or []
         for rate in currency_rate_rec:
             curr_rec = CurrencyMaster.objects.get(pk=rate['to_currency_id'])
