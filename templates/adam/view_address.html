@@ -8,10 +8,63 @@
     min-width:200px;
     }
     .btn-close { background-color: transparent !important; }
+    .adam_style  .table thead > tr > th {
+      background: #54b4f0 !important;
+      font-size: 13px;
+      font-weight: 600;
+    }
+     .adam_style table.dataTable thead .sorting {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_both.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_asc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_asc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style table.dataTable thead .sorting_desc {
+      background-image: url(http://cdn.datatables.net/1.10.12/images/sort_desc.png) !important;
+      background-repeat: no-repeat !important;
+    background-position: center right !important;
+    }
+    .adam_style .table tbody > tr > td {
+      background: #efeff0 !important;
+      color: #000 !important;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 13px;
+    }
+    /* .adam_style .table tr{
+      border: 1px solid;
+    } */
+    .adam_style table.dataTable thead th, table.dataTable thead td {
+      border-bottom: none;
+    }
+    .adam_style .table, .adam_style .table thead th {
+      border-spacing: 0;
+      border-width:1px;
+    }
+    .adam_style .table tbody > tr > td:last-child
+     { border-right: 1px solid #ccc; }
+     .adam_style .table tbody > tr > td a  {
+      border-right: 1px solid #ccc;
+     }
+     .adam_style .table tbody > tr > td a {
+       color: #000;
+     }
+     .adam_style #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled
+        {
+       background: #54b4f0;
+     }
+     .adam_style #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button
+     {
+      background: #54b4f0;
+     }
 </style>
 <section class="main-container">
     <div class="container-md my-4">
-        <div class="rateAnalysisContainer bg-white">
+        <div class="rateAnalysisContainer bg-white adam_style">
             <h5>View Panel</h5>
             <div class="table-responsive">
                 <table class="table" id="rateAnalysis">
@@ -24,6 +77,8 @@
                             <th scope="col">Description</th>
                             <th scope="col">City</th>
                             <th scope="col">Media Type</th>
+                            <th scope="col">Sub Market</th>
+                            <th scope="col">Unit Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +98,8 @@
                             <td>{{add.description}}</td>
                             <td>{{add.city}}</td>
                             <td>{{add.media_type}}</td>
-
+                            <td>{{add.sub_market}}</td>
+                            <td>{{add.unit_type}}</td>
 
 <!--                            <td>-->
 <!--                                <div class="crud">-->
