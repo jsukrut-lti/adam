@@ -43,7 +43,8 @@ function openNav() {
 //   let valueEle = $(this).children().text();
 //   $('#main_calculator_id').val(valueEle);
 // })
-    
+
+$("#calculator_tags li").click(function() {
 let calculator_id = $(this).children().attr("id");
 const url = "/get_calculator_version"
 $.ajax({
@@ -70,7 +71,7 @@ $.ajax({
         alert('Oops!!!!! Something went wrong. Please try back after later');
     },
 });
-
+});
 // Change Header Text Dynamically
 $('.list-group-item').on('click', function(e) {
   var el = $(this);
