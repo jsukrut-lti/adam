@@ -250,6 +250,7 @@
                             <th scope="col">City </th>
                             <th scope="col">Market</th>
                             <th scope="col">Media Type</th>
+                            <th scope="col">Installed On</th>
                         </tr>
                 </thead>
             </table>
@@ -429,13 +430,21 @@
                       market = v['market_name']
                       mediatype = v['media_type']
                       impressions = Math.round(v['wk4_imp'])
+                      installed = v['installed_date']
+                      if(installed==null){
+                        installed = '-'
+                      }else{
+                        installed = installed.split(' ')
+                        installed = installed[0]
+                      }
                       data_table = {
                         "Panel No": panel,
                         "Player No": player,
                         "Co ordinates": latlng,
                         "City": city,
                         "Market": market,
-                        "Media Type": mediatype
+                        "Media Type": mediatype,
+                        "Installed On": installed
                       }
                       data_response.push(data_table)
                       if(color_array[mediatype]){
@@ -466,6 +475,7 @@
                                   {"data" : "City"},
                                   {"data" : "Market"},
                                   {"data" : "Media Type"},
+                                  {"data" : "Installed On"}
                                   ],
                         searching : true
                     });

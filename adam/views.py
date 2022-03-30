@@ -1,5 +1,4 @@
 import json
-import re
 from shapely.geometry import Point, Polygon
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
@@ -95,7 +94,6 @@ def view_address(request):
     return redirect('login')
 
 
-
 def find_address(request):
     return render(request, 'adam/find_address.html')
 
@@ -123,6 +121,7 @@ def create_address(request):
         return HttpResponse(json.dumps({'status': "success"}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({'status': "bad request"}), content_type="application/json")
+
 
 @csrf_exempt
 def check_area(request):
@@ -197,7 +196,8 @@ def check_area(request):
                             panel_st.submarket,panel_st.media_type,panel_st.unit_type,
                             panel.status,panel_st.description,panel_st.code,
                             panel_st.city,panel_st.site,panel_st.wk4_imp,panel_st.media_type,
-                            translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code
+                            translate(panel_st.player_no,panel_st.code||'-','') as panel_st_panel_code,
+                            panel_st.installed_date_str
                             from adam_panelstaticdetails panel_st
                             join adam_panelmaster panel
                             on panel.panel_no = translate(panel_st.player_no,panel_st.code||'-','')
@@ -219,6 +219,7 @@ def check_area(request):
                 record['city'] = row[11]
                 record['media_type'] = row[6]
                 record['wk4_imp'] = row[13]
+                record['installed_date'] = row[16]
 
                 address_data.append(record)
         else:
