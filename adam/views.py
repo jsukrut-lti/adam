@@ -218,6 +218,7 @@ def check_area(request):
                 record['description'] = row[9]
                 record['city'] = row[11]
                 record['media_type'] = row[6]
+                record['wk4_imp'] = row[13]
 
                 address_data.append(record)
         else:
