@@ -7,6 +7,7 @@ from django.conf import settings
 # from .adam import *
 # Create your models here.
 
+
 class PanelAbstract(models.Model):
 
     panel_no = models.CharField(max_length=50, verbose_name=u"Panel Number", help_text=u"Panel Number", null=True, blank=True)
@@ -33,12 +34,14 @@ class PanelDetailAbstract(models.Model):
     class Meta:
         abstract = True
 
+
 address_type_choice = (
     ('billing', 'Billing'), ('shipping', 'Shipping'),
     ('office', 'Office'), ('personal', 'Personal'),
     ('Other', 'Other'), ('current', 'Current'),
     ('permanent', 'Permanent')
 )
+
 
 class PanelMaster(PanelAbstract):
 
@@ -71,6 +74,7 @@ class PanelMaster(PanelAbstract):
         s.save()
         return obj
 
+
 class PanelStaticDetails(PanelAbstract,PanelDetailAbstract):
 
     media_type = models.CharField(max_length=100,verbose_name=u"Media Type", null=True, blank=True)
@@ -82,6 +86,7 @@ class PanelStaticDetails(PanelAbstract,PanelDetailAbstract):
     class Meta:
         verbose_name_plural = '    Panel Static Details'
 
+
 class PanelPlayerDetails(PanelAbstract,PanelDetailAbstract):
     sales_spot = models.CharField(max_length=100, verbose_name=u"Sales Spot", help_text=u"Sales Spot", null=True, blank=True)
 
@@ -90,6 +95,7 @@ class PanelPlayerDetails(PanelAbstract,PanelDetailAbstract):
 
     class Meta:
         verbose_name_plural = '    Panel Player Details'
+
 
 def get_upload_to(instance, filename):
     directory_name = None
@@ -141,6 +147,7 @@ class PanelDocument(models.Model):
     #             excel_to_csv(excelfile)
     #     return obj
 
+
 class Address(models.Model):
     address_title = models.CharField(max_length=40)
     address_type = models.CharField(max_length=40,
@@ -159,7 +166,6 @@ class Address(models.Model):
         return str(self.address_title)
 
 
-
 class SpatialPoint(gis_models.Model):
     id = gis_models.BigAutoField(primary_key=True)
     points = gis_models.PointField()
@@ -167,7 +173,6 @@ class SpatialPoint(gis_models.Model):
 
     # def __str__(self):
     #     return self.points
-
 
 
 class SpatialPolygon(gis_models.Model):

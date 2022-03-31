@@ -154,6 +154,7 @@
     padding: 2px;
         vertical-align: middle!important;
     }
+    .btn-close { background-color: transparent !important; }
   </style>
 <section class="main-container p-0 m-0">
   <div class="container p-0 m-0">
@@ -249,6 +250,7 @@
                             <th scope="col">City </th>
                             <th scope="col">Market</th>
                             <th scope="col">Media Type</th>
+                            <th scope="col">Installed On</th>
                         </tr>
                 </thead>
             </table>
@@ -256,6 +258,24 @@
 		</div>
     </div>
         <button type="button" class="btn btn-primary submitbtn" style="display:block;">Reset</button>
+      </div>
+    </div>
+     <div class="modal" tabindex="-1" id="onload">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4>Error Message</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <label id="alertMsg1" ></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="justify-content-center" style="display:none;" id="loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
   </main>
@@ -318,10 +338,14 @@
       const data = draw.getAll();
       polygon_len = final_cods.length
       if(polygon_len < 5){
-        alert("Kindly draw the polygon only Five points are needed")
+        //alert("Kindly draw the polygon only Five points are needed")
+        $('#onload').modal('show');
+        $('#alertMsg1').html("Kindly draw the polygon only Five points are needed")
         return false
       }else if(polygon_len > 5){
-        alert("Kindly draw the polygon only Five points are needed")
+        //alert("Kindly draw the polygon only Five points are needed")
+        $('#onload').modal('show');
+        $('#alertMsg1').html("Kindly draw the polygon only Five points are needed")
         return false
       }
       //console.log(draw)
@@ -405,13 +429,22 @@
                       city = v['city']
                       market = v['market_name']
                       mediatype = v['media_type']
+                      impressions = Math.round(v['wk4_imp'])
+                      installed = v['installed_date']
+                      if(installed==null){
+                        installed = '-'
+                      }else{
+                        installed = installed.split(' ')
+                        installed = installed[0]
+                      }
                       data_table = {
                         "Panel No": panel,
                         "Player No": player,
                         "Co ordinates": latlng,
                         "City": city,
                         "Market": market,
-                        "Media Type": mediatype
+                        "Media Type": mediatype,
+                        "Installed On": installed
                       }
                       data_response.push(data_table)
                       if(color_array[mediatype]){
@@ -421,7 +454,7 @@
                       }
                       const marker1 = new mapboxgl.Marker({ "color": color })
                       .setLngLat([v['longitude'], v['latitude']])
-                      .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+player+'</p><p>'+market+'</p><p>'+mediatype+'</p></div>'))
+                      .setPopup(new mapboxgl.Popup().setHTML('<div><p>'+latlng+'</p><p>'+city+'</p><p>'+panel+'</p><p>'+player+'</p><p>'+market+'</p><p>'+mediatype+'</p><p>'+impressions+'</p></div>'))
                       .addTo(map);
                       //marker1.togglePopup();
 
@@ -442,12 +475,15 @@
                                   {"data" : "City"},
                                   {"data" : "Market"},
                                   {"data" : "Media Type"},
+                                  {"data" : "Installed On"}
                                   ],
                         searching : true
                     });
 
                 }else{
-                    alert("Panel Not available in the Polygon Area")
+                     //alert("Panel Not available in the Polygon Area")
+                     $('#onload').modal('show');
+                     $('#alertMsg1').html("Panel Not available in the Polygon Area")
                 }
             }
         })
