@@ -5,15 +5,15 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-input, select, .btn, ul, li, a {
-  font-family: 'Lora', serif;
+input, select, .btn, ul, li, a, button {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -536,7 +536,11 @@ body.show::after {
 #react-entry-point #mainContainer #approval_rate,
 #react-entry-point #mainContainer #avg_price_increase,
 #react-entry-point #mainContainer #comb_avg_price_increase,
-#react-entry-point #mainContainer #fig_dropdown .Select-control {
+#react-entry-point #mainContainer #avg_price_change_perc,
+#react-entry-point #mainContainer #society_approval_rate_perc,
+#react-entry-point #mainContainer #filter_perc,
+#react-entry-point #mainContainer #fig_dropdown .Select-control,
+#react-entry-point #mainContainer #description {
   width: 100%;
   height: 36px;
 }
@@ -556,6 +560,7 @@ body.show::after {
   row-gap: 30px;
   gap: 30px;
   margin-bottom: 30px;
+  font-size: 16px;
 }
 
 #react-entry-point #mainContainer .topSection > div {
@@ -585,8 +590,29 @@ body.show::after {
 }
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file {
-  cursor: pointer;
   padding: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn {
+  padding: 0;
+  border: none;
+  height: 30px;
+  width: 30px;
+}
+
+#react-entry-point #mainContainer .topSection .ddContainer #upload_file .downloadBtn img {
+  height: 30px;
+  width: 30px;
 }
 
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg {
@@ -604,6 +630,7 @@ body.show::after {
 #react-entry-point #mainContainer .topSection .ddContainer #upload_file .uploadImg img {
   height: 30px;
   width: 30px;
+  cursor: pointer;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-fill-width .cell table {
@@ -612,6 +639,10 @@ body.show::after {
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-freeze-top, .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-freeze-left, .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-virtualized {
   overflow-x: auto !important;
+}
+
+.create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr {
+  font-size: 14px;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr:nth-child(2) th {
@@ -628,17 +659,18 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td {
-  background: #4599b3;
+  background: #efeff0;
   text-align: center;
-  color: #ffffff;
-  font-size: 14px;
+  color: #212228;
   width: 16.6%;
   border-top: none !important;
   border-bottom: none !important;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tbody tr td.cell--selected.focused {
-  background: #4599b3 !important;
+  background: #efeff0 !important;
   border-top: none !important;
   border-bottom: none !important;
 }
@@ -649,7 +681,7 @@ body.show::after {
 }
 
 .create_container2 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
-  background: #0c1639;
+  background: #005274;
   color: #ffffff;
   text-align: center;
   text-transform: capitalize;
@@ -699,7 +731,8 @@ body.show::after {
 }
 
 .btnContainer .btnSubmit,
-.btnContainer .btnExport {
+.btnContainer .btnExport,
+.btnContainer .btnApply {
   padding: 0 30px;
   font-size: 14px;
   display: -webkit-box;
@@ -717,15 +750,138 @@ body.show::after {
   border-radius: 15px;
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
+  text-transform: capitalize;
 }
 
 .btnContainer .btnSubmit:hover,
-.btnContainer .btnExport:hover {
+.btnContainer .btnExport:hover,
+.btnContainer .btnApply:hover {
   background: #5fa2b7;
 }
 
 .tableContainer {
   overflow-x: auto;
+}
+
+#react-entry-point ._dash-loading-callback {
+  background-color: rgba(153, 150, 150, 0.7) !important;
+  z-index: 1;
+  cursor: progress;
+  padding-top: 0;
+  background-color: transparent;
+}
+
+#react-entry-point ._dash-loading-callback::after {
+  color: #005274;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: dashLoader 1.3s infinite linear;
+}
+
+@-webkit-keyframes dashLoader {
+  0%,
+  100% {
+    -webkit-box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+            box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    -webkit-box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    -webkit-box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    -webkit-box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+            box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    -webkit-box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+            box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
+@keyframes dashLoader {
+  0%,
+  100% {
+    -webkit-box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+            box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    -webkit-box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    -webkit-box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    -webkit-box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    -webkit-box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+            box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    -webkit-box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+            box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
+#output-fullscreen + div {
+  background-color: rgba(153, 150, 150, 0.7) !important;
+}
+
+#output-fullscreen + div .spinner-grow {
+  color: #005274 !important;
+  background-color: transparent;
+  font-size: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 1;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: dashLoader 1.3s infinite linear;
+}
+
+@media (max-width: 576px) {
+  #react-entry-point #mainContainer .btnContainer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+  }
 }
 
 @media (max-width: 992px) {
@@ -736,6 +892,15 @@ body.show::after {
   }
   #react-entry-point #mainContainer .topSection .ddContainer #title13 {
     width: 100%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .rateAnalysisChangeContainer .historyDetails #rateAnalysisDetails_wrapper .table thead > tr > th {
+    width: 250px !important;
+  }
+  .rateAnalysisChangeContainer .historyDetails #rateAnalysisHistory_wrapper .table thead > tr > th {
+    width: 143px !important;
   }
 }
 
@@ -769,7 +934,7 @@ body.show::after {
   color: #ffffff;
   font-weight: normal;
   width: 90px !important;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
 
@@ -791,10 +956,16 @@ body.show::after {
 
 .rateAnalysisContainer .table thead > tr > th,
 .rateAnalysisChangeContainer .table thead > tr > th {
-  background: #0c1639;
+  background: #005274;
   border-right: none;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
   white-space: normal;
+}
+
+.rateAnalysisContainer .table thead > tr > th.avgPrice,
+.rateAnalysisChangeContainer .table thead > tr > th.avgPrice {
+  width: 117px !important;
 }
 
 .rateAnalysisContainer .table thead > tr > th:first-child .form-check-input,
@@ -808,10 +979,12 @@ body.show::after {
 .rateAnalysisContainer .table tbody > tr > td,
 .rateAnalysisChangeContainer .table tbody > tr > td {
   border-top: none;
-  background: #4599b3;
-  font-size: 11px;
-  word-break: break-all;
+  background: #efeff0;
+  color: #212228;
+  font-size: 13px;
+  word-break: break-word;
   white-space: normal;
+  font-weight: bold;
 }
 
 .rateAnalysisContainer .table tbody > tr > td:last-child,
@@ -829,7 +1002,7 @@ body.show::after {
 
 .rateAnalysisContainer .table tbody > tr > td a,
 .rateAnalysisChangeContainer .table tbody > tr > td a {
-  color: #ffffff;
+  color: #212228;
   text-decoration: none;
 }
 
@@ -846,7 +1019,7 @@ body.show::after {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  gap: 15px;
+  gap: 5px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
@@ -854,9 +1027,17 @@ body.show::after {
 .rateAnalysisContainer .table tbody > tr > td .crud a,
 .rateAnalysisChangeContainer .table tbody > tr > td .crud a {
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   border: 1px solid;
-  padding: 2px 5px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .rateAnalysisContainer .table tbody > tr > td .crud a.btn-edit,
@@ -901,13 +1082,26 @@ body.show::after {
   border-right: none;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper {
+.rateAnalysisContainer .table.no-footer,
+.rateAnalysisChangeContainer .table.no-footer {
+  border-bottom: none;
+}
+
+#rateAnalysis_wrapper,
+#rateAnalysisDetails_wrapper,
+#rateAnalysisHistory_wrapper {
   margin-top: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label {
+#rateAnalysis_wrapper #rateAnalysis_filter label,
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysis_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysis_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -918,16 +1112,30 @@ body.show::after {
   font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_filter label input,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_filter label input {
+#rateAnalysis_wrapper #rateAnalysis_filter label input,
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysis_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysis_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label input {
   border: 1px solid darkgray;
   -webkit-box-shadow: 1px 2px 5px darkgrey;
           box-shadow: 1px 2px 5px darkgrey;
   padding: 10px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_length label,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_length label {
+#rateAnalysis_wrapper #rateAnalysis_length label,
+#rateAnalysis_wrapper #rateAnalysisDetails_length label,
+#rateAnalysis_wrapper #rateAnalysisHistory_length label,
+#rateAnalysisDetails_wrapper #rateAnalysis_length label,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_length label,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_length label,
+#rateAnalysisHistory_wrapper #rateAnalysis_length label,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_length label,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -936,27 +1144,56 @@ body.show::after {
           align-items: center;
   gap: 10px;
   font-size: 15px;
+  margin-top: 12px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_length label select,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_length label select {
+#rateAnalysis_wrapper #rateAnalysis_length label select,
+#rateAnalysis_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysis_wrapper #rateAnalysisHistory_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysis_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysis_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_length label select,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length label select {
   border: 1px solid darkgray;
   padding: 5px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_info,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_info {
+#rateAnalysis_wrapper #rateAnalysis_info,
+#rateAnalysis_wrapper #rateAnalysisDetails_info,
+#rateAnalysis_wrapper #rateAnalysisHistory_info,
+#rateAnalysisDetails_wrapper #rateAnalysis_info,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_info,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_info,
+#rateAnalysisHistory_wrapper #rateAnalysis_info,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_info,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
   font-size: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate {
+#rateAnalysis_wrapper #rateAnalysis_paginate,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate {
   font-size: 15px;
   margin-bottom: 15px;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button {
   border: none;
   background: #4599b3;
   color: #ffffff !important;
@@ -966,32 +1203,127 @@ body.show::after {
   transition: 0.3s ease;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button:hover,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button:hover {
   background: #67a5b9;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current {
-  background: #0e1941;
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button.current,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button.current {
+  background: #005274;
   color: #ffffff;
+  cursor: default;
 }
 
-.rateAnalysisContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled,
-.rateAnalysisChangeContainer #rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled {
+#rateAnalysis_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysis_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate .paginate_button.disabled,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate .paginate_button.disabled {
   background: #4599b3;
   color: #ffffff;
   opacity: 0.7;
 }
 
+#rateAnalysis_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysis_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysis_wrapper #rateAnalysisDetails_info,
+#rateAnalysis_wrapper #rateAnalysisHistory_info,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_info,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_info,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_info,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
+  margin-top: 10px;
+}
+
+#rateAnalysis_wrapper #rateAnalysisDetails_filter,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter {
+  margin-bottom: 0;
+}
+
+#rateAnalysis_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysis_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisDetails_wrapper #rateAnalysisHistory_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisDetails_filter label input,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter label input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#rateAnalysisDetails_wrapper table.dataTable thead .sorting_asc,
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_asc {
+  background-image: url("../images/sort_asc.png");
+  background-repeat: no-repeat;
+  background-position: 30px 14px;
+}
+
+#rateAnalysisDetails_wrapper table.dataTable thead .sorting_desc,
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_desc {
+  background-image: url("../images/sort_desc.png");
+  background-repeat: no-repeat;
+  background-position: 30px 14px;
+}
+
+#rateAnalysisHistory_wrapper {
+  width: 100vw;
+  position: relative;
+}
+
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_filter,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_paginate {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+}
+
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_length,
+#rateAnalysisHistory_wrapper #rateAnalysisHistory_info {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+}
+
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_asc {
+  background-position: 5px 14px;
+}
+
+#rateAnalysisHistory_wrapper table.dataTable thead .sorting_desc {
+  background-position: 5px 14px;
+}
+
 .rateAnalysisChangeContainer .btnContainerTop {
-  gap: 15px;
+  gap: 5px;
 }
 
 .rateAnalysisChangeContainer .btnContainerTop .btn {
-  border-radius: 15px;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 5px;
   background: #4599b3 !important;
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
@@ -1019,6 +1351,7 @@ body.show::after {
   padding-right: 15px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  margin-right: 0;
 }
 
 .rateAnalysisChangeContainer #crumbs ul li:last-child a::after {
@@ -1066,28 +1399,12 @@ body.show::after {
   top: 0;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress {
-  background: #f0ad4e;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status {
+  background: #0e1941;
 }
 
-.rateAnalysisChangeContainer #crumbs ul li a.inProgress::after {
-  border-left-color: #f0ad4e;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.reject {
-  background: #d9534f;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.reject::after {
-  border-left-color: #d9534f;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.approve {
-  background: #5cb85c;
-}
-
-.rateAnalysisChangeContainer #crumbs ul li a.approve::after {
-  border-left-color: #5cb85c;
+.rateAnalysisChangeContainer #crumbs ul li a.selected_status::after {
+  border-left-color: #0e1941;
 }
 
 .rateAnalysisChangeContainer select,
@@ -1111,6 +1428,7 @@ body.show::after {
   background: #4599b3;
   color: #ffffff;
   border-radius: 5px;
+  font-size: 18px;
 }
 
 .rateAnalysisChangeContainer .historyDetails {
@@ -1123,11 +1441,27 @@ body.show::after {
   background: #4599b3 !important;
   color: #ffffff;
   font-size: 16px;
-  font-family: 'Lora', serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active {
   background: #0e1941 !important;
+  position: relative;
+}
+
+.rateAnalysisChangeContainer .historyDetails ul .nav-item .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-bottom: 30px solid #0e1941;
+  border-right: 30px solid transparent;
+  -webkit-transform: translateX(-50%) rotate(-45deg);
+          transform: translateX(-50%) rotate(-45deg);
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
@@ -1148,11 +1482,13 @@ body.show::after {
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > th,
 .rateAnalysisChangeContainer .historyDetails .table tbody > tr > th {
   font-size: 14px;
+  font-weight: 600;
 }
 
 .rateAnalysisChangeContainer .historyDetails .table thead > tr > td,
 .rateAnalysisChangeContainer .historyDetails .table tbody > tr > td {
   font-size: 13px;
+  font-weight: bold;
 }
 
 .rateAnalysisChangeContainer .paginations .pagination .page-item a {
@@ -1211,4 +1547,80 @@ body.show::after {
 .modal .modal-footer .confirmBtn#modal-btn-no {
   background: #dc3545 !important;
 }
+
+.django-plotly-dash.django-plotly-dash-iframe.django-plotly-dash-app-analysisapp.card > div {
+  padding-bottom: 80vh !important;
+}
+
+@media (max-width: 767px) {
+  #rateAnalysisHistory_wrapper {
+    width: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .historyDetails ul .nav-item .nav-link.active::after {
+    display: none;
+  }
+}
+
+/* ### Datatable Export css ### */
+div button.export {
+  background: url("/static/calc/images/export.png");
+}
+
+div
+button.export {
+  color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+}
+
+.export::after {
+  content: 'Download Result ';
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+  padding: 2px 15px;
+  position: absolute;
+  margin-top: -40px;
+}
+
+.export::before {
+  background-color: #0c1639;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 35px;
+  z-index: 999;
+  color: white;
+  margin-left: 12px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: capitalize;
+}
+
+.export:hover::after {
+  display: block;
+}
+
+.export:hover::before {
+  display: block;
+}
+
+/* ### Datatable Export css ### */
 /*# sourceMappingURL=style.css.map */

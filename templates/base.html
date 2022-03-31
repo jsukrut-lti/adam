@@ -86,10 +86,11 @@
       </a>
         <div class="headerContainer">
           <div class="headerContainerLeft">
-<!--            <h3 class="text-white mb-0 d-md-flex d-none">Analysis</h3>-->
+           <h3 class="text-white mb-0 d-md-flex d-none">Analysis</h3>
           </div>
            {% show_calculator_tag user as calculator_option %}
           <div class="headerContainerRight">
+<<<<<<< HEAD
 <!--            <div class="dropdown d-md-flex d-none" id="calculator_version">-->
 <!--              <input type="text" readonly class="d-none" id="main_calculator_id" value="">-->
 <!--              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">-->
@@ -103,6 +104,25 @@
 <!--              {% endif %}-->
 <!--              </ul>-->
 <!--            </div>-->
+=======
+            <div class="dropdown d-md-flex d-none" id="calculator_version">
+              <input type="text" readonly class="d-none" id="main_calculator_id" value="">
+              <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-calculator-fill"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="calculator_tags">
+              {% if calculator_option %}
+                {% for loop in calculator_option %}
+                    {% if request.session.calculator_id %}
+                        <li aria-atomic="false" class="{% if request.session.calculator_id == loop.id %} activeLI{% endif %}"><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
+                    {% else %}
+                        <li aria-atomic="true" class="{% if forloop.counter == 0 %} activeLI{% endif %}"><a class="dropdown-item select" href="#" id="{{loop.id}}">{{loop.name}}</a></li>
+                    {% endif %}
+                {% endfor %}
+              {% endif %}
+              </ul>
+            </div>
+>>>>>>> f17198c0d91c07da7afb6aa39dd677288c3a10d0
         {% if user.is_authenticated %}
           <div class="d-md-flex flex-grow-1 d-none" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
@@ -131,21 +151,45 @@
           <i class="bi bi-person-fill me-3"></i>
           <span class="menu-collapsed">Profile</span>
       </a>
+<<<<<<< HEAD
 <!--      <a href="/calculator" class="bg-dark">-->
 <!--          <i class="bi bi-calculator-fill me-3"></i>-->
 <!--          <span class="menu-collapsed">Calculator</span>-->
 <!--      </a>-->
       <a href="/financial-analysis" class="bg-dark">
+=======
+      <a href="/calculator" class="bg-dark">
+          <i class="bi bi-calculator-fill me-3"></i>
+          <span class="menu-collapsed">Calculator</span>
+      </a>
+      <!-- <a href="/financial-analysis" class="bg-dark">
+>>>>>>> f17198c0d91c07da7afb6aa39dd677288c3a10d0
           <i class="bi bi-bar-chart-fill me-3"></i>
           <span class="menu-collapsed">Financial Model</span>
-      </a>
-      <a href="/analysis" class="bg-dark">
-          <i class="bi bi-search me-3"></i>
+      </a> -->
+      <!-- <a href="/analysis" class="bg-dark">
+          <i class="bi bi-people-fill me-3"></i>
           <span class="menu-collapsed">Analysis</span>
+      </a> -->
+      <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
+          class="submenuParent bg-dark flex-column align-items-start adminSubMenu">
+            <i class="bi bi-people-fill me-3"></i>
+            <span class="menu-collapsed">Analysis</span>
+            <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
       </a>
+      <div id='submenu3' class="collapse sidebar-submenu">
+        <a href="/financial-analysis" id="createSceMob" class="list-group-item list-group-item-action bg-dark text-white">
+          <span class="menu-collapsed">Create Scenario</span>
+        </a>
+      </div>
+      <div id='submenu3' class="collapse sidebar-submenu">
+        <a href="/financial-analysis-report" id="createSceRepoMob" class="list-group-item list-group-item-action bg-dark text-white">
+          <span class="menu-collapsed">Scenario Reports</span>
+        </a>
+      </div>
        {% if user.is_superuser %}
           <a href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
-            class="bg-dark flex-column align-items-start adminSubMenu">
+            class="submenuParent2 bg-dark flex-column align-items-start adminSubMenu">
               <i class="bi bi-people-fill me-3"></i>
               <span class="menu-collapsed">Admin</span>
               <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
@@ -153,7 +197,7 @@
 
           <!-- Submenu content -->
           <div id='submenu2' class="collapse sidebar-submenu">
-            <a href="/admin" class="bg-dark text-white">
+            <a href="/admin" id="adminMob"  class="bg-dark text-white list-group-item">
               <span class="menu-collapsed">Admin</span>
             </a>
           </div>
@@ -193,7 +237,7 @@
                   </div>
                 </a> -->
 
-                <a href="/profile" class="bg-dark list-group-item list-group-item-action">
+                <a href="/profile" id="prof" class="bg-dark list-group-item list-group-item-action">
                   <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="bi bi-person-fill me-3"></i>
                     <span class="menu-collapsed">Profile</span>
@@ -206,6 +250,7 @@
 <!--                  </div>-->
 <!--                </a>-->
 
+<<<<<<< HEAD
 <!--                <a href="/calculator" class="bg-dark list-group-item list-group-item-action">-->
 <!--                  <div class="d-flex w-100 justify-content-start align-items-center">-->
 <!--                    <i class="bi bi-calculator-fill me-3"></i>-->
@@ -232,6 +277,63 @@
 <!--                        <span class="menu-collapsed">Scenario Reports</span>-->
 <!--                      </a>-->
 <!--                    </div>-->
+=======
+                <a href="/calculator" id="calc" class="bg-dark list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="bi bi-calculator-fill me-3"></i>
+                    <span class="menu-collapsed">Calculator</span>
+                  </div>
+                </a>
+                <a href="#submenu3" data-bs-toggle="collapse" aria-expanded="false"
+                      class="submenuParent bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
+                      <div class="d-flex w-100 justify-content-start align-items-center">
+                        <!-- <span class="fa fa-users fa-fw me-3"></span> -->
+                        <i class="bi bi-people-fill me-3"></i>
+                        <span class="menu-collapsed">Analysis</span>
+                        <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
+                      </div>
+                    </a>
+                <div id='submenu3' class="collapse sidebar-submenu">
+                      <a href="/financial-analysis" id="createSce" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="menu-collapsed">Create Scenario</span>
+                      </a>
+
+                    </div>
+                <div id='submenu3' class="collapse sidebar-submenu">
+                      <a href="/financial-analysis-report" id="createSceRepo" class="list-group-item list-group-item-action bg-dark text-white">
+                        <span class="menu-collapsed">Scenario Reports</span>
+                      </a>
+                    </div>
+
+                     <!-- <div class="accordion accordion-flush" id="analysisMenu">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                          <button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <div class="d-flex w-100 justify-content-start align-items-center">
+                              <i class="bi bi-people-fill me-3"></i>
+                              <span class="menu-collapsed">Analysis</span>
+                              <i class="bi bi-caret-right-fill subMenuIcon ms-auto"></i>
+                            </div>
+                          </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#analysisMenu">
+                          <div class="bg-dark">
+                              <div class="sidebar-submenu">
+                                <a href="/financial-analysis" class="text-white bg-dark">
+                                  <span class="">Create Scenario</span>
+                                </a>
+                              </div>
+                              <div class="sidebar-submenu">
+                                <a href="/financial-analysis-report" class="text-white bg-dark">
+                                  <span class="">Scenario Reports</span>
+                                </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+
+>>>>>>> f17198c0d91c07da7afb6aa39dd677288c3a10d0
 <!--                <a href="/analysis" class="bg-dark list-group-item list-group-item-action">-->
 <!--                  <div class="d-flex w-100 justify-content-start align-items-center">-->
 <!--                    <i class="bi bi-search me-3"></i>-->
@@ -240,7 +342,7 @@
 <!--                </a>-->
                  {% if user.is_superuser %}
                     <a href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
-                      class="bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
+                      class="submenuParent2 bg-dark list-group-item list-group-item-action flex-column align-items-start justify-content-center">
                       <div class="d-flex w-100 justify-content-start align-items-center">
                         <!-- <span class="fa fa-users fa-fw me-3"></span> -->
                         <i class="bi bi-people-fill me-3"></i>
@@ -251,7 +353,7 @@
 
                     <!-- Submenu content -->
                     <div id='submenu2' class="collapse sidebar-submenu">
-                      <a href="/admin" class="list-group-item list-group-item-action bg-dark text-white">
+                      <a href="/admin" id="admin" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed">Admin</span>
                       </a>
 <!--                      <a href="/admin" class="list-group-item list-group-item-action bg-dark text-white">-->

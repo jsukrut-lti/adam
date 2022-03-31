@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_init
 from six import text_type
 import dictdiffer
+from django.utils import timezone
 
 class CurrencyMaster(models.Model):
     code = models.CharField(max_length=10, verbose_name=u"Currency Code", help_text=u"Currency Code", unique=True, blank=True)
@@ -19,26 +20,38 @@ class CurrencyMaster(models.Model):
 
     class Meta:
         db_table = 'currency_master'
-        verbose_name_plural = '     Currency Master'
+        verbose_name_plural = '       Currency Master'
 
 class CurrencyRateMaster(models.Model):
-    code = models.CharField(max_length=10, verbose_name=u"Conversion Code", editable=False,  help_text=u"Conversion Code", unique=True, blank=True)
-    name = models.CharField(max_length=100, verbose_name=u"Conversion Name", help_text=u"Conversion Name", unique=True, blank=True)
+    code = models.CharField(max_length=10, verbose_name=u"Conversion Code", editable=False,  help_text=u"Conversion Code", blank=True)
+    name = models.CharField(max_length=100, verbose_name=u"Conversion Name", help_text=u"Conversion Name", blank=True)
     from_currency = models.ForeignKey(CurrencyMaster, verbose_name=u"From Currency", on_delete=models.CASCADE, related_name='from_currency')
     to_currency = models.ForeignKey(CurrencyMaster, verbose_name=u"To Currency", on_delete=models.CASCADE, related_name='to_currency')
-    effective_date = models.DateField(verbose_name=u"Effective Date")
+    effective_date = models.DateField(verbose_name=u"Effective Date", default=timezone.now)
     conversion_rate = models.FloatField(verbose_name=u"Conversion Rate")
     active = models.BooleanField(verbose_name=u"Active", default=True)
 
     def __str__(self):
-        return "%s | %s" % (self.code, self.name)
+        return "%s" % (self.code)
 
     class Meta:
         db_table = 'currency_rate_master'
         ordering = ['-effective_date', 'name']
-        verbose_name_plural = '    Currency Rate Master'
+        verbose_name_plural = '      Currency Rate Master'
 
     def clean(self):
+        filters = {'from_currency' : self.from_currency.id,
+                   'to_currency' : self.to_currency.id,
+                   'effective_date': self.effective_date,
+                   }
+        if self.id:
+            currency_rate_rec = CurrencyRateMaster.objects.filter(**filters).exclude(id=self.id)
+        else:
+            currency_rate_rec = CurrencyRateMaster.objects.filter(**filters)
+        currency_rate_rec = currency_rate_rec and list(currency_rate_rec) or False
+        currency_rate_rec = currency_rate_rec and currency_rate_rec[0] or False
+        if currency_rate_rec:
+            raise ValidationError("Duplicate entries are not allowed")
         self.is_cleaned = True
         if self.from_currency or self.to_currency:
             if self.from_currency == self.to_currency:
@@ -62,8 +75,8 @@ class CalculatorMaster(models.Model):
     calculator_seq_no = models.CharField(max_length=20, default=increment_calculator_seq_no, editable=False)
     primary_currency_id = models.ForeignKey(CurrencyMaster, verbose_name=u"Primary Currency", on_delete=models.CASCADE, related_name='primary_currency_id')
     currency_ids = models.ManyToManyField(CurrencyMaster, verbose_name=u"Secondary Currency", related_name="currency_ids", blank=True)
-    active = models.BooleanField(verbose_name=u"Active",default=True)
-    is_published = models.BooleanField(verbose_name=u"Is Published",)
+    active = models.BooleanField(verbose_name=u"Active", editable=False, default=True)
+    is_published = models.BooleanField(verbose_name=u"Is Published", editable=False, default=False)
 
     def currency_ids_(self):
         return ', '.join([t.name for t in self.currency_ids.all()])
@@ -73,7 +86,9 @@ class CalculatorMaster(models.Model):
 
     class Meta:
         db_table = 'calculator_master'
-        verbose_name_plural = '   Calculator Master'
+        verbose_name_plural = '     Calculator Master'
+        ordering = ['id']
+
 
 class JournalMaster(models.Model):
     code = models.CharField(max_length=10, verbose_name=u"Journal Code", unique=True)
@@ -88,7 +103,7 @@ class JournalMaster(models.Model):
 
     class Meta:
         db_table = 'journal_master'
-        verbose_name_plural = '  Journal Master'
+        verbose_name_plural = '    Journal Master'
 
 class CommonInfo(models.Model):
     journal_code = models.CharField(max_length=10)
@@ -118,22 +133,32 @@ class ScenarioMaster(models.Model):
 
     class Meta:
         db_table = 'scenario_master'
-        verbose_name_plural = '     Scenario Master'
+        verbose_name_plural = '   Scenario Master'
 
 class Document(models.Model):
+
+    STATUS = [
+    ('draft','Draft'),
+    ('export_csv','Export CSV'),
+    ('import_journal','Import Journal'),
+    ]
+
     name = models.CharField(max_length=255, verbose_name=u"Description", blank=True)
     uploaded_at = models.DateTimeField(verbose_name=u"Uploaded at",auto_now_add=True)
     document = models.FileField(verbose_name=u"Document", upload_to=get_upload_to)
     calculator_id = models.ForeignKey(CalculatorMaster, verbose_name=u"Tag Calculator", on_delete=models.CASCADE, related_name='calc_id')
     scenario_id = models.ForeignKey(ScenarioMaster, on_delete=models.CASCADE, related_name='scenario_id',
                                     verbose_name=u"Tag Scenario", null=True, blank=True)
+    is_auto = models.BooleanField(verbose_name=u"Is Auto", editable=False, default=False)
+    status = models.CharField(max_length=20, verbose_name=u"Status", choices=STATUS, default='draft', null=True, blank=True)
+
 
     def __str__(self):
         return self.name
 
     class Meta:
         db_table = 'document_master'
-        verbose_name_plural = ' Document'
+        verbose_name_plural = '  Document'
 
     def get_file_name(self):
         base = os.path.basename(str(self.document))
@@ -155,7 +180,7 @@ class Profile(models.Model):
         return str(self.profileid)
 
     class Meta:
-        verbose_name_plural = '      Profile'
+        verbose_name_plural = ' Profile'
 
     def clean(self):
         self.is_cleaned = True
@@ -219,7 +244,7 @@ class RateAnalysis(RateAnalysisAbstract):
 
     class Meta:
         db_table = 'calc_rate_analysis'
-        verbose_name_plural = '     Rate Analysis'
+        verbose_name_plural = 'Rate Analysis'
 
     def save(self, *args, **kwargs):
         print('rate save .....')
@@ -256,6 +281,7 @@ class RateAnalysis(RateAnalysisAbstract):
             if filtered_diff:
                 if filtered_diff != [()]:
                     filtered_diff_data = filtered_diff and dict(filtered_diff) or []
+                    filtered_diff_data = old_instance[0]  ## Assign old data to history
         if filtered_diff_data:
             data['rate_analysis_id'] = self
             data['created_by'] = self.modified_by

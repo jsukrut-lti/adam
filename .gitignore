@@ -137,3 +137,7 @@ irongrpc
 # file: ~/.gitignore_global
 .DS_Store
 .idea
+data/
+scripts/
+log/
+local.py
